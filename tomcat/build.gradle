@@ -1,8 +1,7 @@
 buildscript {
     ext {
-        springBootVersion = '2.1.0.RELEASE'
-        armeriaVersion = '0.75.0'
-        thriftVersion = '0.11.0'
+        springBootVersion = '2.1.1.RELEASE'
+        armeriaVersion = '0.78.1'
         retrofit2Version = '2.4.0'
     }
     repositories {
@@ -11,7 +10,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath('gradle.plugin.org.jruyi.gradle:thrift-gradle-plugin:0.3.2')
+        classpath('gradle.plugin.org.jruyi.gradle:thrift-gradle-plugin:0.4.0')
     }
 }
 
@@ -37,9 +36,7 @@ dependencyManagement {
 }
 
 dependencies {
-    annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
     annotationProcessor('org.projectlombok:lombok')
-    compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     compileOnly('org.projectlombok:lombok')
     implementation('com.linecorp.armeria:armeria')
     implementation('com.linecorp.armeria:armeria-spring-boot-starter')
@@ -48,7 +45,10 @@ dependencies {
     implementation('com.linecorp.armeria:armeria-retrofit2')
     implementation("com.squareup.retrofit2:converter-jackson:${retrofit2Version}")
     implementation("com.squareup.retrofit2:adapter-java8:${retrofit2Version}")
-    implementation("org.apache.thrift:libthrift:${thriftVersion}")
     implementation('org.springframework.boot:spring-boot-starter-web')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
+compileThrift {
+    sourceDir "${projectDir}/src/main/thrift"
 }

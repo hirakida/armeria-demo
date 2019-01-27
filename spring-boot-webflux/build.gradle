@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        springBootVersion = '2.1.1.RELEASE'
-        armeriaVersion = '0.78.1'
+        springBootVersion = '2.1.2.RELEASE'
+        armeriaVersion = '0.79.0'
     }
     repositories {
         mavenCentral()

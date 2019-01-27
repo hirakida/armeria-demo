@@ -1,4 +1,4 @@
-# spring-boot-armeria-demo
+# armeria-demo
 
 https://line.github.io/armeria/  
 

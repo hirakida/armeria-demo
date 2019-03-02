@@ -8,7 +8,6 @@ import com.example.client.WeatherService;
 import com.linecorp.armeria.client.retrofit2.ArmeriaRetrofitBuilder;
 
 import retrofit2.Retrofit;
-import retrofit2.adapter.java8.Java8CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 @Configuration
@@ -19,7 +18,6 @@ public class ClientConfig {
         Retrofit retrofit = new ArmeriaRetrofitBuilder()
                 .baseUrl("http://weather.livedoor.com/")
                 .addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(Java8CallAdapterFactory.create())
                 .build();
         return retrofit.create(WeatherService.class);
     }

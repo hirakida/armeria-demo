@@ -11,11 +11,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 @Configuration
-public class ClientConfig {
+public class ArmeriaClientConfig {
 
     @Bean
     public WeatherService weatherService() {
-        Retrofit retrofit = new ArmeriaRetrofitBuilder()
+        final Retrofit retrofit = new ArmeriaRetrofitBuilder()
                 .baseUrl("http://weather.livedoor.com/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();

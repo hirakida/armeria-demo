@@ -15,7 +15,7 @@ repositories {
 }
 
 ext {
-    set('armeriaVersion', '0.80.0')
+    set('armeriaVersion', '0.81.0')
     set('retrofit2Version', '2.5.0')
 }
 

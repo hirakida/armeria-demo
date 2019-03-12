@@ -16,7 +16,7 @@ repositories {
 }
 
 ext {
-    set('armeriaVersion', '0.80.0')
+    set('armeriaVersion', '0.81.0')
     set('protobufVersion', '3.6.1')
     set('grpcVersion', '1.18.0')
 }

@@ -11,7 +11,7 @@ import com.linecorp.armeria.server.tomcat.TomcatService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 
 @Configuration
-public class ServerConfig {
+public class ArmeriaServerConfig {
 
     @Bean
     public HealthChecker tomcatConnectorHealthChecker(ServletWebServerApplicationContext applicationContext) {

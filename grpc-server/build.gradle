@@ -15,15 +15,9 @@ repositories {
     mavenCentral()
 }
 
-ext {
-    set('armeriaVersion', '0.81.0')
-    set('protobufVersion', '3.6.1')
-    set('grpcVersion', '1.18.0')
-}
-
 dependencyManagement {
     imports {
-        mavenBom "com.linecorp.armeria:armeria-bom:${armeriaVersion}"
+        mavenBom 'com.linecorp.armeria:armeria-bom:0.81.0'
     }
 }
 
@@ -34,6 +28,8 @@ dependencies {
 }
 
 protobuf {
+    def protobufVersion = '3.6.1'
+    def grpcVersion = '1.18.0'
     protoc {
         artifact = "com.google.protobuf:protoc:${protobufVersion}"
     }

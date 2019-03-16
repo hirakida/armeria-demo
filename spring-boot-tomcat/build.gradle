@@ -8,24 +8,21 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 11
+sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
 }
 
-ext {
-    set('armeriaVersion', '0.81.0')
-    set('retrofit2Version', '2.5.0')
-}
-
 dependencyManagement {
     imports {
-        mavenBom "com.linecorp.armeria:armeria-bom:${armeriaVersion}"
+        mavenBom 'com.linecorp.armeria:armeria-bom:0.81.0'
     }
 }
 
 dependencies {
+    def retrofit2Version = '2.5.0'
+
     annotationProcessor('org.projectlombok:lombok')
     compileOnly('org.projectlombok:lombok')
     implementation('com.linecorp.armeria:armeria-spring-boot-starter')

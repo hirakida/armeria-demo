@@ -1,8 +1,8 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'org.jruyi.thrift' version '0.4.0'
-    id 'org.springframework.boot' version '2.1.3.RELEASE'
+    id 'org.jruyi.thrift' version '0.4.1'
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -27,8 +27,4 @@ dependencies {
     implementation('com.linecorp.armeria:armeria-spring-boot-webflux-starter')
     implementation('com.linecorp.armeria:armeria-thrift')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
-}
-
-compileThrift {
-    sourceDir "${projectDir}/src/main/thrift"
 }

@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'com.google.protobuf' version '0.8.8'
-    id 'org.springframework.boot' version '2.1.3.RELEASE'
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -17,7 +17,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'com.linecorp.armeria:armeria-bom:0.81.0'
+        mavenBom 'com.linecorp.armeria:armeria-bom:0.83.0'
     }
 }
 

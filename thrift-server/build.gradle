@@ -17,7 +17,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'com.linecorp.armeria:armeria-bom:0.79.0'
+        mavenBom 'com.linecorp.armeria:armeria-bom:0.83.0'
     }
 }
 
@@ -26,5 +26,6 @@ dependencies {
     compileOnly('org.projectlombok:lombok')
     implementation('com.linecorp.armeria:armeria-spring-boot-webflux-starter')
     implementation('com.linecorp.armeria:armeria-thrift')
+    implementation('org.apache.thrift:libthrift:0.12.0')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }

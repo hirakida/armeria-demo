@@ -26,7 +26,7 @@ public class ArmeriaConfig {
     public ThriftServiceRegistrationBean calculatorServiceRegistration(
             Calculator.AsyncIface calculatorService) {
         return new ThriftServiceRegistrationBean()
-                .setServiceName("/calculator")
+                .setServiceName("Calculator")
                 .setPath("/calculator")
                 .setService(THttpService.of(calculatorService))
                 .setExampleRequests(List.of(new Calculator.add_args(1, 2),

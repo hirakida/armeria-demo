@@ -1,0 +1,74 @@
+plugins {
+    id 'com.google.protobuf' version '0.8.8' apply false
+    id 'org.springframework.boot' version '2.1.4.RELEASE' apply false
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'com.google.protobuf'
+
+    group = 'com.example'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = JavaVersion.VERSION_11
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom 'com.linecorp.armeria:armeria-bom:0.84.0'
+        }
+    }
+
+    dependencies {
+        implementation 'com.linecorp.armeria:armeria-grpc'
+    }
+
+    sourceSets {
+        main {
+            proto {
+                srcDir "${rootProject.rootDir}/proto"
+            }
+        }
+    }
+
+    protobuf {
+        protoc {
+            artifact = 'com.google.protobuf:protoc:3.7.1'
+        }
+        plugins {
+            grpc {
+                artifact = 'io.grpc:protoc-gen-grpc-java:1.20.0'
+            }
+        }
+        generateProtoTasks {
+            ofSourceSet('main')*.plugins {
+                grpc {}
+            }
+            all().each { task ->
+                task.generateDescriptorSet = true
+                task.descriptorSetOptions.includeSourceInfo = true
+                task.descriptorSetOptions.includeImports = true
+                task.descriptorSetOptions.path =
+                        "${buildDir}/resources/main/META-INF/armeria/grpc/armeria-grpc-demo.dsc"
+            }
+        }
+    }
+}
+
+project(':grpc-server') {
+    dependencies {
+        implementation 'com.linecorp.armeria:armeria-spring-boot-webflux-starter'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+}
+
+project(':grpc-client') {
+    dependencies {
+        implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
+    }
+}

@@ -1,2 +1,2 @@
 
-http://localhost:8080/docs/
+http://localhost:8080/internal/docs/

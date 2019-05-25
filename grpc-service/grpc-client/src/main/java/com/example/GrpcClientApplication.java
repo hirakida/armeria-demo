@@ -21,7 +21,7 @@ public class GrpcClientApplication implements CommandLineRunner {
     public void run(String... args) {
 
         CalculatorBlockingStub calculator = new ClientBuilder("gproto+http://127.0.0.1:8080/")
-                .defaultResponseTimeoutMillis(10000)
+                .responseTimeoutMillis(10000)
                 .decorator(LoggingClient.newDecorator())
                 .build(CalculatorBlockingStub.class);
 

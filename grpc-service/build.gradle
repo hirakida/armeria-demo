@@ -69,5 +69,6 @@ project(':grpc-server') {
 project(':grpc-client') {
     dependencies {
         implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 }

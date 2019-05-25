@@ -17,9 +17,8 @@ public class ThriftClientApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
         Calculator.Iface calculator = new ClientBuilder("tbinary+http://127.0.0.1:8080/calculator")
-                .defaultResponseTimeout(Duration.ofSeconds(10))
+                .responseTimeout(Duration.ofSeconds(10))
                 .decorator(LoggingClient.newDecorator())
                 .build(Calculator.Iface.class);
 

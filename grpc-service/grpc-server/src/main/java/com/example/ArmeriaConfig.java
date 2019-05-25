@@ -30,7 +30,7 @@ public class ArmeriaConfig {
     @Bean
     public GrpcServiceRegistrationBean calculatorServiceRegistration(CalculatorService calculatorService) {
         return new GrpcServiceRegistrationBean()
-                .setServiceName("calculatorService")
+                .setServiceName(CalculatorGrpc.SERVICE_NAME)
                 .setService(new GrpcServiceBuilder()
                                     .addService(calculatorService)
                                     .supportedSerializationFormats(GrpcSerializationFormats.values())

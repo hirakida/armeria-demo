@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.controller;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -11,11 +11,15 @@ import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.Param;
 
 @Component
-public class MessageDigestService {
+public class MessageDigestController {
     private final MessageDigest md5;
 
-    public MessageDigestService() throws NoSuchAlgorithmException {
-        md5 = MessageDigest.getInstance("MD5");
+    public MessageDigestController() {
+        try {
+            md5 = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Get("/md5/{text}")

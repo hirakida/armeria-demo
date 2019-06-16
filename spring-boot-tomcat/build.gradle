@@ -1,7 +1,7 @@
 plugins {
     id 'idea'
     id 'java'
-    id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id 'org.springframework.boot' version '2.1.5.RELEASE'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -16,19 +16,17 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'com.linecorp.armeria:armeria-bom:0.83.0'
+        mavenBom 'com.linecorp.armeria:armeria-bom:0.87.0'
     }
 }
 
 dependencies {
-    def retrofit2Version = '2.5.0'
-
-    annotationProcessor('org.projectlombok:lombok')
-    compileOnly('org.projectlombok:lombok')
-    implementation('com.linecorp.armeria:armeria-spring-boot-starter')
-    implementation('com.linecorp.armeria:armeria-tomcat')
-    implementation('com.linecorp.armeria:armeria-retrofit2')
-    implementation("com.squareup.retrofit2:converter-jackson:${retrofit2Version}")
-    implementation('org.springframework.boot:spring-boot-starter-web')
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+    implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
+    implementation 'com.linecorp.armeria:armeria-tomcat'
+    implementation 'com.linecorp.armeria:armeria-retrofit2'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.6.0'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

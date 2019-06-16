@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.client.model.Weather;
 import com.example.client.WeatherService;
+import com.example.client.model.Weather;
 
 import lombok.RequiredArgsConstructor;
 

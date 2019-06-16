@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,8 +15,8 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class DateTimeService {
-    private final ObjectMapper mapper;
+public class DateTimeController {
+    private final ObjectMapper objectMapper;
 
     @Get("/date")
     public JsonNode date() {
@@ -29,6 +29,6 @@ public class DateTimeService {
     }
 
     private JsonNode toJsonNode(Object object) {
-        return mapper.convertValue(object, JsonNode.class);
+        return objectMapper.convertValue(object, JsonNode.class);
     }
 }

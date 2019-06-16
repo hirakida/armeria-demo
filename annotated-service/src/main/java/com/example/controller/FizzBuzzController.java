@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.controller;
 
 import org.springframework.stereotype.Component;
 
@@ -6,7 +6,7 @@ import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.Param;
 
 @Component
-public class FizzBuzzService {
+public class FizzBuzzController {
 
     @Get("/fizzbuzz")
     public String fizzBuzz(@Param int i) {

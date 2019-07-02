@@ -1,20 +1,18 @@
-package com.example.controller;
+package com.example.service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.Param;
 
-@Component
-public class MessageDigestController {
+public class MessageDigestService {
     private final MessageDigest md5;
 
-    public MessageDigestController() {
+    public MessageDigestService() {
         try {
             md5 = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {

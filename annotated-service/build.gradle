@@ -1,7 +1,7 @@
 plugins {
     id 'idea'
     id 'java'
-    id 'org.springframework.boot' version '2.1.5.RELEASE'
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -16,14 +16,11 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'com.linecorp.armeria:armeria-bom:0.87.0'
+        mavenBom 'com.linecorp.armeria:armeria-bom:0.88.0'
     }
 }
 
 dependencies {
-    annotationProcessor 'org.projectlombok:lombok'
-    compileOnly 'org.projectlombok:lombok'
     implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-json'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'io.projectreactor:reactor-core:3.2.10.RELEASE'
 }

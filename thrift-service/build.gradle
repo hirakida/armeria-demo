@@ -1,6 +1,6 @@
 plugins {
     id 'org.jruyi.thrift' version '0.4.1' apply false
-    id 'org.springframework.boot' version '2.1.5.RELEASE' apply false
+    id 'org.springframework.boot' version '2.1.6.RELEASE' apply false
 }
 
 subprojects {
@@ -20,7 +20,7 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom 'com.linecorp.armeria:armeria-bom:0.86.0'
+            mavenBom 'com.linecorp.armeria:armeria-bom:0.88.0'
         }
     }
 

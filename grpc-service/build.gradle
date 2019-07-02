@@ -1,6 +1,6 @@
 plugins {
-    id 'com.google.protobuf' version '0.8.8' apply false
-    id 'org.springframework.boot' version '2.1.5.RELEASE' apply false
+    id 'com.google.protobuf' version '0.8.9' apply false
+    id 'org.springframework.boot' version '2.1.6.RELEASE' apply false
 }
 
 subprojects {
@@ -27,11 +27,11 @@ subprojects {
     }
     protobuf {
         protoc {
-            artifact = 'com.google.protobuf:protoc:3.7.1'
+            artifact = 'com.google.protobuf:protoc:3.8.0'
         }
         plugins {
             grpc {
-                artifact = 'io.grpc:protoc-gen-grpc-java:1.20.0'
+                artifact = 'io.grpc:protoc-gen-grpc-java:1.21.0'
             }
         }
         generateProtoTasks {
@@ -50,7 +50,7 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom 'com.linecorp.armeria:armeria-bom:0.86.0'
+            mavenBom 'com.linecorp.armeria:armeria-bom:0.88.0'
         }
     }
 

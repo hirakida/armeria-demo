@@ -11,7 +11,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 @Configuration
-public class ArmeriaClientConfig {
+public class RetrofitConfig {
 
     @Bean
     public WeatherService weatherService() {

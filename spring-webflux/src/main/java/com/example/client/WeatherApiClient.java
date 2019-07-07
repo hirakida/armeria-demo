@@ -11,8 +11,8 @@ import reactor.core.publisher.Mono;
 public class WeatherApiClient {
     private final WebClient webClient;
 
-    public WeatherApiClient(WebClient.Builder webClientBuilder) {
-        webClient = webClientBuilder.baseUrl("http://weather.livedoor.com/").build();
+    public WeatherApiClient(WebClient.Builder builder) {
+        webClient = builder.baseUrl("http://weather.livedoor.com/").build();
     }
 
     public Mono<Weather> getWeather(String code) {

@@ -3,9 +3,7 @@ package com.example.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.service.DateTimeService;
-import com.example.service.FizzBuzzService;
-import com.example.service.MessageDigestService;
+import com.example.service.ApiService;
 import com.example.service.SseService;
 
 import com.linecorp.armeria.server.docs.DocService;
@@ -25,9 +23,7 @@ public class ArmeriaConfig {
             builder.decorator(LoggingService.newDecorator());
             builder.decorator(ThrottlingHttpService.newDecorator(new RateLimitingThrottlingStrategy<>(10.0)));
             builder.accessLogWriter(AccessLogWriter.combined(), false);
-            builder.annotatedService(new DateTimeService());
-            builder.annotatedService(new MessageDigestService());
-            builder.annotatedService(new FizzBuzzService());
+            builder.annotatedService(new ApiService());
             builder.annotatedService(new SseService());
         };
     }

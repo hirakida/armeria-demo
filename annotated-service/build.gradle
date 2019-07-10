@@ -22,5 +22,6 @@ dependencyManagement {
 
 dependencies {
     implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
+    implementation 'com.linecorp.armeria:armeria-rxjava'
     implementation 'io.projectreactor:reactor-core:3.2.10.RELEASE'
 }

@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.support;
 
 import com.linecorp.armeria.common.HttpRequest;
 import com.linecorp.armeria.common.HttpResponse;

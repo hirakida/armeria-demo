@@ -6,5 +6,5 @@ server:
   port: -1
 armeria:
   ports:
-  - port: 8080
-    protocol: http
+    - port: 8080
+      protocol: http

@@ -10,5 +10,5 @@ import retrofit2.http.Query;
 public interface WeatherService {
 
     @GET("/forecast/webservice/json/v1")
-    CompletableFuture<Weather> getWeather(@Query("city") String code);
+    CompletableFuture<Weather> getWeather(@Query("city") String city);
 }

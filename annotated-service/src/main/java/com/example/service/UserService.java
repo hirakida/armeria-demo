@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import com.example.model.User;
-import com.example.support.JsonResponseConverter;
+import com.example.service.converter.JsonResponseConverter;
 
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.Param;

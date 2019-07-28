@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.example.service.JsonNodeService;
-import com.example.service.MessageDigestService;
 import com.example.service.SseService;
 import com.example.service.UserService;
 
@@ -26,7 +25,6 @@ public class ArmeriaConfig {
             builder.decorator(ThrottlingHttpService.newDecorator(new RateLimitingThrottlingStrategy<>(10.0)));
             builder.accessLogWriter(AccessLogWriter.combined(), false);
             builder.annotatedService(new JsonNodeService());
-            builder.annotatedService(new MessageDigestService());
             builder.annotatedService(new UserService());
             builder.annotatedService(new SseService());
         };

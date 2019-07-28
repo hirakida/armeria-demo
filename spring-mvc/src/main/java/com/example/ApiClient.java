@@ -18,7 +18,6 @@ import com.linecorp.armeria.common.AggregatedHttpResponse;
 @Component
 public class ApiClient {
     private static final String API_URL = "http://weather.livedoor.com";
-    private static final String CITY_ID = "400010";
     private static final TypeReference<Map<String, Object>> TYPE_REFERENCE = new TypeReference<>() {};
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
@@ -30,10 +29,10 @@ public class ApiClient {
         this.objectMapper = objectMapper;
     }
 
-    public Map<String, Object> getWeather() {
+    public Map<String, Object> getWeather(String city) {
         String uri = UriComponentsBuilder.fromPath("/forecast/webservice/json/v1")
                                          .queryParam("city", "{city}")
-                                         .buildAndExpand(CITY_ID)
+                                         .buildAndExpand(city)
                                          .toUriString();
         AggregatedHttpResponse response = httpClient.get(uri).aggregate().join();
         try {

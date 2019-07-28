@@ -1,7 +1,5 @@
 package com.example.controller;
 
-import java.util.Optional;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,11 +13,10 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequiredArgsConstructor
 public class ApiController {
-    private static final String DEFAULT_CODE = "400010";
     private final WeatherApiClient weatherApiClient;
 
     @GetMapping("/weather")
-    public Mono<Weather> getWeather(@RequestParam Optional<String> code) {
-        return weatherApiClient.getWeather(code.orElse(DEFAULT_CODE));
+    public Mono<Weather> getWeather(@RequestParam(defaultValue = "400010") String city) {
+        return weatherApiClient.getWeather(city);
     }
 }

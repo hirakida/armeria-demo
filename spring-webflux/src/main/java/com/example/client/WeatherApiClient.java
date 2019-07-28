@@ -15,10 +15,10 @@ public class WeatherApiClient {
         webClient = builder.baseUrl("http://weather.livedoor.com/").build();
     }
 
-    public Mono<Weather> getWeather(String code) {
+    public Mono<Weather> getWeather(String city) {
         return webClient.get()
                         .uri(builder -> builder.path("/forecast/webservice/json/v1")
-                                               .queryParam("city", code)
+                                               .queryParam("city", city)
                                                .build())
                         .retrieve()
                         .bodyToMono(Weather.class);

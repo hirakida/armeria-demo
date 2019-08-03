@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ApiController {
-    private final ApiClient apiClient;
+    private final WeatherService weatherService;
     private final MessageDigest md5;
 
-    public ApiController(ApiClient apiClient) throws NoSuchAlgorithmException {
-        this.apiClient = apiClient;
+    public ApiController(WeatherService weatherService) throws NoSuchAlgorithmException {
+        this.weatherService = weatherService;
         md5 = MessageDigest.getInstance("MD5");
     }
 
     @GetMapping("/weather")
     public Map<String, Object> getWeather(@RequestParam(defaultValue = "400010") String city) {
-        return apiClient.getWeather(city);
+        return weatherService.getWeather(city).join();
     }
 
     @GetMapping("/md5/{text}")

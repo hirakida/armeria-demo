@@ -4,8 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.client.WeatherService;
-import com.example.client.model.Weather;
+import com.example.model.Weather;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.linecorp.armeria.client.HttpClient;

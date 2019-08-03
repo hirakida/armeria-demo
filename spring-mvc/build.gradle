@@ -16,7 +16,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'com.linecorp.armeria:armeria-bom:0.88.0'
+        mavenBom 'com.linecorp.armeria:armeria-bom:0.89.0'
         mavenBom 'io.netty:netty-bom:4.1.37.Final'
     }
 }
@@ -24,6 +24,8 @@ dependencyManagement {
 dependencies {
     implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
     implementation 'com.linecorp.armeria:armeria-tomcat'
+    implementation 'com.linecorp.armeria:armeria-retrofit2'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.6.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

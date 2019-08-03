@@ -1,8 +1,8 @@
-package com.example.client;
+package com.example;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.example.client.model.Weather;
+import com.example.model.Weather;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;

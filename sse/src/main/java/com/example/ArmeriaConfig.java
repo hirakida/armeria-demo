@@ -1,10 +1,7 @@
-package com.example.config;
+package com.example;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.example.service.JsonNodeService;
-import com.example.service.UserService;
 
 import com.linecorp.armeria.server.docs.DocService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
@@ -15,13 +12,12 @@ import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 public class ArmeriaConfig {
 
     @Bean
-    public ArmeriaServerConfigurator armeriaServerConfigurator() {
+    public ArmeriaServerConfigurator armeriaServerConfigurator(SseService sseService) {
         return builder -> {
             builder.serviceUnder("/docs", new DocService());
             builder.decorator(LoggingService.newDecorator());
             builder.accessLogWriter(AccessLogWriter.combined(), false);
-            builder.annotatedService(new JsonNodeService());
-            builder.annotatedService(new UserService());
+            builder.annotatedService(sseService);
         };
     }
 }

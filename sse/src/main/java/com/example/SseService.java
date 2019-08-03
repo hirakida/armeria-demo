@@ -1,9 +1,10 @@
-package com.example.service;
+package com.example;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.reactivestreams.Publisher;
+import org.springframework.stereotype.Component;
 
 import com.linecorp.armeria.common.sse.ServerSentEvent;
 import com.linecorp.armeria.server.annotation.Default;
@@ -14,6 +15,7 @@ import com.linecorp.armeria.server.annotation.ProducesEventStream;
 import io.reactivex.Flowable;
 import reactor.core.publisher.Flux;
 
+@Component
 public class SseService {
 
     @Get("/sse1")

@@ -1,4 +1,4 @@
-package com.example.service.converter;
+package com.example.service;
 
 import javax.annotation.Nullable;
 

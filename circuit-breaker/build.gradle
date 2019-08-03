@@ -17,11 +17,11 @@ repositories {
 dependencyManagement {
     imports {
         mavenBom 'com.linecorp.armeria:armeria-bom:0.89.0'
+        mavenBom 'io.netty:netty-bom:4.1.37.Final'
     }
 }
 
 dependencies {
-    annotationProcessor 'org.projectlombok:lombok'
-    compileOnly 'org.projectlombok:lombok'
     implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

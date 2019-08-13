@@ -1,5 +1,4 @@
 plugins {
-    id 'idea'
     id 'java'
     id 'application'
 }
@@ -13,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation platform('com.linecorp.armeria:armeria-bom:0.88.0')
+    implementation platform('com.linecorp.armeria:armeria-bom:0.90.1')
     implementation 'com.linecorp.armeria:armeria'
     implementation 'org.slf4j:slf4j-log4j12:1.7.26'
 }

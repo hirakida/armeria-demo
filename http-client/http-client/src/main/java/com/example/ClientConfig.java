@@ -13,6 +13,7 @@ import com.linecorp.armeria.client.ClientFactoryBuilder;
 import com.linecorp.armeria.client.HttpClient;
 import com.linecorp.armeria.client.HttpClientBuilder;
 import com.linecorp.armeria.client.logging.LoggingClient;
+import com.linecorp.armeria.common.HttpHeaderNames;
 
 @Configuration
 public class ClientConfig {
@@ -29,6 +30,7 @@ public class ClientConfig {
                 .responseTimeout(Duration.ofSeconds(10))
                 .writeTimeout(Duration.ofSeconds(10))
                 .factory(factory)
+                .setHttpHeader(HttpHeaderNames.AUTHORIZATION, "TOKEN")
                 .build();
     }
 

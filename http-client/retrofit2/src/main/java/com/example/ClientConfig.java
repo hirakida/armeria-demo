@@ -1,5 +1,7 @@
 package com.example;
 
+import java.time.Duration;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,7 +19,9 @@ public class ClientConfig {
     public WeatherService weatherService() {
         final Retrofit retrofit = new ArmeriaRetrofitBuilder()
                 .baseUrl(API_URL)
-                .withClientOptions((string, builder) -> builder.decorator(LoggingClient.newDecorator()))
+                .withClientOptions((url, builder) -> builder.decorator(LoggingClient.newDecorator())
+                                                            .responseTimeout(Duration.ofSeconds(10))
+                                                            .writeTimeout(Duration.ofSeconds(10)))
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
         return retrofit.create(WeatherService.class);

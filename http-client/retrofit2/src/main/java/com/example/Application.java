@@ -4,8 +4,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.model.Weather;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,8 +16,15 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Weather weather = weatherService.getWeather(CITY_ID).get();
-        log.info("{}", weather);
+        weatherService.getWeather(CITY_ID)
+                      .handle((weather, e) -> {
+                          if (e != null) {
+                              log.error("{}", e.getMessage(), e);
+                          }
+                          log.info("{}", weather);
+                          return weather;
+                      })
+                      .join();
     }
 
     public static void main(String[] args) {

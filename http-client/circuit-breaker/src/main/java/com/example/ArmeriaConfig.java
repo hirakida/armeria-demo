@@ -5,10 +5,15 @@ import org.springframework.context.annotation.Configuration;
 
 import com.linecorp.armeria.client.HttpClient;
 import com.linecorp.armeria.client.HttpClientBuilder;
-import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerHttpClientBuilder;
+import com.linecorp.armeria.client.circuitbreaker.CircuitBreaker;
+import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerBuilder;
+import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerHttpClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerStrategy;
+import com.linecorp.armeria.client.circuitbreaker.MetricCollectingCircuitBreakerListener;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
+
+import io.micrometer.core.instrument.Metrics;
 
 @Configuration
 public class ArmeriaConfig {
@@ -20,10 +25,13 @@ public class ArmeriaConfig {
 
     @Bean
     public HttpClient httpClient() {
+        final CircuitBreaker circuitBreaker = new CircuitBreakerBuilder()
+                .listener(new MetricCollectingCircuitBreakerListener(Metrics.globalRegistry))
+                .build();
         final CircuitBreakerStrategy strategy = CircuitBreakerStrategy.onServerErrorStatus();
         return new HttpClientBuilder("http://localhost:8080")
                 .decorator(LoggingClient.newDecorator())
-                .decorator(new CircuitBreakerHttpClientBuilder(strategy).newDecorator())
+                .decorator(CircuitBreakerHttpClient.newDecorator(circuitBreaker, strategy))
                 .build();
     }
 }

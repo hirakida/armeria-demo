@@ -22,7 +22,8 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         AggregatedHttpResponse response = httpClient.get("/users/hirakida")
-                                                    .aggregate().join();
+                                                    .aggregate()
+                                                    .join();
         User user = objectMapper.readValue(response.content().toReaderUtf8(), User.class);
         log.info("{}", user);
     }

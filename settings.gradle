@@ -3,6 +3,7 @@ rootProject.name = 'armeria-demo'
 include ':armeria-client:circuit-breaker',
         ':armeria-client:http-client',
         ':armeria-client:retrofit2',
+        ':armeria-client:retry',
         ':armeria-server:annotated-service',
         ':armeria-server:http-server',
         ':armeria-server:sse',

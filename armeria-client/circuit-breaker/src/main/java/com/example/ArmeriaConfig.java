@@ -19,8 +19,8 @@ import io.micrometer.core.instrument.Metrics;
 public class ArmeriaConfig {
 
     @Bean
-    public ArmeriaServerConfigurator armeriaServerConfigurator(ApiService apiService) {
-        return builder -> builder.annotatedService(apiService);
+    public ArmeriaServerConfigurator armeriaServerConfigurator() {
+        return builder -> builder.annotatedService(new DemoService());
     }
 
     @Bean

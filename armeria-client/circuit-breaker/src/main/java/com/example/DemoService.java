@@ -2,14 +2,11 @@ package com.example;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.springframework.stereotype.Component;
-
 import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.HttpResult;
 
-@Component
-public class ApiService {
+public class DemoService {
     private static final AtomicInteger COUNTER = new AtomicInteger();
 
     @Get("/")

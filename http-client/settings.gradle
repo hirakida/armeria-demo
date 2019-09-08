@@ -1,2 +1,0 @@
-rootProject.name = 'armeria-client-demo'
-include 'circuit-breaker', 'http-client', 'retrofit2'

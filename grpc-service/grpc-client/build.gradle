@@ -1,0 +1,8 @@
+apply from: "${rootProject.rootDir}/grpc-service/build.gradle"
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+    implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

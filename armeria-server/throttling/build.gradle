@@ -1,0 +1,5 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
+}

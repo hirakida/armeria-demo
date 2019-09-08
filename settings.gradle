@@ -1,0 +1,15 @@
+rootProject.name = 'armeria-demo'
+
+include ':armeria-client:circuit-breaker',
+        ':armeria-client:http-client',
+        ':armeria-client:retrofit2',
+        ':armeria-server:annotated-service',
+        ':armeria-server:http-server',
+        ':armeria-server:sse',
+        ':armeria-server:throttling',
+        ':grpc-service:grpc-client',
+        ':grpc-service:grpc-server',
+        ':spring-mvc',
+        ':spring-webflux',
+        ':thrift-service:thrift-client',
+        ':thrift-service:thrift-server'

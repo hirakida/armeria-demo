@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.example.WeatherService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.client.retrofit2.ArmeriaRetrofitBuilder;
@@ -16,11 +17,11 @@ public class ClientConfig {
     private static final String API_URL = "http://weather.livedoor.com";
 
     @Bean
-    public WeatherService weatherService() {
+    public WeatherService weatherService(ObjectMapper objectMapper) {
         final Retrofit retrofit = new ArmeriaRetrofitBuilder()
                 .baseUrl(API_URL)
                 .withClientOptions((string, builder) -> builder.decorator(LoggingClient.newDecorator()))
-                .addConverterFactory(JacksonConverterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                 .build();
         return retrofit.create(WeatherService.class);
     }

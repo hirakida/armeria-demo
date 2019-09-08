@@ -1,8 +1,0 @@
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-    }
-}
-
-rootProject.name = 'armeria-grpc-demo'
-include 'grpc-server', 'grpc-client'

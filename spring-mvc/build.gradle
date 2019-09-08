@@ -1,27 +1,8 @@
-plugins {
-    id 'idea'
-    id 'java'
-    id 'org.springframework.boot' version '2.1.6.RELEASE'
-}
-
+apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = JavaVersion.VERSION_11
-
-repositories {
-    mavenCentral()
-}
-
-dependencyManagement {
-    imports {
-        mavenBom 'com.linecorp.armeria:armeria-bom:0.89.0'
-        mavenBom 'io.netty:netty-bom:4.1.37.Final'
-    }
-}
-
 dependencies {
+    implementation platform('io.netty:netty-bom:4.1.39.Final')
     implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
     implementation 'com.linecorp.armeria:armeria-tomcat'
     implementation 'com.linecorp.armeria:armeria-retrofit2'

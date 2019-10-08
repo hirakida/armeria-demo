@@ -8,26 +8,27 @@ import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.common.MediaType;
 import com.linecorp.armeria.server.Server;
-import com.linecorp.armeria.server.ServerBuilder;
+import com.linecorp.armeria.server.docs.DocService;
 import com.linecorp.armeria.server.logging.LoggingService;
 
 public class Application {
 
     public static void main(String[] args) {
-        Server server = new ServerBuilder()
-                .http(8080)
-                .service("/",
-                         (ctx, req) -> HttpResponse.of("Hello, Armeria!"))
-                .service("/delayed",
-                         (ctx, req) -> HttpResponse.delayed(HttpResponse.of("delayed 3 seconds"),
-                                                            Duration.ofSeconds(3)))
-                .service("/date",
-                         (ctx, req) -> HttpResponse.of(HttpStatus.OK,
-                                                       MediaType.JSON_UTF_8,
-                                                       "{\"date\":\"%s\"}",
-                                                       LocalDate.now()))
-                .decorator(LoggingService.newDecorator())
-                .build();
+        Server server = Server.builder()
+                              .http(8080)
+                              .serviceUnder("/docs", new DocService())
+                              .decorator(LoggingService.newDecorator())
+                              .service("/",
+                                       (ctx, req) -> HttpResponse.of("Hello, Armeria!"))
+                              .service("/delayed",
+                                       (ctx, req) -> HttpResponse.delayed(HttpResponse.of("delayed 3 seconds"),
+                                                                          Duration.ofSeconds(3)))
+                              .service("/date",
+                                       (ctx, req) -> HttpResponse.of(HttpStatus.OK,
+                                                                     MediaType.JSON_UTF_8,
+                                                                     "{\"date\":\"%s\"}",
+                                                                     LocalDate.now()))
+                              .build();
         CompletableFuture<Void> future = server.start();
         future.join();
     }

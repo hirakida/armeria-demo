@@ -3,8 +3,10 @@ package com.example;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.service.DemoService;
-import com.example.service.UserService;
+import com.example.service.BinaryService;
+import com.example.service.JsonService;
+import com.example.service.SseService;
+import com.example.service.TextService;
 
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
@@ -18,8 +20,10 @@ public class ArmeriaConfig {
         return builder -> {
             builder.decorator(LoggingService.newDecorator());
             builder.accessLogWriter(AccessLogWriter.combined(), false);
-            builder.annotatedService(new DemoService());
-            builder.annotatedService(new UserService());
+            builder.annotatedService(new TextService());
+            builder.annotatedService(new BinaryService());
+            builder.annotatedService(new JsonService());
+            builder.annotatedService(new SseService());
         };
     }
 }

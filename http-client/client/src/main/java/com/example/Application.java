@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Application implements CommandLineRunner {
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
+    private final HttpClient retryHttpClient;
 
     @Override
     public void run(String... args) throws Exception {
@@ -26,6 +27,10 @@ public class Application implements CommandLineRunner {
                                                     .join();
         User user = objectMapper.readValue(response.content().toReaderUtf8(), User.class);
         log.info("{}", user);
+
+        retryHttpClient.get("/users/hirakida__")
+                       .aggregate()
+                       .join();
     }
 
     public static void main(String[] args) {

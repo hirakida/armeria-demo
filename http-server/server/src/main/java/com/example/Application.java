@@ -14,8 +14,6 @@ import com.linecorp.armeria.server.ServiceRequestContext;
 import com.linecorp.armeria.server.docs.DocService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
-import com.linecorp.armeria.server.throttling.RateLimitingThrottlingStrategy;
-import com.linecorp.armeria.server.throttling.ThrottlingHttpService;
 
 public class Application {
 
@@ -27,9 +25,7 @@ public class Application {
                               .accessLogWriter(AccessLogWriter.combined(), false)
                               .service("/", (ctx, req) -> HttpResponse.of("Hello, Armeria!"))
                               .service("/delayed", new DelayedService())
-                              .service("/json", new JsonService()
-                                      .decorate(ThrottlingHttpService.newDecorator(
-                                              new RateLimitingThrottlingStrategy<>(1.0))))
+                              .service("/json", new JsonService())
                               .build();
         server.start().join();
     }

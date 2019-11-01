@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.9.RELEASE' apply false
+    id 'org.springframework.boot' version '2.2.0.RELEASE' apply false
     id 'com.google.protobuf' version '0.8.10' apply false
     id 'org.jruyi.thrift' version '0.4.1' apply false
 }
@@ -17,6 +17,6 @@ subprojects {
     }
 
     dependencies {
-        implementation platform('com.linecorp.armeria:armeria-bom:0.94.0')
+        implementation platform('com.linecorp.armeria:armeria-bom:0.95.0')
     }
 }

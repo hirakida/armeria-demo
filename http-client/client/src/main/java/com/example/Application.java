@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.linecorp.armeria.client.HttpClient;
+import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.common.AggregatedHttpResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -17,20 +17,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Application implements CommandLineRunner {
     private final ObjectMapper objectMapper;
-    private final HttpClient httpClient;
-    private final HttpClient retryHttpClient;
+    private final WebClient webClient;
+    private final WebClient retryWebClient;
 
     @Override
     public void run(String... args) throws Exception {
-        AggregatedHttpResponse response = httpClient.get("/users/hirakida")
-                                                    .aggregate()
-                                                    .join();
+        AggregatedHttpResponse response = webClient.get("/users/hirakida").aggregate().join();
         User user = objectMapper.readValue(response.content().toReaderUtf8(), User.class);
         log.info("{}", user);
 
-        retryHttpClient.get("/users/hirakida__")
-                       .aggregate()
-                       .join();
+        retryWebClient.get("/users/hirakida__")
+                      .aggregate()
+                      .join();
     }
 
     public static void main(String[] args) {

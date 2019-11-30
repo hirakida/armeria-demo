@@ -11,11 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import com.linecorp.armeria.client.ClientFactory;
-import com.linecorp.armeria.client.ClientFactoryBuilder;
 import com.linecorp.armeria.client.ClientOptions;
-import com.linecorp.armeria.client.ClientOptionsBuilder;
-import com.linecorp.armeria.client.HttpClient;
-import com.linecorp.armeria.client.HttpClientBuilder;
+import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.client.retry.Backoff;
 import com.linecorp.armeria.client.retry.RetryStrategy;
@@ -29,28 +26,28 @@ public class ClientConfig {
     private static final String API_URL = "https://api.github.com";
 
     @Bean
-    public HttpClient httpClient() {
-        ClientFactory factory = new ClientFactoryBuilder()
-                .connectTimeout(Duration.ofSeconds(10))
-                .idleTimeout(Duration.ofSeconds(10))
-                .build();
-        ClientOptions options = new ClientOptionsBuilder()
-                .decorator(LoggingClient.newDecorator())
-                .responseTimeout(Duration.ofSeconds(10))
-                .writeTimeout(Duration.ofSeconds(10))
-                .setHttpHeader(HttpHeaderNames.AUTHORIZATION, "TOKEN")
-                .build();
-        return HttpClient.of(factory, API_URL, options);
+    public WebClient webClient() {
+        ClientFactory factory = ClientFactory.builder()
+                                             .connectTimeout(Duration.ofSeconds(10))
+                                             .idleTimeout(Duration.ofSeconds(10))
+                                             .build();
+        ClientOptions options = ClientOptions.builder()
+                                             .decorator(LoggingClient.newDecorator())
+                                             .responseTimeout(Duration.ofSeconds(10))
+                                             .writeTimeout(Duration.ofSeconds(10))
+                                             .setHttpHeader(HttpHeaderNames.AUTHORIZATION, "TOKEN")
+                                             .build();
+        return WebClient.of(factory, API_URL, options);
     }
 
     @Bean
-    public HttpClient retryHttpClient() {
+    public WebClient retryWebClient() {
         int maxTotalAttempts = 3;
         RetryStrategy retryStrategy = RetryStrategy.onStatus(ClientConfig::backoffFunction);
-        return new HttpClientBuilder(API_URL)
-                .decorator(LoggingClient.newDecorator())
-                .decorator(RetryingHttpClient.newDecorator(retryStrategy, maxTotalAttempts))
-                .build();
+        return WebClient.builder(API_URL)
+                        .decorator(LoggingClient.newDecorator())
+                        .decorator(RetryingHttpClient.newDecorator(retryStrategy, maxTotalAttempts))
+                        .build();
     }
 
     @Bean

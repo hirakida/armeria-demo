@@ -12,7 +12,7 @@ import com.example.service.ThrottleService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
 import com.linecorp.armeria.server.throttling.RateLimitingThrottlingStrategy;
-import com.linecorp.armeria.server.throttling.ThrottlingHttpService;
+import com.linecorp.armeria.server.throttling.ThrottlingService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 
 @Configuration
@@ -28,7 +28,7 @@ public class ArmeriaConfig {
             builder.annotatedService(new JsonService());
             builder.annotatedService(new SseService());
             builder.annotatedService(new ThrottleService())
-                   .decorator(ThrottlingHttpService.newDecorator(new RateLimitingThrottlingStrategy<>(1.0)));
+                   .decorator(ThrottlingService.newDecorator(new RateLimitingThrottlingStrategy<>(1.0)));
         };
     }
 }

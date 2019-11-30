@@ -3,8 +3,7 @@ package com.example;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.linecorp.armeria.client.HttpClient;
-import com.linecorp.armeria.client.HttpClientBuilder;
+import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreaker;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerHttpClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerStrategy;
@@ -23,15 +22,15 @@ public class ArmeriaConfig {
     }
 
     @Bean
-    public HttpClient httpClient() {
+    public WebClient httpClient() {
         CircuitBreaker circuitBreaker =
                 CircuitBreaker.builder()
                               .listener(new MetricCollectingCircuitBreakerListener(Metrics.globalRegistry))
                               .build();
         CircuitBreakerStrategy strategy = CircuitBreakerStrategy.onServerErrorStatus();
-        return new HttpClientBuilder("http://localhost:8080")
-                .decorator(LoggingClient.newDecorator())
-                .decorator(CircuitBreakerHttpClient.newDecorator(circuitBreaker, strategy))
-                .build();
+        return WebClient.builder("http://localhost:8080")
+                        .decorator(LoggingClient.newDecorator())
+                        .decorator(CircuitBreakerHttpClient.newDecorator(circuitBreaker, strategy))
+                        .build();
     }
 }

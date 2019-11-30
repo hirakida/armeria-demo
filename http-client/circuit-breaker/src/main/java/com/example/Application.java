@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.linecorp.armeria.client.HttpClient;
+import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.common.AggregatedHttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
 
@@ -19,12 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class Application {
-    private final HttpClient httpClient;
+    private final WebClient webClient;
 
     @Scheduled(fixedRate = 1000)
     public void run() {
         try {
-            final AggregatedHttpResponse response = httpClient.get("/").aggregate().join();
+            final AggregatedHttpResponse response = webClient.get("/").aggregate().join();
             if (response.status() == HttpStatus.INTERNAL_SERVER_ERROR) {
                 log.error("{}", response.status());
             }

@@ -26,7 +26,7 @@ public class ArmeriaConfig {
 
     @Bean
     public ArmeriaServerConfigurator armeriaServiceInitializer(TomcatService tomcatService) {
-        return builder -> builder.service("prefix:/", tomcatService);
+        return serverBuilder -> serverBuilder.service("prefix:/", tomcatService);
     }
 
     private static Connector getConnector(ServletWebServerApplicationContext applicationContext) {

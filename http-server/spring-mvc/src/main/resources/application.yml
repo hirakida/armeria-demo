@@ -4,6 +4,11 @@ spring:
       enabled: always
 server:
   port: -1
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 armeria:
   ports:
     - port: 8080

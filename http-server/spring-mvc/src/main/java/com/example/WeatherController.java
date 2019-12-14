@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ApiController {
+public class WeatherController {
     private static final String DEFAULT_CITY = "400010";
     private final WeatherService weatherService;
 
-    public ApiController(WeatherService weatherService) {
+    public WeatherController(WeatherService weatherService) {
         this.weatherService = weatherService;
     }
 

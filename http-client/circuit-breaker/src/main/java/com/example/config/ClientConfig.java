@@ -1,4 +1,4 @@
-package com.example;
+package com.example.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,20 +9,14 @@ import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerHttpClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerStrategy;
 import com.linecorp.armeria.client.circuitbreaker.MetricCollectingCircuitBreakerListener;
 import com.linecorp.armeria.client.logging.LoggingClient;
-import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 
 import io.micrometer.core.instrument.Metrics;
 
 @Configuration
-public class ArmeriaConfig {
+public class ClientConfig {
 
     @Bean
-    public ArmeriaServerConfigurator armeriaServerConfigurator() {
-        return builder -> builder.annotatedService(new DemoService());
-    }
-
-    @Bean
-    public WebClient httpClient() {
+    public WebClient webClient() {
         CircuitBreaker circuitBreaker =
                 CircuitBreaker.builder()
                               .listener(new MetricCollectingCircuitBreakerListener(Metrics.globalRegistry))

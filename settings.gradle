@@ -2,7 +2,9 @@ rootProject.name = 'armeria-demo'
 
 include ':http-client:circuit-breaker',
         ':http-client:client',
+        ':http-client:load-balancing',
         ':http-client:retrofit2',
+        ':http-client:retry',
         ':http-server:annotated-service',
         ':http-server:server',
         ':http-server:spring-mvc',

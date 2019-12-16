@@ -1,10 +1,9 @@
 package com.example;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.common.AggregatedHttpResponse;
@@ -12,18 +11,17 @@ import com.linecorp.armeria.common.AggregatedHttpResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@EnableScheduling
 @SpringBootApplication
 @RequiredArgsConstructor
 @Slf4j
-public class Application implements CommandLineRunner {
-    private final ObjectMapper objectMapper;
+public class Application {
     private final WebClient webClient;
 
-    @Override
-    public void run(String... args) throws Exception {
-        AggregatedHttpResponse response = webClient.get("/users/hirakida").aggregate().join();
-        User user = objectMapper.readValue(response.content().toReaderUtf8(), User.class);
-        log.info("{}", user);
+    @Scheduled(fixedRate = 20000)
+    public void run() {
+        final AggregatedHttpResponse response = webClient.get("/").aggregate().join();
+        log.info("{}", response);
     }
 
     public static void main(String[] args) {

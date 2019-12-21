@@ -19,6 +19,7 @@ message CalculatorResponse {
     double result = 1;
 }
 
-service Calculator {
-    rpc Calculate(CalculatorRequest) returns (CalculatorResponse) {}
+service CalculatorService {
+    rpc Calculate (CalculatorRequest) returns (CalculatorResponse) {
+    }
 }

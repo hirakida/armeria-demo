@@ -12,5 +12,6 @@ include ':http-client:circuit-breaker',
         ':grpc:grpc-client',
         ':grpc:grpc-server',
         ':grpc:protobuf',
+        ':thrift:thrift',
         ':thrift:thrift-client',
         ':thrift:thrift-server'

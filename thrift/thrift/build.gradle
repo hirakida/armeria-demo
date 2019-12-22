@@ -4,7 +4,3 @@ dependencies {
     implementation 'com.linecorp.armeria:armeria-thrift'
     implementation 'org.apache.thrift:libthrift:0.12.0'
 }
-
-compileThrift {
-    sourceDir "${rootProject.rootDir}/thrift/thrift"
-}

@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import com.example.BackendService;
 import com.example.FrontendService;
 
-import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.server.Server;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
@@ -22,8 +21,8 @@ public class ServerConfig {
     }
 
     @Bean
-    public ArmeriaServerConfigurator armeriaServerConfigurator(WebClient webClient) {
-        return builder -> builder.annotatedService(new FrontendService(webClient));
+    public ArmeriaServerConfigurator armeriaServerConfigurator(FrontendService frontendService) {
+        return builder -> builder.annotatedService(frontendService);
     }
 
     private static Server createServer(int port) {

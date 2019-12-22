@@ -7,5 +7,6 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
     implementation 'com.linecorp.armeria:armeria-retrofit2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation "com.squareup.retrofit2:converter-jackson:${retrofit2Version}"
 }

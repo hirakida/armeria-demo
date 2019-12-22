@@ -1,15 +1,16 @@
 rootProject.name = 'armeria-demo'
 
 include ':http-client:circuit-breaker',
-        ':http-client:client',
         ':http-client:load-balancing',
         ':http-client:retrofit2',
         ':http-client:retry',
+        ':http-client:webclient',
         ':http-server:annotated-service',
         ':http-server:server',
         ':http-server:spring-mvc',
         ':http-server:spring-webflux',
-        ':grpc-service:grpc-client',
-        ':grpc-service:grpc-server',
-        ':thrift-service:thrift-client',
-        ':thrift-service:thrift-server'
+        ':grpc:grpc-client',
+        ':grpc:grpc-server',
+        ':grpc:protobuf',
+        ':thrift:thrift-client',
+        ':thrift:thrift-server'

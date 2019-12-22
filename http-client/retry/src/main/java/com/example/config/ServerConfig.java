@@ -11,7 +11,7 @@ import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 public class ServerConfig {
 
     @Bean
-    public ArmeriaServerConfigurator armeriaServerConfigurator() {
-        return builder -> builder.annotatedService(new ServerService());
+    public ArmeriaServerConfigurator armeriaServerConfigurator(ServerService serverService) {
+        return builder -> builder.annotatedService(serverService);
     }
 }

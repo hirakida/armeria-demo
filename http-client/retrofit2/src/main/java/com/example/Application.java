@@ -11,20 +11,19 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class Application implements CommandLineRunner {
-    private static final String CITY_ID = "400010";
-    private final WeatherService weatherService;
+    private final GitHubService gitHubService;
 
     @Override
     public void run(String... args) throws Exception {
-        weatherService.getWeather(CITY_ID)
-                      .handle((weather, e) -> {
-                          if (e != null) {
-                              log.error("{}", e.getMessage(), e);
-                          }
-                          log.info("{}", weather);
-                          return weather;
-                      })
-                      .join();
+        gitHubService.getUser("hirakida")
+                     .handle((user, e) -> {
+                         if (e != null) {
+                             log.error("{}", e.getMessage(), e);
+                         }
+                         log.info("{}", user);
+                         return user;
+                     })
+                     .join();
     }
 
     public static void main(String[] args) {

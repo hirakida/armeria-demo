@@ -1,16 +1,8 @@
 apply plugin: 'com.google.protobuf'
 
-//sourceSets {
-//    main {
-//        proto {
-//            srcDir 'src/main/proto'
-//        }
-//    }
-//}
-
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.10.1'
+        artifact = 'com.google.protobuf:protoc:3.11.2'
     }
     plugins {
         grpc {

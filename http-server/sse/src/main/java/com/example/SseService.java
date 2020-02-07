@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;

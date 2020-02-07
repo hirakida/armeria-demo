@@ -8,15 +8,16 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
-import com.example.handler.MyExceptionHandler;
+import com.example.ExceptionHandlerImpl;
 
 import com.linecorp.armeria.server.annotation.ExceptionHandler;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.Param;
 import com.linecorp.armeria.server.annotation.ProducesJson;
 
-@ExceptionHandler(MyExceptionHandler.class)
+@ExceptionHandler(ExceptionHandlerImpl.class)
 public class JsonService {
 
     @Get("/date")
@@ -37,13 +38,16 @@ public class JsonService {
     @ProducesJson
     public CompletableFuture<Map<String, ?>> future() {
         return CompletableFuture.supplyAsync(() -> {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
-            }
-            return Map.of("date", LocalDate.now(),
-                          "datetime", LocalDateTime.now());
+            sleep(1000);
+            return Map.of("datetime", LocalDateTime.now());
         });
+    }
+
+    private static void sleep(long timeout) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(timeout);
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

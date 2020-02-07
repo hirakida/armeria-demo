@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.example.Calculator.CalculatorRequest;
 import com.example.Calculator.CalculatorRequest.OperationType;
+import com.example.Hello.HelloRequest;
 
 import com.linecorp.armeria.common.grpc.GrpcSerializationFormats;
 import com.linecorp.armeria.server.grpc.GrpcService;
@@ -53,6 +54,16 @@ public class ArmeriaConfig {
                                                                                 new ServerInterceptorImpl()))
                                        .supportedSerializationFormats(GrpcSerializationFormats.values())
                                        .enableUnframedRequests(true)
-                                       .build());
+                                       .build())
+                .addExampleRequests(HelloServiceGrpc.SERVICE_NAME,
+                                    "SayHello1",
+                                    HelloRequest.newBuilder()
+                                                .setName("hirakida")
+                                                .build())
+                .addExampleRequests(HelloServiceGrpc.SERVICE_NAME,
+                                    "SayHello2",
+                                    HelloRequest.newBuilder()
+                                                .setName("hirakida")
+                                                .build());
     }
 }

@@ -1,6 +1,7 @@
-package com.example.config;
+package com.example.frontend;
 
-import static com.example.BackendService.HEALTH_CHECK_PATH;
+import static com.example.backend.BackendServerConfig.ENDPOINTS;
+import static com.example.backend.BackendService.HEALTH_CHECK_PATH;
 
 import java.time.Duration;
 
@@ -24,9 +25,7 @@ public class ClientConfig {
 
     @Bean
     public EndpointGroup endpointGroup() {
-        return EndpointGroup.of(Endpoint.of("localhost", 8081),
-                                Endpoint.of("localhost", 8082),
-                                Endpoint.of("localhost", 8083));
+        return EndpointGroup.of(ENDPOINTS);
     }
 
     @Bean
@@ -38,20 +37,20 @@ public class ClientConfig {
     }
 
     @Bean
-    public WebClient webClient(HealthCheckedEndpointGroup healthCheckedGroup) {
-        registerEndpointGroup(healthCheckedGroup);
+    public WebClient webClient(HealthCheckedEndpointGroup healthCheckedEndpointGroup) {
+        registerEndpointGroup(healthCheckedEndpointGroup);
         return WebClient.builder("http://group:" + GROUP_NAME)
                         .build();
     }
 
-    private static void registerEndpointGroup(HealthCheckedEndpointGroup healthCheckedGroup) {
+    private static void registerEndpointGroup(HealthCheckedEndpointGroup healthCheckedEndpointGroup) {
         try {
-            healthCheckedGroup.awaitInitialEndpoints();
+            healthCheckedEndpointGroup.awaitInitialEndpoints();
         } catch (InterruptedException e) {
             log.error("awaitInitialEndpoints:", e);
         }
 
-        EndpointGroupRegistry.register(GROUP_NAME, healthCheckedGroup,
+        EndpointGroupRegistry.register(GROUP_NAME, healthCheckedEndpointGroup,
                                        EndpointSelectionStrategy.WEIGHTED_ROUND_ROBIN);
     }
 }

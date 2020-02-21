@@ -1,4 +1,4 @@
-package com.example;
+package com.example.frontend;
 
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ public class FrontendService {
     private final WebClient webClient;
 
     @Get("/")
-    public HttpResponse get() {
+    public HttpResponse hello() {
         return webClient.get("/");
     }
 }

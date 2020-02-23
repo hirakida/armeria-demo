@@ -3,9 +3,9 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencies {
     implementation project(':grpc:protobuf')
+
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
-    implementation 'com.linecorp.armeria:armeria-grpc'
     implementation 'com.linecorp.armeria:armeria-spring-boot-webflux-starter'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

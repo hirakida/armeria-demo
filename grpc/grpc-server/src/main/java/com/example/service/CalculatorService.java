@@ -1,14 +1,15 @@
-package com.example;
+package com.example.service;
 
 import org.springframework.stereotype.Service;
 
 import com.example.Calculator.CalculatorRequest;
 import com.example.Calculator.CalculatorResponse;
+import com.example.CalculatorServiceGrpc.CalculatorServiceImplBase;
 
 import io.grpc.stub.StreamObserver;
 
 @Service
-public class CalculatorService extends CalculatorServiceGrpc.CalculatorServiceImplBase {
+public class CalculatorService extends CalculatorServiceImplBase {
 
     @Override
     public void calculate(CalculatorRequest request, StreamObserver<CalculatorResponse> responseObserver) {

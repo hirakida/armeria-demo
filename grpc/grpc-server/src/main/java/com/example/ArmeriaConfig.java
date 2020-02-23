@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import com.example.Calculator.CalculatorRequest;
 import com.example.Calculator.CalculatorRequest.OperationType;
 import com.example.Hello.HelloRequest;
+import com.example.service.CalculatorService;
+import com.example.service.HelloService;
 
 import com.linecorp.armeria.common.grpc.GrpcSerializationFormats;
 import com.linecorp.armeria.server.grpc.GrpcService;

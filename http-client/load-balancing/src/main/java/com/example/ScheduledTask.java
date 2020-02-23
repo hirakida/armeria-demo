@@ -17,6 +17,6 @@ public class ScheduledTask {
 
     @Scheduled(fixedRate = 10000)
     public void run() {
-        webClient.put(HEALTH_CHECK_PATH, HttpData.EMPTY_DATA).aggregate().join();
+        webClient.put(HEALTH_CHECK_PATH, HttpData.empty()).aggregate().join();
     }
 }

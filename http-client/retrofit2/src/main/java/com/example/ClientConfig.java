@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import com.linecorp.armeria.client.logging.LoggingClient;
-import com.linecorp.armeria.client.retrofit2.ArmeriaRetrofitBuilder;
+import com.linecorp.armeria.client.retrofit2.ArmeriaRetrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -20,13 +20,13 @@ public class ClientConfig {
 
     @Bean
     public GitHubService gitHubService(ObjectMapper objectMapper) {
-        final Retrofit retrofit = new ArmeriaRetrofitBuilder()
-                .baseUrl(BASE_URL)
-                .withClientOptions((url, builder) -> builder.decorator(LoggingClient.newDecorator())
-                                                            .responseTimeout(Duration.ofSeconds(10))
-                                                            .writeTimeout(Duration.ofSeconds(10)))
-                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
-                .build();
+        final Retrofit retrofit =
+                ArmeriaRetrofit.builder(BASE_URL)
+                               .addConverterFactory(JacksonConverterFactory.create(objectMapper))
+                               .decorator(LoggingClient.newDecorator())
+                               .responseTimeout(Duration.ofSeconds(10))
+                               .writeTimeout(Duration.ofSeconds(10))
+                               .build();
         return retrofit.create(GitHubService.class);
     }
 

@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.linecorp.armeria.client.ClientFactory;
-import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerHttpClient;
+import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerStrategy;
 import com.linecorp.armeria.server.docs.DocService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
@@ -29,7 +29,7 @@ public class ArmeriaConfig {
     @Bean
     public ClientFactory clientFactory() {
         return ClientFactory.builder()
-                            .sslContextCustomizer(builder -> builder.trustManager(
+                            .tlsCustomizer(builder -> builder.trustManager(
                                     InsecureTrustManagerFactory.INSTANCE))
                             .build();
     }
@@ -38,7 +38,7 @@ public class ArmeriaConfig {
     public ArmeriaClientConfigurator armeriaClientConfigurator(ClientFactory clientFactory) {
         return builder -> {
             final CircuitBreakerStrategy strategy = CircuitBreakerStrategy.onServerErrorStatus();
-            builder.decorator(CircuitBreakerHttpClient.builder(strategy).newDecorator());
+            builder.decorator(CircuitBreakerClient.builder(strategy).newDecorator());
             builder.factory(clientFactory);
         };
     }

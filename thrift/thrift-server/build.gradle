@@ -12,7 +12,3 @@ dependencies {
     }
     testImplementation 'io.projectreactor:reactor-test'
 }
-
-bootRun {
-    jvmArgs('--illegal-access=deny')
-}

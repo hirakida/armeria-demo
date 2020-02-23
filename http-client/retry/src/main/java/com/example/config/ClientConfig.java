@@ -1,7 +1,6 @@
 package com.example.config;
 
-import javax.annotation.Nullable;
-
+import org.jetbrains.annotations.Nullable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,7 +8,7 @@ import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.client.retry.Backoff;
 import com.linecorp.armeria.client.retry.RetryStrategy;
-import com.linecorp.armeria.client.retry.RetryingHttpClient;
+import com.linecorp.armeria.client.retry.RetryingClient;
 import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.common.HttpStatusClass;
 
@@ -22,7 +21,7 @@ public class ClientConfig {
         RetryStrategy retryStrategy = RetryStrategy.onStatus(ClientConfig::backoffFunction);
         return WebClient.builder("http://localhost:8080/")
                         .decorator(LoggingClient.newDecorator())
-                        .decorator(RetryingHttpClient.newDecorator(retryStrategy, maxTotalAttempts))
+                        .decorator(RetryingClient.newDecorator(retryStrategy, maxTotalAttempts))
                         .build();
     }
 

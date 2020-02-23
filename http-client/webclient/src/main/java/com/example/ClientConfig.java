@@ -28,7 +28,10 @@ public class ClientConfig {
                                              .responseTimeout(Duration.ofSeconds(10))
                                              .writeTimeout(Duration.ofSeconds(10))
                                              .build();
-        return WebClient.of(factory, BASE_URL, options);
+        return WebClient.builder(BASE_URL)
+                        .factory(factory)
+                        .options(options)
+                        .build();
     }
 
     @Bean

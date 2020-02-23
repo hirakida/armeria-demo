@@ -10,7 +10,7 @@ import com.example.thrift.Calculator;
 import com.example.thrift.Operation;
 import com.example.thrift.Work;
 
-import com.linecorp.armeria.client.ClientBuilder;
+import com.linecorp.armeria.client.Clients;
 import com.linecorp.armeria.client.logging.LoggingClient;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +21,10 @@ public class ThriftClientApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Calculator.Iface calculator = new ClientBuilder("tbinary+http://127.0.0.1:8080/calculator")
-                .responseTimeout(Duration.ofSeconds(10))
-                .decorator(LoggingClient.newDecorator())
-                .build(Calculator.Iface.class);
+        Calculator.Iface calculator = Clients.builder("tbinary+http://127.0.0.1:8080/calculator")
+                                             .responseTimeout(Duration.ofSeconds(10))
+                                             .decorator(LoggingClient.newDecorator())
+                                             .build(Calculator.Iface.class);
 
         int result = calculator.add(1, 2);
         log.info("result={}", result);

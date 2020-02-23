@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreaker;
-import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerHttpClient;
+import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerStrategy;
 import com.linecorp.armeria.client.circuitbreaker.MetricCollectingCircuitBreakerListener;
 import com.linecorp.armeria.client.logging.LoggingClient;
@@ -24,7 +24,7 @@ public class ClientConfig {
         CircuitBreakerStrategy strategy = CircuitBreakerStrategy.onServerErrorStatus();
         return WebClient.builder("http://localhost:8080")
                         .decorator(LoggingClient.newDecorator())
-                        .decorator(CircuitBreakerHttpClient.newDecorator(circuitBreaker, strategy))
+                        .decorator(CircuitBreakerClient.newDecorator(circuitBreaker, strategy))
                         .build();
     }
 }

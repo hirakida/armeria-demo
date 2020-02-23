@@ -13,7 +13,7 @@ import com.example.CalculatorServiceGrpc.CalculatorServiceBlockingStub;
 import com.example.Hello.HelloRequest;
 import com.example.HelloServiceGrpc.HelloServiceStub;
 
-import com.linecorp.armeria.client.ClientBuilder;
+import com.linecorp.armeria.client.Clients;
 import com.linecorp.armeria.client.logging.LoggingClient;
 
 import io.grpc.stub.StreamObserver;
@@ -30,10 +30,10 @@ public class GrpcClientApplication implements CommandLineRunner {
     }
 
     private static void calculator() {
-        CalculatorServiceBlockingStub calculatorService = new ClientBuilder("gproto+http://127.0.0.1:8080/")
-                .responseTimeoutMillis(10000)
-                .decorator(LoggingClient.newDecorator())
-                .build(CalculatorServiceBlockingStub.class);
+        CalculatorServiceBlockingStub calculatorService = Clients.builder("gproto+http://127.0.0.1:8080/")
+                                                                 .responseTimeoutMillis(10000)
+                                                                 .decorator(LoggingClient.newDecorator())
+                                                                 .build(CalculatorServiceBlockingStub.class);
 
         CalculatorRequest request1 = CalculatorRequest.newBuilder()
                                                       .setNumber1(1)
@@ -53,10 +53,10 @@ public class GrpcClientApplication implements CommandLineRunner {
     }
 
     private static void hello() throws InterruptedException, ExecutionException {
-        HelloServiceStub helloService = new ClientBuilder("gproto+http://127.0.0.1:8080/")
-                .responseTimeoutMillis(10000)
-                .decorator(LoggingClient.newDecorator())
-                .build(HelloServiceStub.class);
+        HelloServiceStub helloService = Clients.builder("gproto+http://127.0.0.1:8080/")
+                                               .responseTimeoutMillis(10000)
+                                               .decorator(LoggingClient.newDecorator())
+                                               .build(HelloServiceStub.class);
 
         // hello1
         HelloRequest request1 = HelloRequest.newBuilder().setName("hirakida1").build();

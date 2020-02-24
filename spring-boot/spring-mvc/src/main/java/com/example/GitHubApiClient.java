@@ -11,21 +11,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.common.AggregatedHttpResponse;
 
-@Component
-public class GitHubApiClient {
-    private static final String BASE_URL = "https://api.github.com";
-    private final ObjectMapper objectMapper;
-    private final WebClient webClient;
+import lombok.RequiredArgsConstructor;
 
-    public GitHubApiClient(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-        webClient = WebClient.of(BASE_URL);
-    }
+@Component
+@RequiredArgsConstructor
+public class GitHubApiClient {
+    private final WebClient webClient;
+    private final ObjectMapper objectMapper;
 
     public CompletableFuture<User> getUser(String username) {
         return webClient.get("/users/" + username)
                         .aggregate()
-                        .handle((response, e) -> readValue(response));
+                        .thenApply(this::readValue);
     }
 
     private User readValue(AggregatedHttpResponse response) {

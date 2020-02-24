@@ -1,4 +1,4 @@
-package com.example;
+package com.example.config;
 
 import org.apache.catalina.connector.Connector;
 import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
@@ -11,7 +11,7 @@ import com.linecorp.armeria.server.tomcat.TomcatService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 
 @Configuration
-public class ArmeriaConfig {
+public class ServerConfig {
 
     @Bean
     public HealthChecker tomcatConnectorHealthChecker(ServletWebServerApplicationContext applicationContext) {

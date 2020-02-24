@@ -6,7 +6,7 @@ import com.linecorp.armeria.server.docs.DocService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
 
-public class Application {
+public class Main {
 
     public static void main(String[] args) {
         Server server = Server.builder()

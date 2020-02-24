@@ -1,0 +1,18 @@
+subprojects {
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencyManagement {
+        dependencies {
+            dependency 'com.squareup.retrofit2:converter-jackson:2.7.1'
+        }
+    }
+
+    dependencies {
+        annotationProcessor 'org.projectlombok:lombok'
+        compileOnly 'org.projectlombok:lombok'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}

@@ -5,14 +5,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-public class GitHubApiController {
+public class GitHubController {
     private final GitHubApiClient gitHubApiClient;
 
     @GetMapping("/users/{username}")
-    public User getUser(@PathVariable String username) {
-        return gitHubApiClient.getUser(username).join();
+    public Mono<User> getUser(@PathVariable String username) {
+        return gitHubApiClient.getUser(username);
     }
 }

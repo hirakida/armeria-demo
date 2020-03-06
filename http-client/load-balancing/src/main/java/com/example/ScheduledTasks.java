@@ -8,11 +8,8 @@ import org.springframework.stereotype.Component;
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.common.HttpData;
 
-import lombok.RequiredArgsConstructor;
-
 @Component
-@RequiredArgsConstructor
-public class ScheduledTask {
+public class ScheduledTasks {
     private final WebClient webClient = WebClient.of("http://localhost:8081");
 
     @Scheduled(fixedRate = 10000)

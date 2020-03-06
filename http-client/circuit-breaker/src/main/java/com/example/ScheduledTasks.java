@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ScheduledTask {
+public class ScheduledTasks {
     private final WebClient webClient;
 
     @Scheduled(fixedRate = 1000)

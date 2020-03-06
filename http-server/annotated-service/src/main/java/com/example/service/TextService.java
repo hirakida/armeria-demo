@@ -5,6 +5,7 @@ import org.springframework.util.DigestUtils;
 import com.linecorp.armeria.common.HttpHeaderNames;
 import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.common.ResponseHeaders;
+import com.linecorp.armeria.server.annotation.Description;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.HttpResult;
 import com.linecorp.armeria.server.annotation.Param;
@@ -12,11 +13,13 @@ import com.linecorp.armeria.server.annotation.Param;
 public class TextService {
 
     @Get("/md5")
+    @Description("Get MD5")
     public String getMd5(@Param("text") String text) {
         return DigestUtils.md5DigestAsHex(text.getBytes());
     }
 
     @Get("/hello")
+    @Description("Hello")
     public HttpResult<String> hello() {
         ResponseHeaders headers = ResponseHeaders.builder()
                                                  .status(HttpStatus.OK)

@@ -3,6 +3,6 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencies {
     implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
-    implementation 'com.linecorp.armeria:armeria-rxjava'
+    implementation 'com.linecorp.armeria:armeria-rxjava2'
     implementation 'io.projectreactor:reactor-core'
 }

@@ -2,7 +2,7 @@ apply plugin: 'application'
 
 dependencies {
     implementation 'com.linecorp.armeria:armeria'
-    runtimeOnly 'org.slf4j:slf4j-simple:1.7.28'
+    runtimeOnly 'org.slf4j:slf4j-simple'
 }
 
 mainClassName = 'com.example.Main'

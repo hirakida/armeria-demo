@@ -1,6 +1,6 @@
 package com.example.service;
 
-import org.springframework.util.DigestUtils;
+import java.util.concurrent.CompletableFuture;
 
 import com.linecorp.armeria.common.HttpHeaderNames;
 import com.linecorp.armeria.common.HttpStatus;
@@ -8,23 +8,27 @@ import com.linecorp.armeria.common.ResponseHeaders;
 import com.linecorp.armeria.server.annotation.Description;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.HttpResult;
-import com.linecorp.armeria.server.annotation.Param;
 
 public class TextService {
 
-    @Get("/md5")
-    @Description("Get MD5")
-    public String getMd5(@Param("text") String text) {
-        return DigestUtils.md5DigestAsHex(text.getBytes());
+    @Get("/hello1")
+    @Description("Hello1")
+    public String hello1() {
+        return "Hello!";
     }
 
-    @Get("/hello")
-    @Description("Hello")
-    public HttpResult<String> hello() {
+    @Get("/hello2")
+    @Description("Hello2")
+    public HttpResult<String> hello2() {
         ResponseHeaders headers = ResponseHeaders.builder()
                                                  .status(HttpStatus.OK)
                                                  .add(HttpHeaderNames.CACHE_CONTROL, "no-cache")
                                                  .build();
-        return HttpResult.of(headers, "Hello, Armeria!!");
+        return HttpResult.of(headers, "Hello!!");
+    }
+
+    @Get("/future")
+    public CompletableFuture<String> future() {
+        return CompletableFuture.supplyAsync(() -> "Hello!!!");
     }
 }

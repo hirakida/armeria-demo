@@ -2,6 +2,7 @@ apply plugin: 'application'
 
 dependencies {
     implementation 'com.linecorp.armeria:armeria'
+    implementation 'com.linecorp.armeria:armeria-rxjava2'
     runtimeOnly 'org.slf4j:slf4j-simple'
 }
 

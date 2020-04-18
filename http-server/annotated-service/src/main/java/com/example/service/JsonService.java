@@ -5,17 +5,17 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 import com.example.ExceptionHandlerImpl;
 
+import com.linecorp.armeria.server.annotation.Default;
 import com.linecorp.armeria.server.annotation.ExceptionHandler;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.Param;
 import com.linecorp.armeria.server.annotation.ProducesJson;
+import com.linecorp.armeria.server.annotation.ProducesJsonSequences;
 
 @ExceptionHandler(ExceptionHandlerImpl.class)
 public class JsonService {
@@ -28,26 +28,21 @@ public class JsonService {
                      .orElse(LocalDate.now());
     }
 
+    @Get("/datetime")
+    @ProducesJson
+    public LocalDateTime getDateTime(@Param("zoneId") @Default("Japan") String zoneId) {
+        return LocalDateTime.now(ZoneId.of(zoneId));
+    }
+
     @Get("/locales")
     @ProducesJson
     public List<Locale> getLocales() {
         return List.of(Locale.getAvailableLocales());
     }
 
-    @Get("/future")
-    @ProducesJson
-    public CompletableFuture<Map<String, ?>> future() {
-        return CompletableFuture.supplyAsync(() -> {
-            sleep(1000);
-            return Map.of("datetime", LocalDateTime.now());
-        });
-    }
-
-    private static void sleep(long timeout) {
-        try {
-            TimeUnit.MILLISECONDS.sleep(timeout);
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
-        }
+    @Get("/json_sequences")
+    @ProducesJsonSequences
+    public Stream<Locale> jsonSequences() {
+        return Stream.of(Locale.getAvailableLocales());
     }
 }

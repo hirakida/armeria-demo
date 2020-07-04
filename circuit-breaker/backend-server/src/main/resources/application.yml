@@ -1,0 +1,8 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+armeria:
+  ports:
+    - port: 8081
+      protocol: http

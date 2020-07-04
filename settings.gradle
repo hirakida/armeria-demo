@@ -1,11 +1,12 @@
 rootProject.name = 'armeria-demo'
 
-include ':client-side-load-balancing:backend-server',
+include ':circuit-breaker:backend-server',
+        ':circuit-breaker:frontend-server',
+        ':client-side-load-balancing:backend-server',
         ':client-side-load-balancing:frontend-server',
         ':grpc:grpc-client',
         ':grpc:grpc-server',
         ':grpc:protobuf',
-        ':http-client:circuit-breaker',
         ':http-client:retrofit2',
         ':http-client:retry',
         ':http-client:webclient',

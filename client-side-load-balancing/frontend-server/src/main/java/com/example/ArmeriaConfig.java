@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example;
 
 import static java.util.stream.Collectors.toList;
 
@@ -13,13 +13,19 @@ import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.endpoint.EndpointGroup;
 import com.linecorp.armeria.client.endpoint.healthcheck.HealthCheckedEndpointGroup;
 import com.linecorp.armeria.common.SessionProtocol;
+import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 
 @Configuration
-public class ClientConfig {
+public class ArmeriaConfig {
     private static final List<String> ENDPOINTS = List.of("localhost:8081",
                                                           "localhost:8082",
                                                           "localhost:8083");
     private static final String HEALTH_CHECK_PATH = "/internal/l7check/";
+
+    @Bean
+    public ArmeriaServerConfigurator armeriaServerConfigurator(FrontendService frontendService) {
+        return builder -> builder.annotatedService(frontendService);
+    }
 
     @Bean
     public HealthCheckedEndpointGroup healthCheckedEndpointGroup() {

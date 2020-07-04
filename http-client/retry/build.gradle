@@ -1,10 +1,10 @@
-apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
 
 dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
-    implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+    implementation 'com.linecorp.armeria:armeria'
+    runtimeOnly 'org.slf4j:slf4j-simple'
 }
+
+mainClassName = 'com.example.Main'

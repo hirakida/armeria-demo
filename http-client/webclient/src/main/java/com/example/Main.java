@@ -13,6 +13,9 @@ import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.common.AggregatedHttpResponse;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Main {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(new JavaTimeModule());
 
@@ -22,7 +25,7 @@ public class Main {
 
         try {
             User user = OBJECT_MAPPER.readValue(response.content().toReaderUtf8(), User.class);
-            System.out.println(user);
+            log.info("{}", user);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

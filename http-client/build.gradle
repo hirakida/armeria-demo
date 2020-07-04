@@ -3,13 +3,7 @@ subprojects {
 
     dependencyManagement {
         dependencies {
-            dependency 'com.squareup.retrofit2:converter-jackson:2.8.1'
         }
-    }
-
-    dependencies {
-        annotationProcessor 'org.projectlombok:lombok'
-        compileOnly 'org.projectlombok:lombok'
     }
 
     test {

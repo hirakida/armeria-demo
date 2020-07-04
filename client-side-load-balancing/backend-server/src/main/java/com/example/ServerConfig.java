@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example;
 
 import java.util.List;
 
@@ -8,11 +8,11 @@ import com.linecorp.armeria.server.Server;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 
 @Configuration
-public class BackendServerConfig {
-    public static final List<Integer> ENDPOINT_PORTS = List.of(8081, 8082, 8083);
+public class ServerConfig {
+    private static final List<Integer> PORTS = List.of(8081, 8082, 8083);
 
-    public BackendServerConfig() {
-        ENDPOINT_PORTS.forEach(port -> createServer(port).start().join());
+    public ServerConfig() {
+        PORTS.forEach(port -> createServer(port).start().join());
     }
 
     private static Server createServer(int port) {
@@ -20,6 +20,7 @@ public class BackendServerConfig {
                      .http(port)
                      .accessLogWriter(AccessLogWriter.combined(), false)
                      .annotatedService(new BackendService(port))
+                     .annotatedService(new HealthCheckService())
                      .build();
     }
 }

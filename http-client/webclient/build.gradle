@@ -1,9 +1,10 @@
-apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
 
 dependencies {
-    implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+    annotationProcessor 'org.projectlombok:lombok:1.18.2'
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.1'
+    implementation 'com.linecorp.armeria:armeria'
 }
+
+mainClassName = 'com.example.Main'

@@ -1,7 +1,5 @@
-package com.example.frontend;
+package com.example.config;
 
-import static com.example.backend.BackendServerConfig.ENDPOINT_PORTS;
-import static com.example.backend.BackendService.HEALTH_CHECK_PATH;
 import static java.util.stream.Collectors.toList;
 
 import java.time.Duration;
@@ -16,16 +14,18 @@ import com.linecorp.armeria.client.endpoint.EndpointGroup;
 import com.linecorp.armeria.client.endpoint.healthcheck.HealthCheckedEndpointGroup;
 import com.linecorp.armeria.common.SessionProtocol;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Configuration
-@Slf4j
 public class ClientConfig {
+    private static final List<String> ENDPOINTS = List.of("localhost:8081",
+                                                          "localhost:8082",
+                                                          "localhost:8083");
+    private static final String HEALTH_CHECK_PATH = "/internal/l7check/";
+
     @Bean
     public HealthCheckedEndpointGroup healthCheckedEndpointGroup() {
-        List<Endpoint> endpoints = ENDPOINT_PORTS.stream()
-                                                 .map(port -> Endpoint.of("localhost", port))
-                                                 .collect(toList());
+        List<Endpoint> endpoints = ENDPOINTS.stream()
+                                            .map(Endpoint::parse)
+                                            .collect(toList());
         EndpointGroup endpointGroup = EndpointGroup.of(endpoints);
         return HealthCheckedEndpointGroup.builder(endpointGroup, HEALTH_CHECK_PATH)
                                          .protocol(SessionProtocol.HTTP)

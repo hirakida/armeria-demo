@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreaker;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerClient;
+import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerListener;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerRule;
-import com.linecorp.armeria.client.circuitbreaker.MetricCollectingCircuitBreakerListener;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 
@@ -22,8 +22,7 @@ public class ArmeriaConfig {
 
     @Bean
     public WebClient webClient() {
-        MetricCollectingCircuitBreakerListener listener =
-                new MetricCollectingCircuitBreakerListener(Metrics.globalRegistry);
+        CircuitBreakerListener listener = CircuitBreakerListener.metricCollecting(Metrics.globalRegistry);
         CircuitBreaker circuitBreaker = CircuitBreaker.builder()
                                                       .listener(listener)
                                                       .build();

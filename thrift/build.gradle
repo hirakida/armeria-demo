@@ -4,7 +4,7 @@ plugins {
 
 subprojects {
     dependencies {
-        implementation 'com.linecorp.armeria:armeria-thrift'
+        implementation 'com.linecorp.armeria:armeria-thrift0.13'
     }
 
     test {

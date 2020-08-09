@@ -1,9 +1,10 @@
 dependencies {
-    implementation 'com.linecorp.armeria:armeria-spring-boot-starter'
-    implementation 'com.linecorp.armeria:armeria-tomcat'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'io.micrometer:micrometer-registry-prometheus'
-    runtimeOnly 'com.linecorp.armeria:armeria-spring-boot-actuator-starter'
+
+    implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
+    implementation 'com.linecorp.armeria:armeria-tomcat9'
+    runtimeOnly 'com.linecorp.armeria:armeria-spring-boot2-actuator-starter'
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

@@ -16,7 +16,7 @@ subprojects {
     }
 
     dependencies {
-        implementation platform('com.linecorp.armeria:armeria-bom:0.99.9')
+        implementation platform('com.linecorp.armeria:armeria-bom:1.0.0')
         implementation platform('io.netty:netty-bom:4.1.51.Final')
         implementation 'org.jetbrains:annotations:19.0.0'
     }

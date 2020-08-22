@@ -30,10 +30,8 @@ public class ArmeriaServerConfig {
 
     @Bean
     public DocServiceConfigurator docServiceConfigurator() {
-        return builder ->
-                builder.exampleRequest(
-                        List.of(new Calculator.add_args(1, 2),
-                                new Calculator.calculate_args(1,
-                                                              new Work(5, 3, Operation.SUBTRACT))));
+        List<?> requests = List.of(new Calculator.add_args(1, 2),
+                                   new Calculator.calculate_args(1, new Work(5, 3, Operation.SUBTRACT)));
+        return builder -> builder.exampleRequests(requests);
     }
 }

@@ -43,22 +43,22 @@ public class ArmeriaServerConfig {
     @Bean
     public DocServiceConfigurator docServiceConfigurator() {
         return builder ->
-                builder.exampleRequestForMethod(CalculatorServiceGrpc.SERVICE_NAME,
-                                                "Calculate",
-                                                CalculatorRequest.newBuilder()
-                                                                 .setNumber1(2)
-                                                                 .setNumber2(3)
-                                                                 .setOperation(OperationType.MULTIPLY)
-                                                                 .build())
-                       .exampleRequestForMethod(HelloServiceGrpc.SERVICE_NAME,
-                                                "SayHello1",
-                                                HelloRequest.newBuilder()
-                                                            .setName("hirakida")
-                                                            .build())
-                       .exampleRequestForMethod(HelloServiceGrpc.SERVICE_NAME,
-                                                "SayHello2",
-                                                HelloRequest.newBuilder()
-                                                            .setName("hirakida")
-                                                            .build());
+                builder.exampleRequests(CalculatorServiceGrpc.SERVICE_NAME,
+                                        "Calculate",
+                                        CalculatorRequest.newBuilder()
+                                                         .setNumber1(2)
+                                                         .setNumber2(3)
+                                                         .setOperation(OperationType.MULTIPLY)
+                                                         .build())
+                       .exampleRequests(HelloServiceGrpc.SERVICE_NAME,
+                                        "SayHello1",
+                                        HelloRequest.newBuilder()
+                                                    .setName("hirakida")
+                                                    .build())
+                       .exampleRequests(HelloServiceGrpc.SERVICE_NAME,
+                                        "SayHello2",
+                                        HelloRequest.newBuilder()
+                                                    .setName("hirakida")
+                                                    .build());
     }
 }

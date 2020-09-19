@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 
 import com.linecorp.armeria.common.HttpHeaderNames;
 import com.linecorp.armeria.common.HttpStatus;
@@ -11,13 +12,15 @@ import com.linecorp.armeria.server.annotation.Description;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.HttpResult;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class TextService {
 
     @Get("/hello1")
     @Description("Hello1")
-    public String hello1() {
-        ServiceRequestContext context = RequestContext.current();
-        System.out.println(context.request());
+    public String hello1(ServiceRequestContext ctx) {
+        log.info("{}", ctx.request());
         return "Hello!";
     }
 
@@ -32,7 +35,12 @@ public class TextService {
     }
 
     @Get("/future")
-    public CompletableFuture<String> future() {
-        return CompletableFuture.supplyAsync(() -> "Hello!!!");
+    public CompletableFuture<String> future(ServiceRequestContext ctx) {
+        log.info("{}", ctx.request());
+        ExecutorService executor = ctx.eventLoop();
+        return CompletableFuture.supplyAsync(() -> {
+            log.info("{}", RequestContext.current().request());
+            return "Hello!";
+        }, executor);
     }
 }

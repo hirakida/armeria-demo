@@ -20,7 +20,6 @@ import io.grpc.ServerInterceptors;
 
 @Configuration
 public class ArmeriaServerConfig {
-
     @Bean
     public ArmeriaServerConfigurator armeriaServerConfigurator(CalculatorService calculatorService,
                                                                HelloService helloService) {

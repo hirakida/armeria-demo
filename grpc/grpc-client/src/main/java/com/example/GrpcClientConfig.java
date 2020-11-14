@@ -11,10 +11,11 @@ import com.linecorp.armeria.client.logging.LoggingClient;
 
 @Configuration
 public class GrpcClientConfig {
+    private static final String URI = "gproto+http://127.0.0.1:8080/";
 
     @Bean
     public CalculatorServiceBlockingStub calculatorServiceBlockingStub() {
-        return Clients.builder("gproto+http://127.0.0.1:8080/")
+        return Clients.builder(URI)
                       .responseTimeoutMillis(10000)
                       .decorator(LoggingClient.newDecorator())
                       .build(CalculatorServiceBlockingStub.class);
@@ -22,7 +23,7 @@ public class GrpcClientConfig {
 
     @Bean
     public HelloServiceStub helloServiceStub() {
-        return Clients.builder("gproto+http://127.0.0.1:8080/")
+        return Clients.builder(URI)
                       .responseTimeoutMillis(10000)
                       .decorator(LoggingClient.newDecorator())
                       .build(HelloServiceStub.class);

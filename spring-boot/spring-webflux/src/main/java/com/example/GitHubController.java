@@ -10,10 +10,10 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequiredArgsConstructor
 public class GitHubController {
-    private final GitHubApiClient gitHubApiClient;
+    private final GitHubApiClient client;
 
     @GetMapping("/users/{username}")
     public Mono<User> getUser(@PathVariable String username) {
-        return gitHubApiClient.getUser(username);
+        return client.getUser(username);
     }
 }

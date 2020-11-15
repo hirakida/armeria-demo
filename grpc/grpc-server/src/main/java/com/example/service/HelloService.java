@@ -1,23 +1,25 @@
 package com.example.service;
 
-import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
 
 import com.example.Hello.HelloRequest;
 import com.example.Hello.HelloResponse;
 import com.example.HelloServiceGrpc.HelloServiceImplBase;
 
 import io.grpc.stub.StreamObserver;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Component
 @Slf4j
-@Service
 public class HelloService extends HelloServiceImplBase {
     /**
      * Unary RPC
      */
     @Override
-    public void sayHello1(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
+    public void helloUnary(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
         HelloResponse response = HelloResponse.newBuilder()
                                               .setMessage("Hello " + request.getName())
                                               .build();
@@ -29,7 +31,7 @@ public class HelloService extends HelloServiceImplBase {
      * Server streaming RPC
      */
     @Override
-    public void sayHello2(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
+    public void helloServerStreaming(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
         HelloResponse response = HelloResponse.newBuilder()
                                               .setMessage("Hello " + request.getName())
                                               .build();
@@ -43,27 +45,31 @@ public class HelloService extends HelloServiceImplBase {
      * Client streaming RPC
      */
     @Override
-    public StreamObserver<HelloRequest> sayHello3(StreamObserver<HelloResponse> responseObserver) {
-        return new StreamObserver1(responseObserver);
+    public StreamObserver<HelloRequest> helloClientStreaming(StreamObserver<HelloResponse> responseObserver) {
+        return new ClientStreamObserver(responseObserver);
     }
 
     /**
      * Bidirectional streaming RPC
      */
     @Override
-    public StreamObserver<HelloRequest> sayHello4(StreamObserver<HelloResponse> responseObserver) {
-        return new StreamObserver2(responseObserver);
+    public StreamObserver<HelloRequest> helloBidirectionalStreaming(
+            StreamObserver<HelloResponse> responseObserver) {
+        return new BidirectionalStreamObserver(responseObserver);
     }
 
-    @RequiredArgsConstructor
-    private static class StreamObserver1 implements StreamObserver<HelloRequest> {
+    private static class ClientStreamObserver implements StreamObserver<HelloRequest> {
+        private final List<String> names = new ArrayList<>();
         private final StreamObserver<HelloResponse> responseObserver;
-        private String name;
+
+        ClientStreamObserver(StreamObserver<HelloResponse> responseObserver) {
+            this.responseObserver = responseObserver;
+        }
 
         @Override
         public void onNext(HelloRequest request) {
             log.info("onNext: {}", request.getName());
-            name = request.getName();
+            names.add(request.getName());
         }
 
         @Override
@@ -73,18 +79,20 @@ public class HelloService extends HelloServiceImplBase {
 
         @Override
         public void onCompleted() {
-            log.info("onCompleted");
             HelloResponse response = HelloResponse.newBuilder()
-                                                  .setMessage("Hello " + name)
+                                                  .setMessage("Hello " + names)
                                                   .build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
     }
 
-    @RequiredArgsConstructor
-    private static class StreamObserver2 implements StreamObserver<HelloRequest> {
+    private static class BidirectionalStreamObserver implements StreamObserver<HelloRequest> {
         private final StreamObserver<HelloResponse> responseObserver;
+
+        BidirectionalStreamObserver(StreamObserver<HelloResponse> responseObserver) {
+            this.responseObserver = responseObserver;
+        }
 
         @Override
         public void onNext(HelloRequest request) {
@@ -102,7 +110,6 @@ public class HelloService extends HelloServiceImplBase {
 
         @Override
         public void onCompleted() {
-            log.info("onCompleted");
             responseObserver.onCompleted();
         }
     }

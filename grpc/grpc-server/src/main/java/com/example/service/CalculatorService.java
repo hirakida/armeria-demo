@@ -1,6 +1,6 @@
 package com.example.service;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.example.Calculator.CalculatorRequest;
 import com.example.Calculator.CalculatorResponse;
@@ -8,9 +8,8 @@ import com.example.CalculatorServiceGrpc.CalculatorServiceImplBase;
 
 import io.grpc.stub.StreamObserver;
 
-@Service
+@Component
 public class CalculatorService extends CalculatorServiceImplBase {
-
     @Override
     public void calculate(CalculatorRequest request, StreamObserver<CalculatorResponse> responseObserver) {
         CalculatorResponse.Builder builder = CalculatorResponse.newBuilder();
@@ -30,6 +29,7 @@ public class CalculatorService extends CalculatorServiceImplBase {
             case UNRECOGNIZED:
                 break;
         }
+
         responseObserver.onNext(builder.build());
         responseObserver.onCompleted();
     }

@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example;
 
 import org.apache.catalina.connector.Connector;
 import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
@@ -11,8 +11,7 @@ import com.linecorp.armeria.server.tomcat.TomcatService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 
 @Configuration
-public class ServerConfig {
-
+public class ArmeriaServerConfig {
     @Bean
     public HealthChecker tomcatConnectorHealthChecker(ServletWebServerApplicationContext applicationContext) {
         final Connector connector = getConnector(applicationContext);
@@ -26,7 +25,7 @@ public class ServerConfig {
 
     @Bean
     public ArmeriaServerConfigurator armeriaServiceInitializer(TomcatService tomcatService) {
-        return serverBuilder -> serverBuilder.service("prefix:/", tomcatService);
+        return builder -> builder.service("prefix:/", tomcatService);
     }
 
     private static Connector getConnector(ServletWebServerApplicationContext applicationContext) {

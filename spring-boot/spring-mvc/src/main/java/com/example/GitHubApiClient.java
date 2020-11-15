@@ -16,7 +16,8 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class GitHubApiClient {
-    private final WebClient webClient;
+    private static final String BASE_URL = "https://api.github.com";
+    private final WebClient webClient = WebClient.of(BASE_URL);
     private final ObjectMapper objectMapper;
 
     public CompletableFuture<User> getUser(String username) {

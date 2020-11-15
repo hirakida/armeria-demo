@@ -1,4 +1,4 @@
-package com.example;
+package com.example.interceptor;
 
 import io.grpc.Metadata;
 import io.grpc.ServerCall;

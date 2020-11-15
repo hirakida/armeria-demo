@@ -11,12 +11,12 @@ message HelloResponse {
 }
 
 service HelloService {
-    rpc SayHello1 (HelloRequest) returns (HelloResponse) {
+    rpc HelloUnary (HelloRequest) returns (HelloResponse) {
     }
-    rpc SayHello2 (HelloRequest) returns (stream HelloResponse) {
+    rpc HelloServerStreaming (HelloRequest) returns (stream HelloResponse) {
     }
-    rpc SayHello3 (stream HelloRequest) returns (HelloResponse) {
+    rpc HelloClientStreaming (stream HelloRequest) returns (HelloResponse) {
     }
-    rpc SayHello4 (stream HelloRequest) returns (stream HelloResponse) {
+    rpc HelloBidirectionalStreaming (stream HelloRequest) returns (stream HelloResponse) {
     }
 }

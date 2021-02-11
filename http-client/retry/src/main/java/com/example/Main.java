@@ -3,9 +3,11 @@ package com.example;
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.client.retry.Backoff;
+import com.linecorp.armeria.client.retry.RetryConfig;
 import com.linecorp.armeria.client.retry.RetryRule;
 import com.linecorp.armeria.client.retry.RetryingClient;
 import com.linecorp.armeria.common.AggregatedHttpResponse;
+import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +22,15 @@ public class Main {
     }
 
     private static WebClient createWebClient() {
-        int maxTotalAttempts = 4;
         RetryRule rule = RetryRule.builder()
                                   .onStatus(HttpStatus.UNAUTHORIZED)
                                   .thenBackoff(Backoff.ofDefault());
-
+        RetryConfig<HttpResponse> config = RetryConfig.builder(rule)
+                                                      .maxTotalAttempts(4)
+                                                      .build();
         return WebClient.builder("https://api.github.com/")
                         .decorator(LoggingClient.newDecorator())
-                        .decorator(RetryingClient.newDecorator(rule, maxTotalAttempts))
+                        .decorator(RetryingClient.newDecorator(config))
                         .build();
     }
 }

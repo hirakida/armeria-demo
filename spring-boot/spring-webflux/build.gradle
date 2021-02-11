@@ -2,9 +2,6 @@ dependencies {
     implementation 'com.linecorp.armeria:armeria-spring-boot2-webflux-starter'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     runtimeOnly 'com.linecorp.armeria:armeria-spring-boot2-actuator-starter'
-
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
 }

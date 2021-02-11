@@ -37,14 +37,8 @@ public class RxJavaService {
         ExecutorService executor = ctx.eventLoop();
         return Flowable.just(LocalTime.now())
                        .observeOn(Schedulers.newThread())
-                       .map(time -> {
-                           log.info("{}", time);
-                           return LocalTime.now();
-                       })
+                       .doOnNext(time -> log.info("{}", time))
                        .observeOn(Schedulers.from(executor))
-                       .map(time -> {
-                           log.info("{}", time);
-                           return LocalTime.now();
-                       });
+                       .doOnNext(time -> log.info("{}", time));
     }
 }

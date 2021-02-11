@@ -5,9 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.example.Calculator.CalculatorRequest;
 import com.example.Calculator.CalculatorRequest.OperationType;
-import com.example.CalculatorServiceGrpc;
 import com.example.Hello.HelloRequest;
-import com.example.HelloServiceGrpc;
 import com.example.interceptor.ServerInterceptorImpl;
 import com.example.service.CalculatorService;
 import com.example.service.HelloService;

@@ -2,8 +2,7 @@ package com.example;
 
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.example.Calculator.CalculatorRequest;
@@ -19,12 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ApplicationEventListener {
+public class CommandLineRunnerImpl implements CommandLineRunner {
     private final CalculatorServiceBlockingStub calculatorService;
     private final HelloServiceStub helloService;
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void readyEvent() {
+    @Override
+    public void run(String... args) {
         calculator();
         hello();
     }

@@ -1,8 +1,6 @@
 package com.example;
 
-import org.apache.thrift.TException;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.example.thrift.Calculator;
@@ -15,11 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ApplicationEventListener {
+public class CommandLineRunnerImpl implements CommandLineRunner {
     private final Calculator.Iface calculator;
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void readyEvent() throws TException {
+    @Override
+    public void run(String... args) throws Exception {
         int result = calculator.add(1, 2);
         log.info("result={}", result);
 

@@ -2,6 +2,9 @@ package com.example;
 
 import java.time.Duration;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -12,10 +15,13 @@ import lombok.extern.slf4j.Slf4j;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+@Component
 @Slf4j
-public class Main {
+public class CommandLineRunnerImpl implements CommandLineRunner {
+    private static final String BASE_URL = "https://api.github.com";
 
-    public static void main(String[] args) {
+    @Override
+    public void run(String... args) {
         GitHubService service = createService();
         service.getUser("hirakida")
                .whenComplete((user, e) -> {
@@ -28,7 +34,7 @@ public class Main {
     private static GitHubService createService() {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         Retrofit retrofit =
-                ArmeriaRetrofit.builder("https://api.github.com")
+                ArmeriaRetrofit.builder(BASE_URL)
                                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                                .decorator(LoggingClient.newDecorator())
                                .responseTimeout(Duration.ofSeconds(10))

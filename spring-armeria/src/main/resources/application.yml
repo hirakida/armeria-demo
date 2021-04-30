@@ -1,0 +1,9 @@
+spring:
+  main:
+    web-application-type: none
+  output:
+    ansi:
+      enabled: always
+management:
+  server:
+    port: 8081

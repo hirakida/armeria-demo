@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.Duration;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -15,16 +18,19 @@ import com.linecorp.armeria.common.AggregatedHttpResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Component
 @Slf4j
-public class Main {
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(new JavaTimeModule());
+public class CommandLineRunnerImpl implements CommandLineRunner {
+    private static final String BASE_URL = "https://api.github.com";
 
-    public static void main(String[] args) {
+    @Override
+    public void run(String... args) {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         WebClient webClient = createWebClient();
         AggregatedHttpResponse response = webClient.get("/users/hirakida").aggregate().join();
 
         try {
-            User user = OBJECT_MAPPER.readValue(response.content().toReaderUtf8(), User.class);
+            User user = objectMapper.readValue(response.content().toReaderUtf8(), User.class);
             log.info("{}", user);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
@@ -41,10 +47,9 @@ public class Main {
                                              .responseTimeout(Duration.ofSeconds(10))
                                              .writeTimeout(Duration.ofSeconds(10))
                                              .build();
-        WebClient webClient = WebClient.builder("https://api.github.com")
-                                       .factory(factory)
-                                       .options(options)
-                                       .build();
-        return webClient;
+        return WebClient.builder(BASE_URL)
+                        .factory(factory)
+                        .options(options)
+                        .build();
     }
 }

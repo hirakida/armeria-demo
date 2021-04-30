@@ -1,5 +1,8 @@
 package com.example;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.client.retry.Backoff;
@@ -12,10 +15,13 @@ import com.linecorp.armeria.common.HttpStatus;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Component
 @Slf4j
-public class Main {
+public class CommandLineRunnerImpl implements CommandLineRunner {
+    private static final String BASE_URL = "https://api.github.com";
 
-    public static void main(String[] args) {
+    @Override
+    public void run(String... args) {
         WebClient webClient = createWebClient();
         AggregatedHttpResponse response = webClient.get("/user").aggregate().join();
         log.info("status={} content={}", response.status(), response.content().toStringUtf8());
@@ -28,7 +34,7 @@ public class Main {
         RetryConfig<HttpResponse> config = RetryConfig.builder(rule)
                                                       .maxTotalAttempts(4)
                                                       .build();
-        return WebClient.builder("https://api.github.com/")
+        return WebClient.builder(BASE_URL)
                         .decorator(LoggingClient.newDecorator())
                         .decorator(RetryingClient.newDecorator(config))
                         .build();

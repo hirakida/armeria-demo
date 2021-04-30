@@ -1,10 +1,12 @@
 subprojects {
+    apply plugin: 'org.springframework.boot'
 
-    dependencyManagement {
-        dependencies {
-            dependency 'org.projectlombok:lombok:1.18.18'
-            dependency 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.1'
-            dependency 'org.slf4j:slf4j-simple:1.7.30'
-        }
+    dependencies {
+        annotationProcessor 'org.projectlombok:lombok'
+        compileOnly 'org.projectlombok:lombok'
+        implementation 'com.linecorp.armeria:armeria'
+        implementation 'org.springframework.boot:spring-boot-starter'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 }

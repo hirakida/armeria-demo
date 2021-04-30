@@ -1,12 +1,16 @@
 apply plugin: 'com.google.protobuf'
 
+dependencies {
+    implementation 'javax.annotation:javax.annotation-api'
+}
+
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.13.0'
+        artifact = 'com.google.protobuf:protoc:3.15.8'
     }
     plugins {
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.33.1'
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.37.0'
         }
     }
     generateProtoTasks {

@@ -20,7 +20,7 @@ public class ArmeriaServerConfig {
     }
 
     @Bean
-    public ArmeriaServerConfigurator armeriaServiceInitializer(TomcatService tomcatService) {
+    public ArmeriaServerConfigurator armeriaServerConfigurator(TomcatService tomcatService) {
         return builder -> builder.service("prefix:/", tomcatService);
     }
 }

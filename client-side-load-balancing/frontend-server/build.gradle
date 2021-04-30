@@ -1,0 +1,3 @@
+dependencies {
+    implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
+}

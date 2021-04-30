@@ -2,7 +2,6 @@ package com.example;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.concurrent.CompletableFuture;
 
 import org.springframework.stereotype.Component;
 
@@ -20,10 +19,11 @@ public class GitHubApiClient {
     private final WebClient webClient = WebClient.of(BASE_URL);
     private final ObjectMapper objectMapper;
 
-    public CompletableFuture<User> getUser(String username) {
+    public User getUser(String username) {
         return webClient.get("/users/" + username)
                         .aggregate()
-                        .thenApply(this::readValue);
+                        .thenApply(this::readValue)
+                        .join();
     }
 
     private User readValue(AggregatedHttpResponse response) {

@@ -1,11 +1,14 @@
 plugins {
-    id 'org.springframework.boot' version '2.4.2' apply false
+    id 'org.springframework.boot' version '2.4.5' apply false
     id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
+    id 'com.google.protobuf' version '0.8.16' apply false
+    id 'org.jruyi.thrift' version '0.4.2' apply false
 }
 
 subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
+    apply plugin: 'io.spring.dependency-management'
 
     group = 'com.example'
     version = '0.0.1-SNAPSHOT'
@@ -15,9 +18,21 @@ subprojects {
         mavenCentral()
     }
 
+    dependencyManagement {
+        dependencies {
+            dependency 'com.squareup.retrofit2:converter-jackson:2.9.0'
+            dependency 'org.apache.thrift:libthrift:0.13.0'
+            dependency 'javax.annotation:javax.annotation-api:1.3.2'
+        }
+    }
+
     dependencies {
-        implementation platform('com.linecorp.armeria:armeria-bom:1.4.0')
-//        implementation platform('io.netty:netty-bom:4.1.58.Final')
+        implementation platform('com.linecorp.armeria:armeria-bom:1.7.1')
+//        implementation platform('io.netty:netty-bom:4.1.63.Final')
         implementation 'org.jetbrains:annotations:20.1.0'
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }

@@ -1,13 +1,5 @@
-plugins {
-    id 'org.jruyi.thrift' version '0.4.1' apply false
-}
-
 subprojects {
     dependencies {
         implementation 'com.linecorp.armeria:armeria-thrift0.13'
-    }
-
-    test {
-        useJUnitPlatform()
     }
 }

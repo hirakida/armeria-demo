@@ -1,6 +1,4 @@
 subprojects {
-    apply plugin: 'io.spring.dependency-management'
-
     dependencyManagement {
         dependencies {
             dependency 'io.projectreactor:reactor-core:3.3.4.RELEASE'

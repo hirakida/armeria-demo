@@ -5,8 +5,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.concurrent.CompletableFuture;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,7 +26,7 @@ public class GitHubControllerTest {
         user.setName(username);
         String expected = "{\"id\":1,\"name\":\"hirakida\"}";
 
-        when(gitHubApiClient.getUser(username)).thenReturn(CompletableFuture.completedFuture(user));
+        when(gitHubApiClient.getUser(username)).thenReturn(user);
 
         mockMvc.perform(get("/users/{username}", username))
                .andExpect(status().isOk())

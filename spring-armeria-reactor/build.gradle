@@ -3,8 +3,7 @@ apply plugin: 'org.springframework.boot'
 dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
-    implementation 'com.linecorp.armeria:armeria'
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
+    implementation 'com.linecorp.armeria:armeria-reactor3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

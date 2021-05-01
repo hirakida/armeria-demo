@@ -1,6 +1,8 @@
 apply plugin: 'application'
 
 dependencies {
+    annotationProcessor 'org.projectlombok:lombok:1.18.18'
+    compileOnly 'org.projectlombok:lombok:1.18.18'
     implementation 'com.linecorp.armeria:armeria'
     runtimeOnly 'ch.qos.logback:logback-classic:1.2.3'
 }

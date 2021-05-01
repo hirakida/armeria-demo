@@ -2,7 +2,7 @@ apply plugin: 'application'
 
 dependencies {
     implementation 'com.linecorp.armeria:armeria'
-    runtimeOnly 'ch.qos.logback:logback-classic'
+    runtimeOnly 'ch.qos.logback:logback-classic:1.2.3'
 }
 
 mainClassName = 'com.example.Main'

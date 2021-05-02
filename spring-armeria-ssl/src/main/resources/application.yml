@@ -1,0 +1,17 @@
+spring:
+  main:
+    web-application-type: none
+  output:
+    ansi:
+      enabled: always
+armeria:
+  ports:
+    - port: 8080
+      protocol: HTTP
+    - port: 8443
+      protocol: HTTPS
+  ssl:
+    key-store: keystore.p12
+    key-store-password: hirakida
+    key-alias: armeria
+    key-store-type: PKCS12

@@ -11,24 +11,30 @@ import com.example.CalculatorServiceGrpc.CalculatorServiceBlockingStub;
 import com.example.Hello.HelloRequest;
 import com.example.HelloServiceGrpc.HelloServiceStub;
 
+import com.linecorp.armeria.client.Clients;
+import com.linecorp.armeria.client.logging.LoggingClient;
+
 import io.grpc.stub.StreamObserver;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class CommandLineRunnerImpl implements CommandLineRunner {
-    private final CalculatorServiceBlockingStub calculatorService;
-    private final HelloServiceStub helloService;
+    private static final String URI = "gproto+http://127.0.0.1:8080/";
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws Exception {
         calculator();
         hello();
     }
 
-    private void calculator() {
+    private static void calculator() {
+        CalculatorServiceBlockingStub calculatorService =
+                Clients.builder(URI)
+                       .responseTimeoutMillis(10000)
+                       .decorator(LoggingClient.newDecorator())
+                       .build(CalculatorServiceBlockingStub.class);
+
         CalculatorRequest request1 = CalculatorRequest.newBuilder()
                                                       .setNumber1(1)
                                                       .setNumber2(2)
@@ -46,16 +52,21 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         log.info("result={}", result);
     }
 
-    private void hello() {
+    private static void hello() throws InterruptedException {
+        HelloServiceStub helloService = Clients.builder(URI)
+                                               .responseTimeoutMillis(10000)
+                                               .decorator(LoggingClient.newDecorator())
+                                               .build(HelloServiceStub.class);
+
         // Unary
         HelloRequest request1 = HelloRequest.newBuilder().setName("hirakida1").build();
         helloService.helloUnary(request1, new HelloStreamObserver());
-        sleep(1);
+        TimeUnit.SECONDS.sleep(1);
 
         // Server Streaming
         HelloRequest request2 = HelloRequest.newBuilder().setName("hirakida2").build();
         helloService.helloServerStreaming(request2, new HelloStreamObserver());
-        sleep(1);
+        TimeUnit.SECONDS.sleep(1);
 
         // Client Streaming
         StreamObserver<HelloRequest> requestStream1 =
@@ -67,7 +78,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         requestStream1.onNext(request3_2);
         requestStream1.onNext(request3_3);
         requestStream1.onCompleted();
-        sleep(1);
+        TimeUnit.SECONDS.sleep(1);
 
         // Bidirectional Streaming
         StreamObserver<HelloRequest> requestStream2 =
@@ -79,14 +90,6 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         requestStream2.onNext(request4_2);
         requestStream2.onNext(request4_3);
         requestStream2.onCompleted();
-        sleep(1);
-    }
-
-    private static void sleep(long timeout) {
-        try {
-            TimeUnit.SECONDS.sleep(timeout);
-        } catch (InterruptedException e) {
-            log.error("timeout", e);
-        }
+        TimeUnit.SECONDS.sleep(1);
     }
 }

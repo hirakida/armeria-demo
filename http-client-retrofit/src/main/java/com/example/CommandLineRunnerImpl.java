@@ -22,16 +22,12 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        GitHubService service = createService();
-        service.getUser("hirakida")
-               .whenComplete((user, e) -> {
-                   if (e == null) {
-                       log.info("{}", user);
-                   }
-               }).join();
+        GitHubService service = createGitHubService();
+        User user = service.getUser("hirakida").join();
+        log.info("{}", user);
     }
 
-    private static GitHubService createService() {
+    private static GitHubService createGitHubService() {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         Retrofit retrofit =
                 ArmeriaRetrofit.builder(BASE_URL)

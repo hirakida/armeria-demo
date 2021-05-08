@@ -17,7 +17,6 @@ import com.linecorp.armeria.spring.DocServiceConfigurator;
 
 @Configuration
 public class ArmeriaServerConfig {
-
     @Bean
     public ArmeriaServerConfigurator armeriaServerConfigurator(Calculator.AsyncIface calculatorService) {
         return server -> server.route()

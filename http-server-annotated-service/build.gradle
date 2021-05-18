@@ -4,6 +4,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.18'
     compileOnly 'org.projectlombok:lombok:1.18.18'
     implementation 'com.linecorp.armeria:armeria'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.4'
     runtimeOnly 'ch.qos.logback:logback-classic:1.2.3'
 }
 

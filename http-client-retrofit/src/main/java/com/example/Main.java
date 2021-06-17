@@ -2,8 +2,8 @@ package com.example;
 
 import java.time.Duration;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -11,31 +11,24 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.client.retrofit2.ArmeriaRetrofit;
 
-import lombok.extern.slf4j.Slf4j;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-@Component
-@Slf4j
-public class CommandLineRunnerImpl implements CommandLineRunner {
-    private static final String BASE_URL = "https://api.github.com";
+public class Main {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-    @Override
-    public void run(String... args) throws Exception {
-        GitHubService service = createGitHubService();
-        User user = service.getUser("hirakida").join();
-        log.info("{}", user);
-    }
-
-    private static GitHubService createGitHubService() {
+    public static void main(String[] args) {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         Retrofit retrofit =
-                ArmeriaRetrofit.builder(BASE_URL)
+                ArmeriaRetrofit.builder("https://api.github.com")
                                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                                .decorator(LoggingClient.newDecorator())
                                .responseTimeout(Duration.ofSeconds(10))
                                .writeTimeout(Duration.ofSeconds(10))
                                .build();
-        return retrofit.create(GitHubService.class);
+        GitHubService service = retrofit.create(GitHubService.class);
+
+        User user = service.getUser("hirakida").join();
+        LOGGER.info("{}", user);
     }
 }

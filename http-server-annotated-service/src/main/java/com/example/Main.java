@@ -16,8 +16,7 @@ public class Main {
 
     public static void main(String[] args) {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        JacksonResponseConverterFunction jacksonResponseConverter =
-                new JacksonResponseConverterFunction(objectMapper);
+        JacksonResponseConverterFunction responseConverter = new JacksonResponseConverterFunction(objectMapper);
 
         Server server = Server.builder()
                               .http(8080)
@@ -26,7 +25,7 @@ public class Main {
                               .annotatedService(new BinaryService())
                               .annotatedService(new BlockingService())
                               .annotatedService(new TextService())
-                              .annotatedService(new JsonService(), jacksonResponseConverter)
+                              .annotatedService(new JsonService(), responseConverter)
                               .build();
         server.start().join();
     }

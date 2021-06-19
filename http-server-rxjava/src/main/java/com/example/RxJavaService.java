@@ -6,7 +6,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.reactivestreams.Publisher;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.linecorp.armeria.common.sse.ServerSentEvent;
 import com.linecorp.armeria.server.ServiceRequestContext;
@@ -18,11 +19,10 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import lombok.extern.slf4j.Slf4j;
 
-@Component
-@Slf4j
 public class RxJavaService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RxJavaService.class);
+
     @Get("/single")
     @ProducesJson
     public Single<LocalDateTime> single() {
@@ -41,7 +41,7 @@ public class RxJavaService {
         return Flowable.range(1, 5)
                        .concatMap(i -> Flowable.fromCallable(LocalTime::now)
                                                .delay(100, TimeUnit.MILLISECONDS))
-                       .doOnNext(time -> log.info("{}", time));
+                       .doOnNext(time -> LOGGER.info("{}", time));
     }
 
     @Get("/sse")
@@ -51,7 +51,7 @@ public class RxJavaService {
         return Flowable.interval(100, TimeUnit.MILLISECONDS)
                        .take(5)
                        .observeOn(Schedulers.from(executor))
-                       .doOnNext(i -> log.info("{}", i))
+                       .doOnNext(i -> LOGGER.info("{}", i))
                        .scan(Long::sum)
                        .map(data -> ServerSentEvent.ofData(data.toString()));
     }

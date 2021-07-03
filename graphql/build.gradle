@@ -1,0 +1,9 @@
+apply plugin: 'application'
+
+dependencies {
+    implementation 'com.linecorp.armeria:armeria'
+    implementation 'com.linecorp.armeria:armeria-logback'
+    implementation 'com.linecorp.armeria:armeria-graphql'
+}
+
+mainClassName = 'com.example.Main'

@@ -1,9 +1,9 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.2' apply false
+    id 'org.springframework.boot' version '2.5.4' apply false
     id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
-    id 'org.jetbrains.kotlin.jvm' version '1.5.20' apply false
-    id 'org.jetbrains.kotlin.plugin.spring' version '1.5.20' apply false
-    id 'com.google.protobuf' version '0.8.16' apply false
+    id 'org.jetbrains.kotlin.jvm' version '1.5.30' apply false
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.5.30' apply false
+    id 'com.google.protobuf' version '0.8.17' apply false
     id 'org.jruyi.thrift' version '0.4.2' apply false
 }
 
@@ -29,9 +29,9 @@ subprojects {
     }
 
     dependencies {
-        implementation platform('com.linecorp.armeria:armeria-bom:1.9.2')
-        implementation platform('com.fasterxml.jackson:jackson-bom:2.12.3')
-//        implementation platform('io.netty:netty-bom:4.1.65.Final')
+        implementation platform('com.linecorp.armeria:armeria-bom:1.11.0')
+        implementation platform('com.fasterxml.jackson:jackson-bom:2.12.4')
+//        implementation platform('io.netty:netty-bom:4.1.66.Final')
         implementation 'org.jetbrains:annotations:20.1.0'
     }
 

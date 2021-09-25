@@ -11,6 +11,7 @@ import com.linecorp.armeria.server.docs.DocService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
 import com.linecorp.armeria.server.streaming.JsonLines;
+import com.linecorp.armeria.server.streaming.JsonTextSequences;
 
 public class Main {
 
@@ -33,6 +34,8 @@ public class Main {
                                        })
                               .service("/json_lines",
                                        (ctx, req) -> JsonLines.fromObject(Map.of("message", "Hello!")))
+                              .service("/json_text_sequences",
+                                       (ctx, req) -> JsonTextSequences.fromObject(Map.of("message", "Hello!")))
                               .build();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> server.stop().join()));

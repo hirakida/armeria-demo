@@ -1,8 +1,5 @@
 package com.example.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import com.example.Hello.HelloRequest;
@@ -56,61 +53,5 @@ public class HelloService extends HelloServiceImplBase {
     public StreamObserver<HelloRequest> helloBidirectionalStreaming(
             StreamObserver<HelloResponse> responseObserver) {
         return new BidirectionalStreamObserver(responseObserver);
-    }
-
-    private static class ClientStreamObserver implements StreamObserver<HelloRequest> {
-        private final List<String> names = new ArrayList<>();
-        private final StreamObserver<HelloResponse> responseObserver;
-
-        ClientStreamObserver(StreamObserver<HelloResponse> responseObserver) {
-            this.responseObserver = responseObserver;
-        }
-
-        @Override
-        public void onNext(HelloRequest request) {
-            log.info("onNext: {}", request.getName());
-            names.add(request.getName());
-        }
-
-        @Override
-        public void onError(Throwable t) {
-            log.error("onError: {}", t.getMessage(), t);
-        }
-
-        @Override
-        public void onCompleted() {
-            HelloResponse response = HelloResponse.newBuilder()
-                                                  .setMessage("Hello " + names)
-                                                  .build();
-            responseObserver.onNext(response);
-            responseObserver.onCompleted();
-        }
-    }
-
-    private static class BidirectionalStreamObserver implements StreamObserver<HelloRequest> {
-        private final StreamObserver<HelloResponse> responseObserver;
-
-        BidirectionalStreamObserver(StreamObserver<HelloResponse> responseObserver) {
-            this.responseObserver = responseObserver;
-        }
-
-        @Override
-        public void onNext(HelloRequest request) {
-            log.info("onNext: {}", request.getName());
-            HelloResponse response = HelloResponse.newBuilder()
-                                                  .setMessage("Hello " + request.getName())
-                                                  .build();
-            responseObserver.onNext(response);
-        }
-
-        @Override
-        public void onError(Throwable t) {
-            log.error("onError: {}", t.getMessage(), t);
-        }
-
-        @Override
-        public void onCompleted() {
-            responseObserver.onCompleted();
-        }
     }
 }

@@ -24,7 +24,6 @@ subprojects {
         dependencies {
             dependency 'com.squareup.retrofit2:converter-jackson:2.9.0'
             dependency 'org.apache.thrift:libthrift:0.13.0'
-            dependency 'javax.annotation:javax.annotation-api:1.3.2'
         }
     }
 

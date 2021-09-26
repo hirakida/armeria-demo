@@ -10,7 +10,6 @@ import com.example.interceptor.ServerInterceptorImpl;
 import com.example.service.CalculatorService;
 import com.example.service.HelloService;
 
-import com.linecorp.armeria.common.grpc.GrpcSerializationFormats;
 import com.linecorp.armeria.server.docs.DocServiceFilter;
 import com.linecorp.armeria.server.grpc.GrpcService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
@@ -32,7 +31,6 @@ public class ArmeriaServerConfig {
                                              .addService(ServerInterceptors.intercept(helloService,
                                                                                       new ServerInterceptorImpl()))
                                              .addService(ProtoReflectionService.newInstance())
-                                             .supportedSerializationFormats(GrpcSerializationFormats.values())
                                              .enableUnframedRequests(true)
                                              .build();
         return builder -> builder.service(grpcService)

@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class CommandLineRunnerImpl implements CommandLineRunner {
-    private static final String URI = "gproto+http://127.0.0.1:8080/";
+    private static final String BASE_URI = "http://127.0.0.1:8080/";
 
     @Override
     public void run(String... args) throws Exception {
@@ -29,48 +29,52 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     }
 
     private static void calculator() {
-        CalculatorServiceBlockingStub calculatorService =
-                Clients.builder(URI)
-                       .responseTimeoutMillis(10000)
-                       .decorator(LoggingClient.newDecorator())
-                       .build(CalculatorServiceBlockingStub.class);
-
+        CalculatorServiceBlockingStub client1 = Clients.builder("gproto+" + BASE_URI)
+                                                       .responseTimeoutMillis(10000)
+                                                       .decorator(LoggingClient.newDecorator())
+                                                       .build(CalculatorServiceBlockingStub.class);
         CalculatorRequest request1 = CalculatorRequest.newBuilder()
                                                       .setNumber1(1)
                                                       .setNumber2(2)
                                                       .setOperation(OperationType.ADD)
                                                       .build();
-        double result = calculatorService.calculate(request1).getResult();
+        double result = client1.calculate(request1).getResult();
         log.info("result={}", result);
 
+        CalculatorServiceBlockingStub client2 = Clients.builder("gjson+" + BASE_URI)
+                                                       .decorator(LoggingClient.newDecorator())
+                                                       .build(CalculatorServiceBlockingStub.class);
         CalculatorRequest request2 = CalculatorRequest.newBuilder()
                                                       .setNumber1(2)
                                                       .setNumber2(3)
                                                       .setOperation(OperationType.MULTIPLY)
                                                       .build();
-        result = calculatorService.calculate(request2).getResult();
+        result = client2.calculate(request2).getResult();
         log.info("result={}", result);
     }
 
     private static void hello() throws InterruptedException {
-        HelloServiceStub helloService = Clients.builder(URI)
-                                               .responseTimeoutMillis(10000)
-                                               .decorator(LoggingClient.newDecorator())
-                                               .build(HelloServiceStub.class);
+        HelloServiceStub client1 = Clients.builder("gproto+" + BASE_URI)
+                                          .decorator(LoggingClient.newDecorator())
+                                          .build(HelloServiceStub.class);
+        HelloServiceStub client2 = Clients.builder("gjson+" + BASE_URI)
+                                          .decorator(LoggingClient.newDecorator())
+                                          .build(HelloServiceStub.class);
 
         // Unary
         HelloRequest request1 = HelloRequest.newBuilder().setName("hirakida1").build();
-        helloService.helloUnary(request1, new HelloStreamObserver());
+        client1.helloUnary(request1, new HelloStreamObserver());
+        client2.helloUnary(request1, new HelloStreamObserver());
         TimeUnit.SECONDS.sleep(1);
 
         // Server Streaming
         HelloRequest request2 = HelloRequest.newBuilder().setName("hirakida2").build();
-        helloService.helloServerStreaming(request2, new HelloStreamObserver());
+        client1.helloServerStreaming(request2, new HelloStreamObserver());
         TimeUnit.SECONDS.sleep(1);
 
         // Client Streaming
         StreamObserver<HelloRequest> requestStream1 =
-                helloService.helloClientStreaming(new HelloStreamObserver());
+                client1.helloClientStreaming(new HelloStreamObserver());
         HelloRequest request3_1 = HelloRequest.newBuilder().setName("hirakida3-1").build();
         HelloRequest request3_2 = HelloRequest.newBuilder().setName("hirakida3-2").build();
         HelloRequest request3_3 = HelloRequest.newBuilder().setName("hirakida3-3").build();
@@ -82,7 +86,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
         // Bidirectional Streaming
         StreamObserver<HelloRequest> requestStream2 =
-                helloService.helloBidirectionalStreaming(new HelloStreamObserver());
+                client1.helloBidirectionalStreaming(new HelloStreamObserver());
         HelloRequest request4_1 = HelloRequest.newBuilder().setName("hirakida4-1").build();
         HelloRequest request4_2 = HelloRequest.newBuilder().setName("hirakida4-2").build();
         HelloRequest request4_3 = HelloRequest.newBuilder().setName("hirakida4-3").build();

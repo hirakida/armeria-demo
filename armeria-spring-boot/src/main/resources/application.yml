@@ -1,0 +1,10 @@
+spring:
+  main:
+    web-application-type: none
+  output:
+    ansi:
+      enabled: always
+armeria:
+  internal-services:
+    port: 8081
+    include: docs, health

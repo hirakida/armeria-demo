@@ -14,19 +14,21 @@ import com.linecorp.armeria.common.logging.LogLevel;
 
 @Configuration
 public class ArmeriaClientConfig {
+    private static final String BASE_URL = "http://127.0.0.1:8080";
+
     @Bean
-    public Calculator.Iface calculatorClient() {
-        return Clients.builder("tbinary+http://127.0.0.1:8080/calculator")
+    public Calculator.AsyncIface calculatorClient() {
+        return Clients.builder("tbinary+" + BASE_URL + "/calculator")
                       .responseTimeout(Duration.ofSeconds(10))
                       .rpcDecorator(LoggingRpcClient.builder()
                                                     .requestLogLevel(LogLevel.INFO)
                                                     .successfulResponseLogLevel(LogLevel.INFO)
                                                     .newDecorator())
-                      .build(Calculator.Iface.class);
+                      .build(Calculator.AsyncIface.class);
     }
 
     public static Hello.Iface buildHelloClient(String format) {
-        return Clients.builder(format + "+http://127.0.0.1:8080/hello")
+        return Clients.builder(String.format("%s+%s/hello", format, BASE_URL))
                       .responseTimeout(Duration.ofSeconds(10))
                       .rpcDecorator(LoggingRpcClient.builder()
                                                     .requestLogLevel(LogLevel.INFO)

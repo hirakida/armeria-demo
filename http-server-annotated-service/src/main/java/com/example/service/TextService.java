@@ -19,8 +19,7 @@ public class TextService {
 
     @Get("/hello1")
     @Description("Hello1")
-    public String hello1(ServiceRequestContext ctx) {
-        log.info("{}", ctx.request());
+    public String hello1() {
         return "Hello!";
     }
 

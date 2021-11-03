@@ -1,5 +1,5 @@
 subprojects {
     dependencies {
-        implementation 'com.linecorp.armeria:armeria-thrift0.13'
+        implementation 'com.linecorp.armeria:armeria-thrift0.15'
     }
 }

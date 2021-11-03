@@ -2,11 +2,14 @@ package com.example;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.Min;
+
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import com.linecorp.armeria.server.annotation.Get;
+import com.linecorp.armeria.server.annotation.Param;
 import com.linecorp.armeria.server.annotation.Post;
 import com.linecorp.armeria.server.annotation.ProducesJson;
 import com.linecorp.armeria.server.annotation.RequestObject;
@@ -19,8 +22,14 @@ import lombok.Value;
 public class HelloService {
     @Get("/")
     @ProducesJson
-    public HelloResponse hello() {
-        return new HelloResponse("Hello!", LocalDateTime.now());
+    public HelloResponse hello(@Param String name) {
+        return new HelloResponse(String.format("Hello, %s!", name), LocalDateTime.now());
+    }
+
+    @Get("/")
+    @ProducesJson
+    public HelloResponse hello(@Param @Min(1) int size) {
+        return new HelloResponse(String.format("Hello, %d!", size), LocalDateTime.now());
     }
 
     @Post("/")

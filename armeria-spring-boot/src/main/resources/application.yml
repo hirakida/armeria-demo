@@ -7,4 +7,4 @@ spring:
 armeria:
   internal-services:
     port: 8081
-    include: docs, health
+    include: docs, health, metrics

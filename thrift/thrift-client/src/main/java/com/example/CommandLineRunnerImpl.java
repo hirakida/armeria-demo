@@ -2,7 +2,7 @@ package com.example;
 
 import static com.example.ArmeriaClientConfig.buildHelloClient;
 
-import org.apache.thrift.TException;
+import org.apache.thrift.async.AsyncMethodCallback;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -19,23 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class CommandLineRunnerImpl implements CommandLineRunner {
-    private final Calculator.Iface calculatorClient;
+    private final Calculator.AsyncIface calculatorClient;
 
     @Override
     public void run(String... args) throws Exception {
-        calculator();
-        hello();
-    }
+        AsyncMethodCallback<Integer> resultHandler = new AsyncMethodCallbackImpl();
+        calculatorClient.add(1, 2, resultHandler);
+        calculatorClient.calculate(1, new Work(5, 3, Operation.SUBTRACT), resultHandler);
 
-    private void calculator() throws TException {
-        int result = calculatorClient.add(1, 2);
-        log.info("{}", result);
-
-        result = calculatorClient.calculate(1, new Work(5, 3, Operation.SUBTRACT));
-        log.info("{}", result);
-    }
-
-    private static void hello() throws TException {
         Hello.Iface client1 = buildHelloClient("tbinary");
         log.info("{}", client1.hello1("tbinary"));
         log.info("{}", client1.hello2(new HelloRequest("hirakida")));
@@ -48,5 +39,17 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
         Hello.Iface client4 = buildHelloClient("ttext");
         log.info("{}", client4.hello1("ttext"));
+    }
+
+    private static class AsyncMethodCallbackImpl implements AsyncMethodCallback<Integer> {
+        @Override
+        public void onComplete(Integer response) {
+            log.info("{}", response);
+        }
+
+        @Override
+        public void onError(Exception e) {
+            log.error("{}", e.getMessage(), e);
+        }
     }
 }

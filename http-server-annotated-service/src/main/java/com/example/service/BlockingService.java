@@ -7,14 +7,16 @@ import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.server.ServiceRequestContext;
 import com.linecorp.armeria.server.annotation.Blocking;
 import com.linecorp.armeria.server.annotation.Get;
+import com.linecorp.armeria.server.annotation.PathPrefix;
 
 import lombok.extern.slf4j.Slf4j;
 
+@PathPrefix("/blocking")
 @Slf4j
 public class BlockingService {
 
     @Blocking
-    @Get("/blocking1")
+    @Get("/1")
     public String blocking1(ServiceRequestContext ctx) {
         log.info("inEventLoop={}", ctx.eventLoop().inEventLoop());
         sleep(1);
@@ -22,7 +24,7 @@ public class BlockingService {
         return "Hello!";
     }
 
-    @Get("/blocking2")
+    @Get("/2")
     public HttpResponse blocking2(ServiceRequestContext ctx) {
         log.info("inEventLoop={}", ctx.eventLoop().inEventLoop());
 
@@ -38,6 +40,6 @@ public class BlockingService {
     private static void sleep(long timeout) {
         try {
             TimeUnit.SECONDS.sleep(timeout);
-        } catch (InterruptedException ignored) { }
+        } catch (InterruptedException ignored) {}
     }
 }

@@ -20,13 +20,13 @@ import lombok.Value;
 @Component
 @Validated
 public class HelloService {
-    @Get("/")
+    @Get("/hello1")
     @ProducesJson
     public HelloResponse hello(@Param String name) {
         return new HelloResponse(String.format("Hello, %s!", name), LocalDateTime.now());
     }
 
-    @Get("/")
+    @Get("/hello2")
     @ProducesJson
     public HelloResponse hello(@Param @Min(1) int size) {
         return new HelloResponse(String.format("Hello, %d!", size), LocalDateTime.now());

@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.decorator;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -11,7 +11,9 @@ import com.linecorp.armeria.server.ServiceRequestContext;
 import com.linecorp.armeria.server.SimpleDecoratingHttpService;
 
 import io.netty.util.AttributeKey;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class DateTimeDecoratingService extends SimpleDecoratingHttpService {
     public static final AttributeKey<LocalDateTime> ATTRIBUTE_KEY =
             AttributeKey.valueOf(LocalDateTime.class, "DATETIME_ATTR");
@@ -30,7 +32,9 @@ public class DateTimeDecoratingService extends SimpleDecoratingHttpService {
 
     @Override
     public HttpResponse serve(ServiceRequestContext ctx, HttpRequest req) throws Exception {
-        ctx.setAttr(ATTRIBUTE_KEY, LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now();
+        log.info("{}", now);
+        ctx.setAttr(ATTRIBUTE_KEY, now);
         return unwrap().serve(ctx, req);
     }
 }

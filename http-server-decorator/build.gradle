@@ -1,0 +1,10 @@
+apply plugin: 'application'
+
+dependencies {
+    annotationProcessor 'org.projectlombok:lombok:1.18.18'
+    compileOnly 'org.projectlombok:lombok:1.18.18'
+    implementation 'com.linecorp.armeria:armeria'
+    implementation 'com.linecorp.armeria:armeria-logback'
+}
+
+mainClassName = 'com.example.Main'

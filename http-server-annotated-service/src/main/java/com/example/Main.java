@@ -2,8 +2,6 @@ package com.example;
 
 import com.example.service.BinaryService;
 import com.example.service.BlockingService;
-import com.example.service.CustomDecoratingService;
-import com.example.service.DateTimeDecoratingService;
 import com.example.service.JsonService;
 import com.example.service.TextService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,8 +28,6 @@ public class Main {
                               .annotatedService(new BlockingService())
                               .annotatedService(new TextService())
                               .annotatedService(new JsonService(), responseConverter)
-                              .annotatedService(new CustomDecoratingService(),
-                                                DateTimeDecoratingService.newDecorator())
                               .build();
         server.start().join();
     }

@@ -1,14 +1,15 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-apply(plugin = "org.springframework.boot")
-apply(plugin = "org.jetbrains.kotlin.jvm")
-apply(plugin = "org.jetbrains.kotlin.plugin.spring")
+plugins {
+    kotlin("jvm")
+    application
+}
 
 dependencies {
-    implementation("com.linecorp.armeria:armeria-spring-boot2-starter")
+    implementation(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.5.2"))
     implementation("com.linecorp.armeria:armeria-kotlin")
+    implementation("com.linecorp.armeria:armeria-logback")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.withType<KotlinCompile> {
@@ -16,4 +17,8 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"
     }
+}
+
+application {
+    mainClass.set("com.example.Main")
 }

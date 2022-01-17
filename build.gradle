@@ -24,6 +24,7 @@ subprojects {
         dependencies {
             dependency 'com.squareup.retrofit2:converter-jackson:2.9.0'
             dependency 'org.apache.thrift:libthrift:0.15.0'
+            dependency 'org.projectlombok:lombok:1.18.22'
         }
     }
 

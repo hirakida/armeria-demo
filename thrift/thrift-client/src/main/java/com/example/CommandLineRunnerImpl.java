@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.hello.Hello;
 import com.example.hello.HelloRequest;
+import com.example.hello.HelloResponse;
 import com.example.thrift.Calculator;
 import com.example.thrift.Operation;
 import com.example.thrift.Work;
@@ -28,8 +29,10 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         calculatorClient.calculate(1, new Work(5, 3, Operation.SUBTRACT), resultHandler);
 
         Hello.Iface client1 = buildHelloClient("tbinary");
-        log.info("{}", client1.hello1("tbinary"));
-        log.info("{}", client1.hello2(new HelloRequest("hirakida")));
+        String response1 = client1.hello1("tbinary");
+        log.info("{}", response1);
+        HelloResponse response2 = client1.hello2(new HelloRequest("hirakida"));
+        log.info("{}", response2);
 
         Hello.Iface client2 = buildHelloClient("tcompact");
         log.info("{}", client2.hello1("tcompact"));

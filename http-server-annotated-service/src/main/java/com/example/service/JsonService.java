@@ -18,8 +18,12 @@ import com.linecorp.armeria.server.annotation.Default;
 import com.linecorp.armeria.server.annotation.ExceptionHandler;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.Param;
+import com.linecorp.armeria.server.annotation.Post;
 import com.linecorp.armeria.server.annotation.ProducesJson;
 import com.linecorp.armeria.server.annotation.ProducesJsonSequences;
+import com.linecorp.armeria.server.annotation.RequestObject;
+
+import lombok.Value;
 
 @ExceptionHandler(ExceptionHandlerImpl.class)
 public class JsonService {
@@ -57,5 +61,28 @@ public class JsonService {
     @ProducesJsonSequences
     public Stream<Locale> jsonSequences() {
         return Stream.of(Locale.getAvailableLocales());
+    }
+
+    @Get("/json_data")
+    @ProducesJson
+    public JsonResponse getJson() {
+        return new JsonResponse("Hello!", LocalDateTime.now());
+    }
+
+    @Post("/json_data")
+    @ProducesJson
+    public JsonResponse postJson(@RequestObject JsonRequest request) {
+        return new JsonResponse(request.getMessage(), LocalDateTime.now());
+    }
+
+    @Value
+    public static class JsonRequest {
+        String message;
+    }
+
+    @Value
+    public static class JsonResponse {
+        String message;
+        LocalDateTime dateTime;
     }
 }

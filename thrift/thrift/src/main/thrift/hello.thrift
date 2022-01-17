@@ -5,7 +5,7 @@ struct HelloRequest {
 }
 
 struct HelloResponse {
-  1: string message,
+  1: list<string> messages,
   2: optional i64 datetime,
 }
 

@@ -5,7 +5,7 @@ import java.time.Duration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.hello.Hello;
+import com.example.hello.HelloService;
 import com.example.thrift.Calculator;
 
 import com.linecorp.armeria.client.Clients;
@@ -27,13 +27,13 @@ public class ArmeriaClientConfig {
                       .build(Calculator.AsyncIface.class);
     }
 
-    public static Hello.Iface buildHelloClient(String format) {
+    public static HelloService.Iface buildHelloClient(String format) {
         return Clients.builder(String.format("%s+%s/hello", format, BASE_URL))
                       .responseTimeout(Duration.ofSeconds(10))
                       .rpcDecorator(LoggingRpcClient.builder()
                                                     .requestLogLevel(LogLevel.INFO)
                                                     .successfulResponseLogLevel(LogLevel.INFO)
                                                     .newDecorator())
-                      .build(Hello.Iface.class);
+                      .build(HelloService.Iface.class);
     }
 }

@@ -8,7 +8,7 @@ import com.example.thrift.InvalidOperation;
 import com.example.thrift.Work;
 
 @Component
-public class CalculatorHandler implements Calculator.AsyncIface {
+public class CalculatorImpl implements Calculator.AsyncIface {
     @Override
     public void add(int n1, int n2, AsyncMethodCallback<Integer> resultHandler) {
         resultHandler.onComplete(n1 + n2);

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.hello.Hello;
+import com.example.hello.HelloService;
 import com.example.thrift.Calculator;
 import com.example.thrift.Operation;
 import com.example.thrift.Work;
@@ -20,17 +20,17 @@ import com.linecorp.armeria.spring.DocServiceConfigurator;
 @Configuration
 public class ArmeriaServerConfig {
     @Bean
-    public ArmeriaServerConfigurator calculatorConfigurator(Calculator.AsyncIface calculatorService) {
+    public ArmeriaServerConfigurator calculatorConfigurator(Calculator.AsyncIface calculator) {
         return server -> server.route()
                                .path("/calculator")
                                .defaultServiceName("Calculator")
                                .decorator(LoggingService.newDecorator())
                                .accessLogWriter(AccessLogWriter.combined(), false)
-                               .build(THttpService.of(calculatorService));
+                               .build(THttpService.of(calculator));
     }
 
     @Bean
-    public ArmeriaServerConfigurator helloConfigurator(Hello.AsyncIface helloService) {
+    public ArmeriaServerConfigurator helloConfigurator(HelloService.AsyncIface helloService) {
         return server -> server.route()
                                .path("/hello")
                                .defaultServiceName("Hello")
@@ -45,8 +45,8 @@ public class ArmeriaServerConfig {
 
     @Bean
     public DocServiceConfigurator docServiceConfigurator() {
-        List<?> requests = List.of(new Calculator.add_args(1, 2),
-                                   new Calculator.calculate_args(1, new Work(5, 3, Operation.SUBTRACT)));
+        final List<?> requests = List.of(new Calculator.add_args(1, 2),
+                                         new Calculator.calculate_args(1, new Work(5, 3, Operation.SUBTRACT)));
         return builder -> builder.exampleRequests(requests);
     }
 }

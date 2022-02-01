@@ -6,4 +6,5 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.linecorp.armeria:armeria-junit5'
 }

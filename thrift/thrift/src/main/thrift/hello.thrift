@@ -9,7 +9,7 @@ struct HelloResponse {
   2: optional i64 datetime,
 }
 
-service Hello {
+service HelloService {
    string hello1(1:string name)
    HelloResponse hello2(1:HelloRequest request)
 }

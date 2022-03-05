@@ -6,7 +6,7 @@ dependencies {
     implementation 'com.linecorp.armeria:armeria'
     implementation 'com.linecorp.armeria:armeria-retrofit2'
     implementation 'com.linecorp.armeria:armeria-logback'
-    implementation 'com.squareup.retrofit2:converter-jackson'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
 

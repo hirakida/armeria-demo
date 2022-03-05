@@ -1,3 +1,10 @@
+pluginManagement {
+    plugins {
+        id 'org.jetbrains.kotlin.jvm' version "$kotlinVersion"
+        id 'org.jetbrains.kotlin.plugin.spring' version "$kotlinVersion"
+    }
+}
+
 rootProject.name = 'armeria-demo'
 
 include ':circuit-breaker:backend-server',

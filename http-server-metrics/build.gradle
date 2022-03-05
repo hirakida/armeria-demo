@@ -3,7 +3,7 @@ apply plugin: 'application'
 dependencies {
     implementation 'com.linecorp.armeria:armeria'
     implementation 'com.linecorp.armeria:armeria-logback'
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.7.5'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.8.2'
 }
 
 mainClassName = 'com.example.Main'

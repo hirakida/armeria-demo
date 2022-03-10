@@ -1,8 +1,9 @@
 package com.example;
 
+import static com.example.decorator.DateTimeDecorator.DATETIME_ATTR;
+
 import com.example.decorator.Class1Decorator;
 import com.example.decorator.Class2Decorator;
-import com.example.decorator.DateTimeDecoratingService;
 import com.example.decorator.MethodDecorator;
 
 import com.linecorp.armeria.server.ServiceRequestContext;
@@ -19,7 +20,8 @@ public class HelloService {
     @Get("/hello")
     @Decorator(MethodDecorator.class)
     public String hello(ServiceRequestContext ctx) {
-        log.info("{}", DateTimeDecoratingService.getDateTime(ctx));
+        log.info("DATETIME_ATTR={}", ctx.attr(DATETIME_ATTR));
+        ctx.attrs().forEachRemaining(attr -> log.info("attr={}", attr));
         return "Hello!";
     }
 }

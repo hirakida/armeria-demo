@@ -11,7 +11,8 @@ public class Main {
                               .http(8080)
                               .decorator(LoggingService.newDecorator())
                               .accessLogWriter(AccessLogWriter.combined(), false)
-                              .annotatedService(new RxJavaService())
+                              .annotatedService(new JsonService())
+                              .annotatedService(new EventStreamService())
                               .build();
         server.start().join();
     }

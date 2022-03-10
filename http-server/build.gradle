@@ -3,6 +3,8 @@ apply plugin: 'application'
 dependencies {
     implementation 'com.linecorp.armeria:armeria'
     implementation 'com.linecorp.armeria:armeria-logback'
+    testImplementation 'com.linecorp.armeria:armeria-junit5'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine'
 }
 
 mainClassName = 'com.example.Main'

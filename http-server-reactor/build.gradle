@@ -4,6 +4,7 @@ dependencies {
     implementation 'com.linecorp.armeria:armeria'
     implementation 'com.linecorp.armeria:armeria-logback'
     implementation 'com.linecorp.armeria:armeria-reactor3'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
 
 mainClassName = 'com.example.Main'

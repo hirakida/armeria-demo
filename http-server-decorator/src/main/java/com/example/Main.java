@@ -1,6 +1,6 @@
 package com.example;
 
-import com.example.decorator.DateTimeDecoratingService;
+import com.example.decorator.DateTimeDecorator;
 import com.example.decorator.HelloDecorator;
 
 import com.linecorp.armeria.server.Server;
@@ -17,7 +17,7 @@ public class Main {
                               .accessLogWriter(AccessLogWriter.combined(), false)
                               .serviceUnder("/docs", new DocService())
                               .annotatedService()
-                              .decorator(DateTimeDecoratingService::new)
+                              .decorator(DateTimeDecorator::new)
                               .decorator(service -> service.decorate(new HelloDecorator("Hello5")))
                               .decorator(service -> service.decorate(new HelloDecorator("Hello4")))
                               .build(new HelloService())

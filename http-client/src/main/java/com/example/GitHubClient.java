@@ -1,9 +1,14 @@
 package com.example;
 
+import static com.example.decorator.AttributeKeys.USERNAME_ATTR;
+
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 
+import com.example.decorator.DateTimeDecorator;
+import com.example.decorator.LoggingDecorator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -22,8 +27,22 @@ public class GitHubClient {
         webClient = createClient();
     }
 
-    public User getUser(String username) {
-        final AggregatedHttpResponse response = webClient.get("/users/" + username).aggregate().join();
+    public CompletableFuture<User> getUser(String username) {
+        return webClient.get("/users/" + username)
+                        .aggregate()
+                        .thenApply(GitHubClient::toUser);
+    }
+
+    public CompletableFuture<User> getUser2(String username) {
+        return webClient.prepare()
+                        .get("/users/" + username)
+                        .attr(USERNAME_ATTR, username)
+                        .execute()
+                        .aggregate()
+                        .thenApply(GitHubClient::toUser);
+    }
+
+    private static User toUser(AggregatedHttpResponse response) {
         try {
             return OBJECT_MAPPER.readValue(response.content().toReaderUtf8(), User.class);
         } catch (IOException e) {
@@ -38,6 +57,8 @@ public class GitHubClient {
                                                    .connectionPoolListener(ConnectionPoolListener.logging())
                                                    .build();
         return WebClient.builder("https://api.github.com")
+                        .decorator(LoggingDecorator::new)
+                        .decorator(DateTimeDecorator::new)
                         .decorator(LoggingClient.builder()
                                                 .requestLogLevel(LogLevel.INFO)
                                                 .successfulResponseLogLevel(LogLevel.INFO)

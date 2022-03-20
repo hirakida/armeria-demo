@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Class1Decorator implements DecoratingHttpServiceFunction {
-
     @Override
     public HttpResponse serve(HttpService delegate, ServiceRequestContext ctx, HttpRequest req)
             throws Exception {

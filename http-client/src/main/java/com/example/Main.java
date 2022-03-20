@@ -1,14 +1,19 @@
 package com.example;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.concurrent.TimeUnit;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Main {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) {
-        GitHubClient client = new GitHubClient();
-        User user = client.getUser("hirakida");
-        LOGGER.info("{}", user);
+    public static void main(String[] args) throws Exception {
+        final GitHubClient client = new GitHubClient();
+        client.getUser("hirakida")
+              .thenAccept(user -> log.info("{}", user));
+        client.getUser2("hirakida")
+              .thenAccept(user -> log.info("{}", user));
+
+        TimeUnit.SECONDS.sleep(3);
     }
 }

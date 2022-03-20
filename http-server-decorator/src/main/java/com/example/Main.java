@@ -18,14 +18,16 @@ public class Main {
                               .serviceUnder("/docs", new DocService())
                               .annotatedService()
                               .decorator(DateTimeDecorator::new)
-                              .decorator(service -> service.decorate(new HelloDecorator("Hello5")))
-                              .decorator(service -> service.decorate(new HelloDecorator("Hello4")))
+                              .decorator(delegate -> new HelloDecorator(delegate, "Hello5"))
+                              .decorator(delegate -> new HelloDecorator(delegate, "Hello4"))
                               .build(new HelloService())
-                              .decorator(new HelloDecorator("Hello3"))
-                              .decorator(new HelloDecorator("Hello2"))
-                              .decorator(new HelloDecorator("Hello1"))
-                              .decorator("/hello", new HelloDecorator("router decorator2"))
-                              .decorator("/hello", new HelloDecorator("router decorator1"))
+                              .decorator(delegate -> new HelloDecorator(delegate, "Hello3"))
+                              .decorator(delegate -> new HelloDecorator(delegate, "Hello2"))
+                              .decorator(delegate -> new HelloDecorator(delegate, "Hello1"))
+                              .decorator("/hello",
+                                         delegate -> new HelloDecorator(delegate, "router decorator2"))
+                              .decorator("/hello",
+                                         delegate -> new HelloDecorator(delegate, "router decorator1"))
                               .build();
         server.start().join();
     }

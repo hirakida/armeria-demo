@@ -2,22 +2,25 @@ package com.example.decorator;
 
 import com.linecorp.armeria.common.HttpRequest;
 import com.linecorp.armeria.common.HttpResponse;
-import com.linecorp.armeria.server.DecoratingHttpServiceFunction;
 import com.linecorp.armeria.server.HttpService;
 import com.linecorp.armeria.server.ServiceRequestContext;
+import com.linecorp.armeria.server.SimpleDecoratingHttpService;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor
-public class HelloDecorator implements DecoratingHttpServiceFunction {
+public class HelloDecorator extends SimpleDecoratingHttpService {
     private final String message;
 
+    public HelloDecorator(HttpService delegate, String message) {
+        super(delegate);
+        this.message = message;
+    }
+
     @Override
-    public HttpResponse serve(HttpService delegate, ServiceRequestContext ctx, HttpRequest req)
+    public HttpResponse serve(ServiceRequestContext ctx, HttpRequest req)
             throws Exception {
         log.info(message);
-        return delegate.serve(ctx, req);
+        return unwrap().serve(ctx, req);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.decorator;
 
 import java.time.LocalDateTime;
-import java.util.function.Function;
 
 import com.linecorp.armeria.common.HttpRequest;
 import com.linecorp.armeria.common.HttpResponse;
@@ -19,10 +18,6 @@ public class DateTimeDecorator extends SimpleDecoratingHttpService {
 
     public DateTimeDecorator(HttpService delegate) {
         super(delegate);
-    }
-
-    public static Function<? super HttpService, DateTimeDecorator> newDecorator() {
-        return service -> service.decorate(DateTimeDecorator::new);
     }
 
     @Override

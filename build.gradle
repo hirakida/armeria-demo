@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.4' apply false
+    id 'org.springframework.boot' version '2.6.5' apply false
     id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
     id 'com.google.protobuf' version '0.8.18' apply false
     id 'org.jruyi.thrift' version '0.4.2' apply false
@@ -26,8 +26,8 @@ subprojects {
     }
 
     dependencies {
-        implementation platform('com.linecorp.armeria:armeria-bom:1.14.1')
-//        implementation platform('io.netty:netty-bom:4.1.73.Final')
+        implementation platform('com.linecorp.armeria:armeria-bom:1.15.0')
+//        implementation platform('io.netty:netty-bom:4.1.75.Final')
         implementation 'org.jetbrains:annotations:20.1.0'
     }
 

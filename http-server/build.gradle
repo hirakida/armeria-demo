@@ -7,4 +7,6 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-engine'
 }
 
-mainClassName = 'com.example.Main'
+application {
+    mainClass = 'com.example.Main'
+}

@@ -7,4 +7,6 @@ dependencies {
     implementation 'com.linecorp.armeria:armeria-logback'
 }
 
-mainClassName = 'com.example.Main'
+application {
+    mainClass = 'com.example.Main'
+}

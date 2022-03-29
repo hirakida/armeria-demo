@@ -6,4 +6,6 @@ dependencies {
     implementation 'com.linecorp.armeria:armeria-graphql'
 }
 
-mainClassName = 'com.example.Main'
+application {
+    mainClass = 'com.example.Main'
+}

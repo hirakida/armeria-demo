@@ -2,6 +2,7 @@ package com.example;
 
 import com.example.service.BinaryService;
 import com.example.service.BlockingService;
+import com.example.service.FutureService;
 import com.example.service.JsonService;
 import com.example.service.TextService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,22 +14,24 @@ import com.linecorp.armeria.server.docs.DocService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
 
-public class Main {
+public final class Main {
 
     public static void main(String[] args) {
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        JacksonResponseConverterFunction responseConverter = new JacksonResponseConverterFunction(objectMapper);
+        final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        final JacksonResponseConverterFunction responseConverter =
+                new JacksonResponseConverterFunction(objectMapper);
 
-        Server server = Server.builder()
-                              .http(8080)
-                              .decorator(LoggingService.newDecorator())
-                              .accessLogWriter(AccessLogWriter.combined(), false)
-                              .serviceUnder("/docs", new DocService())
-                              .annotatedService(new BinaryService())
-                              .annotatedService(new BlockingService())
-                              .annotatedService(new TextService())
-                              .annotatedService(new JsonService(), responseConverter)
-                              .build();
+        final Server server = Server.builder()
+                                    .http(8080)
+                                    .decorator(LoggingService.newDecorator())
+                                    .accessLogWriter(AccessLogWriter.combined(), false)
+                                    .serviceUnder("/docs", new DocService())
+                                    .annotatedService(new BinaryService())
+                                    .annotatedService(new BlockingService())
+                                    .annotatedService(new FutureService())
+                                    .annotatedService(new TextService())
+                                    .annotatedService(new JsonService(), responseConverter)
+                                    .build();
         server.start().join();
     }
 }

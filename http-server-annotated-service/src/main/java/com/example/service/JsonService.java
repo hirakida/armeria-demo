@@ -23,11 +23,12 @@ import com.linecorp.armeria.server.annotation.ProducesJson;
 import com.linecorp.armeria.server.annotation.ProducesJsonSequences;
 import com.linecorp.armeria.server.annotation.RequestObject;
 
+import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 @ExceptionHandler(ExceptionHandlerImpl.class)
 public class JsonService {
-
     @Get("/date")
     @ProducesJson
     public LocalDate getDate(@Param("zoneId") Optional<String> zoneId) {
@@ -76,6 +77,8 @@ public class JsonService {
     }
 
     @Value
+    @Builder
+    @Jacksonized
     public static class JsonRequest {
         String message;
     }

@@ -7,7 +7,6 @@ import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.ProducesBinary;
 
 public class BinaryService {
-
     @Get("/binary")
     @ProducesBinary
     public HttpData binary() {

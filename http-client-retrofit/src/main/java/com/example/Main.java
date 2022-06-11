@@ -10,8 +10,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import com.linecorp.armeria.client.Clients;
+import com.linecorp.armeria.client.logging.ContentPreviewingClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.client.retrofit2.ArmeriaRetrofit;
+import com.linecorp.armeria.common.logging.LogLevel;
 import com.linecorp.armeria.common.util.SafeCloseable;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +31,11 @@ public final class Main {
                                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                                .decorator(LoggingDecorator::new)
-                               .decorator(LoggingClient.newDecorator())
+                               .decorator(ContentPreviewingClient.newDecorator(1000))
+                               .decorator(LoggingClient.builder()
+                                                       .requestLogLevel(LogLevel.INFO)
+                                                       .successfulResponseLogLevel(LogLevel.INFO)
+                                                       .newDecorator())
                                .responseTimeout(Duration.ofSeconds(10))
                                .writeTimeout(Duration.ofSeconds(10))
                                .build();
@@ -38,11 +44,12 @@ public final class Main {
         try (SafeCloseable ignored =
                      Clients.withContextCustomizer(ctx -> ctx.setAttr(USERNAME_ATTR, "hirakida"))) {
             service.getUser("hirakida")
-                   .thenAccept(user -> log.info("{}", user));
+                   .thenAccept(user -> log.info("{}", user))
+                   .join();
             service.getKeys("hirakida")
                    .subscribe(res -> log.info("{}", res));
         }
 
-        TimeUnit.SECONDS.sleep(2);
+        TimeUnit.SECONDS.sleep(3);
     }
 }

@@ -11,7 +11,7 @@ public class Main {
         final GitHubClient client = new GitHubClient();
         client.getUser("hirakida")
               .thenAccept(user -> log.info("{}", user));
-        client.getUser2("hirakida")
+        client.getUserWithAttr("hirakida")
               .thenAccept(user -> log.info("{}", user));
 
         TimeUnit.SECONDS.sleep(3);

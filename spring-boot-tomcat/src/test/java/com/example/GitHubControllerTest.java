@@ -12,20 +12,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest
-public class GitHubControllerTest {
+class GitHubControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private GitHubApiClient client;
+    private GitHubClient client;
 
     @Test
-    public void getUser() throws Exception {
-        String username = "hirakida";
-        User user = new User();
+    void getUser() throws Exception {
+        final String username = "hirakida";
+        final User user = new User();
         user.setId(1);
         user.setName(username);
-        String expected = "{\"id\":1,\"name\":\"hirakida\"}";
-
+        final String expected = "{\"id\":1,\"name\":\"hirakida\"}";
         when(client.getUser(username)).thenReturn(user);
 
         mockMvc.perform(get("/users/{username}", username))

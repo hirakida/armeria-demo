@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class GitHubController {
-    private final GitHubApiClient client;
+    private final GitHubClient client;
 
     @GetMapping("/users/{username}")
     public User getUser(@PathVariable String username) {

@@ -1,19 +1,29 @@
 package com.example;
 
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+
+import com.example.model.Repo;
+import com.example.model.User;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Main {
+public final class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         final GitHubClient client = new GitHubClient();
-        client.getUser("hirakida")
-              .thenAccept(user -> log.info("{}", user));
-        client.getUserWithAttr("hirakida")
-              .thenAccept(user -> log.info("{}", user));
 
-        TimeUnit.SECONDS.sleep(3);
+        User user = client.getUser("hirakida")
+                          .join()
+                          .content();
+        log.info("{}", user);
+        user = client.getUserWithAttr("hirakida")
+                     .join()
+                     .content();
+        log.info("{}", user);
+        final List<Repo> repos = client.getRepos("hirakida")
+                                       .join()
+                                       .content();
+        repos.forEach(repo -> log.info("{}", repo));
     }
 }

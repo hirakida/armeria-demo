@@ -18,7 +18,7 @@ import com.linecorp.armeria.server.ServerBuilder;
 import com.linecorp.armeria.server.thrift.THttpService;
 import com.linecorp.armeria.testing.junit5.server.ServerExtension;
 
-public class HelloServiceImplTest {
+class HelloServiceImplTest {
     @RegisterExtension
     static final ServerExtension server = new ServerExtension() {
         @Override

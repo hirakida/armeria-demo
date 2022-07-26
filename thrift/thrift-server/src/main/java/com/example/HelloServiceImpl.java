@@ -1,6 +1,8 @@
 package com.example;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.thrift.async.AsyncMethodCallback;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,8 @@ import com.example.hello.HelloService;
 
 @Component
 public class HelloServiceImpl implements HelloService.AsyncIface {
+    private final Random random = new Random();
+
     @Override
     public void hello1(String name, AsyncMethodCallback<String> resultHandler) {
         resultHandler.onComplete("Hello, " + name + '!');
@@ -18,8 +22,15 @@ public class HelloServiceImpl implements HelloService.AsyncIface {
 
     @Override
     public void hello2(HelloRequest request, AsyncMethodCallback<HelloResponse> resultHandler) {
+        final String message = String.format("Hello, %s!", request.getName());
         final HelloResponse response = new HelloResponse()
-                .setMessages(List.of(String.format("Hello, %s!", request.getName())));
+                .setMessage(message)
+                .setMessages(List.of(message, message))
+                .setEpochMilli(Instant.now().toEpochMilli());
+        if (random.nextBoolean()) {
+            response.setHasOptionalMessage(true)
+                    .setOptionalMessage(message);
+        }
         resultHandler.onComplete(response);
     }
 }

@@ -25,7 +25,7 @@ public class HelloServiceImpl implements HelloService.AsyncIface {
         final String message = String.format("Hello, %s!", request.getName());
         final HelloResponse response = new HelloResponse()
                 .setMessage(message)
-                .setMessages(List.of(message, message))
+                .setMessages(List.of(message))
                 .setEpochMilli(Instant.now().toEpochMilli());
         if (random.nextBoolean()) {
             response.setHasOptionalMessage(true)

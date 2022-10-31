@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.stereotype.Component;
 
+import com.linecorp.armeria.common.HttpData;
 import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.common.MediaType;
@@ -33,9 +34,10 @@ public class BackendService {
     }
 
     private static HttpResponse createResponse(HttpStatus httpStatus) {
+        final String data = String.format("{\"code\":%d,\"reason\":\"%s\"}",
+                                          httpStatus.code(),
+                                          httpStatus.reasonPhrase());
         return HttpResponse.of(httpStatus, MediaType.JSON_UTF_8,
-                               "{\"code\":%d,\"reason\":\"%s\"}",
-                               httpStatus.code(),
-                               httpStatus.reasonPhrase());
+                               HttpData.ofUtf8(data));
     }
 }

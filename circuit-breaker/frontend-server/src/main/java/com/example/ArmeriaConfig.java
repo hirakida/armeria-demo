@@ -3,12 +3,13 @@ package com.example;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.linecorp.armeria.client.WebClient;
+import com.linecorp.armeria.client.RestClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreaker;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerListener;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerRule;
 import com.linecorp.armeria.client.logging.LoggingClient;
+import com.linecorp.armeria.common.logging.LogLevel;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 
 import io.micrometer.core.instrument.Metrics;
@@ -21,19 +22,23 @@ public class ArmeriaConfig {
     }
 
     @Bean
-    public WebClient webClient() {
-        CircuitBreakerListener listener = CircuitBreakerListener.metricCollecting(Metrics.globalRegistry);
-        CircuitBreaker circuitBreaker = CircuitBreaker.builder()
-                                                      .listener(listener)
-                                                      .build();
-        CircuitBreakerRule rule = CircuitBreakerRule.builder()
-                                                    .onServerErrorStatus()
-                                                    .onException()
-                                                    .thenFailure();
+    public RestClient restClient() {
+        final CircuitBreakerListener listener = CircuitBreakerListener.metricCollecting(Metrics.globalRegistry);
+        final CircuitBreaker circuitBreaker = CircuitBreaker.builder()
+                                                            .listener(listener)
+                                                            .build();
+        final CircuitBreakerRule rule = CircuitBreakerRule.builder()
+                                                          .onServerErrorStatus()
+                                                          .onException()
+                                                          .thenFailure();
 
-        return WebClient.builder("http://localhost:8081")
-                        .decorator(LoggingClient.newDecorator())
-                        .decorator(CircuitBreakerClient.newDecorator(circuitBreaker, rule))
-                        .build();
+        return RestClient.builder("http://localhost:8081")
+                         .decorator(LoggingClient.builder()
+                                                 .requestLogLevel(LogLevel.INFO)
+                                                 .successfulResponseLogLevel(LogLevel.INFO)
+                                                 .failureResponseLogLevel(LogLevel.WARN)
+                                                 .newDecorator())
+                         .decorator(CircuitBreakerClient.newDecorator(circuitBreaker, rule))
+                         .build();
     }
 }

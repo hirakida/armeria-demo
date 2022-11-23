@@ -7,59 +7,60 @@ import org.springframework.stereotype.Component;
 
 import com.example.Calculator.CalculatorRequest;
 import com.example.Calculator.CalculatorRequest.OperationType;
+import com.example.Calculator.CalculatorResponse;
 import com.example.CalculatorServiceGrpc.CalculatorServiceBlockingStub;
 import com.example.Hello.HelloRequest;
 import com.example.HelloServiceGrpc.HelloServiceStub;
 
-import com.linecorp.armeria.client.Clients;
+import com.linecorp.armeria.client.grpc.GrpcClients;
 import com.linecorp.armeria.client.logging.LoggingClient;
+import com.linecorp.armeria.client.logging.LoggingClientBuilder;
+import com.linecorp.armeria.common.grpc.GrpcSerializationFormats;
+import com.linecorp.armeria.common.logging.LogLevel;
 
 import io.grpc.stub.StreamObserver;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
-public class CommandLineRunnerImpl implements CommandLineRunner {
+public class GrpcClientRunner implements CommandLineRunner {
     private static final String BASE_URI = "http://127.0.0.1:8080/";
+    private final CalculatorServiceBlockingStub calculatorService;
 
     @Override
     public void run(String... args) throws Exception {
-        calculator();
-        hello();
-    }
-
-    private static void calculator() {
-        CalculatorServiceBlockingStub client1 = Clients.builder("gproto+" + BASE_URI)
-                                                       .responseTimeoutMillis(10000)
-                                                       .decorator(LoggingClient.newDecorator())
-                                                       .build(CalculatorServiceBlockingStub.class);
         CalculatorRequest request1 = CalculatorRequest.newBuilder()
                                                       .setNumber1(1)
                                                       .setNumber2(2)
                                                       .setOperation(OperationType.ADD)
                                                       .build();
-        double result = client1.calculate(request1).getResult();
-        log.info("result={}", result);
+        CalculatorResponse response = calculatorService.calculate(request1);
+        log.info("result={}", response.getResult());
 
-        CalculatorServiceBlockingStub client2 = Clients.builder("gjson+" + BASE_URI)
-                                                       .decorator(LoggingClient.newDecorator())
-                                                       .build(CalculatorServiceBlockingStub.class);
         CalculatorRequest request2 = CalculatorRequest.newBuilder()
                                                       .setNumber1(2)
                                                       .setNumber2(3)
                                                       .setOperation(OperationType.MULTIPLY)
                                                       .build();
-        result = client2.calculate(request2).getResult();
-        log.info("result={}", result);
+        response = calculatorService.calculate(request2);
+        log.info("result={}", response.getResult());
+
+        hello();
     }
 
     private static void hello() throws InterruptedException {
-        HelloServiceStub client1 = Clients.builder("gproto+" + BASE_URI)
-                                          .decorator(LoggingClient.newDecorator())
-                                          .build(HelloServiceStub.class);
-        HelloServiceStub client2 = Clients.builder("gjson+" + BASE_URI)
-                                          .decorator(LoggingClient.newDecorator())
-                                          .build(HelloServiceStub.class);
+        LoggingClientBuilder loggingClientBuilder = LoggingClient.builder()
+                                                                 .requestLogLevel(LogLevel.INFO)
+                                                                 .successfulResponseLogLevel(LogLevel.INFO);
+        HelloServiceStub client1 = GrpcClients.builder(BASE_URI)
+                                              .decorator(loggingClientBuilder.newDecorator())
+                                              .build(HelloServiceStub.class);
+        HelloServiceStub client2 = GrpcClients.builder(BASE_URI)
+                                              .serializationFormat(GrpcSerializationFormats.JSON)
+                                              .decorator(loggingClientBuilder.newDecorator())
+                                              .build(HelloServiceStub.class);
 
         // Unary
         HelloRequest request1 = HelloRequest.newBuilder().setName("hirakida1").build();

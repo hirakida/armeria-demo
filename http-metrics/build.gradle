@@ -5,7 +5,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     implementation 'com.linecorp.armeria:armeria'
     implementation 'com.linecorp.armeria:armeria-logback'
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.8.4'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.10.2'
 }
 
 application {

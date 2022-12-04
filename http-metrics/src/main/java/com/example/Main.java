@@ -7,6 +7,7 @@ import com.linecorp.armeria.client.metric.MetricCollectingClient;
 import com.linecorp.armeria.common.metric.MeterIdPrefixFunction;
 import com.linecorp.armeria.common.metric.PrometheusMeterRegistries;
 import com.linecorp.armeria.server.Server;
+import com.linecorp.armeria.server.docs.DocService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
 import com.linecorp.armeria.server.metric.MetricCollectingService;
@@ -34,6 +35,7 @@ public class Main {
                               .decorator(MetricCollectingService.newDecorator(
                                       MeterIdPrefixFunction.ofDefault("http.service")))
                               .meterRegistry(meterRegistry)
+                              .serviceUnder("/docs", new DocService())
                               .service("/metrics",
                                        PrometheusExpositionService.of(meterRegistry.getPrometheusRegistry()))
                               .annotatedService(new HelloService())

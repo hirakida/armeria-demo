@@ -10,6 +10,9 @@ import com.example.interceptor.ServerInterceptorImpl;
 import com.example.service.CalculatorService;
 import com.example.service.HelloService;
 
+import com.linecorp.armeria.common.grpc.GrpcMeterIdPrefixFunction;
+import com.linecorp.armeria.common.metric.MeterIdPrefixFunction;
+import com.linecorp.armeria.common.metric.PrometheusMeterRegistries;
 import com.linecorp.armeria.server.docs.DocServiceFilter;
 import com.linecorp.armeria.server.grpc.GrpcService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
@@ -20,12 +23,15 @@ import com.linecorp.armeria.spring.DocServiceConfigurator;
 import io.grpc.ServerInterceptors;
 import io.grpc.protobuf.services.ProtoReflectionService;
 import io.grpc.reflection.v1alpha.ServerReflectionGrpc;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
 
 @Configuration
 public class ArmeriaServerConfig {
     @Bean
     public ArmeriaServerConfigurator armeriaServerConfigurator(CalculatorService calculatorService,
-                                                               HelloService helloService) {
+                                                               HelloService helloService,
+                                                               MeterRegistry meterRegistry) {
         GrpcService grpcService = GrpcService.builder()
                                              .addService(calculatorService)
                                              .addService(ServerInterceptors.intercept(helloService,
@@ -35,7 +41,8 @@ public class ArmeriaServerConfig {
                                              .build();
         return builder -> builder.service(grpcService)
                                  .decorator(LoggingService.newDecorator())
-                                 .accessLogWriter(AccessLogWriter.combined(), false);
+                                 .accessLogWriter(AccessLogWriter.combined(), false)
+                                 .meterRegistry(meterRegistry);
     }
 
     @Bean
@@ -55,5 +62,15 @@ public class ArmeriaServerConfig {
                                                   "HelloUnary",
                                                   helloRequest)
                                  .exclude(DocServiceFilter.ofServiceName(ServerReflectionGrpc.SERVICE_NAME));
+    }
+
+    @Bean
+    public MeterIdPrefixFunction meterIdPrefixFunction() {
+        return GrpcMeterIdPrefixFunction.of("grpc.service");
+    }
+
+    @Bean
+    public PrometheusMeterRegistry meterRegistry() {
+        return PrometheusMeterRegistries.defaultRegistry();
     }
 }

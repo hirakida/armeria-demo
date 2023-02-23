@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    implementation(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.4"))
+    implementation(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom"))
     implementation("com.linecorp.armeria:armeria-kotlin")
     implementation("com.linecorp.armeria:armeria-logback")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
@@ -19,7 +19,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 

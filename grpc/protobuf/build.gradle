@@ -1,5 +1,7 @@
-apply plugin: 'org.springframework.boot'
-apply plugin: 'com.google.protobuf'
+plugins {
+    id 'org.springframework.boot'
+    id 'com.google.protobuf'
+}
 
 bootJar.enabled = false
 

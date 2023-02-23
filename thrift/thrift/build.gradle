@@ -1,4 +1,6 @@
-apply plugin: 'org.jruyi.thrift'
+plugins {
+    id 'org.jruyi.thrift'
+}
 
 dependencies {
     implementation 'org.apache.thrift:libthrift'

@@ -17,8 +17,10 @@ import io.micrometer.core.instrument.Metrics;
 @Configuration
 public class ArmeriaConfig {
     @Bean
-    public ArmeriaServerConfigurator armeriaServerConfigurator(FrontendService frontendService) {
-        return builder -> builder.annotatedService(frontendService);
+    public ArmeriaServerConfigurator armeriaServerConfigurator(CircuitBreakerService circuitBreakerService,
+                                                               BackendService backendService) {
+        return builder -> builder.annotatedService(circuitBreakerService)
+                                 .annotatedService(backendService);
     }
 
     @Bean
@@ -32,7 +34,7 @@ public class ArmeriaConfig {
                                                           .onException()
                                                           .thenFailure();
 
-        return RestClient.builder("http://localhost:8081")
+        return RestClient.builder("http://localhost:8080/")
                          .decorator(LoggingClient.builder()
                                                  .requestLogLevel(LogLevel.INFO)
                                                  .successfulResponseLogLevel(LogLevel.INFO)

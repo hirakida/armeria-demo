@@ -7,8 +7,7 @@ pluginManagement {
 
 rootProject.name = 'armeria-demo'
 
-include ':circuit-breaker:backend-server',
-        ':circuit-breaker:frontend-server',
+include ':circuit-breaker',
         ':client-side-load-balancing:backend-server',
         ':client-side-load-balancing:frontend-server',
         ':graphql',

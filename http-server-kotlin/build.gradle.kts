@@ -12,6 +12,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
     testImplementation("com.linecorp.armeria:armeria-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.platform:junit-platform-launcher")
 //    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
 }
 

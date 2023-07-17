@@ -1,8 +1,8 @@
 plugins {
     id 'org.springframework.boot' apply false
     id 'org.jetbrains.kotlin.jvm' apply false
-    id 'com.google.protobuf' version '0.9.3' apply false
-    id 'org.jruyi.thrift' version '0.4.2' apply false
+    id 'com.google.protobuf' version '0.9.4' apply false
+    id 'com.linecorp.thrift-gradle-plugin' version '0.5.0' apply false
 }
 
 subprojects {
@@ -12,7 +12,10 @@ subprojects {
 
     group = 'com.example'
     version = '0.0.1-SNAPSHOT'
-    sourceCompatibility = JavaVersion.VERSION_17
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+    }
 
     repositories {
         mavenCentral()
@@ -21,7 +24,7 @@ subprojects {
     dependencyManagement {
         dependencies {
             dependency 'org.apache.thrift:libthrift:0.17.0'
-            dependency 'io.grpc:protoc-gen-grpc-java:1.53.0'
+            dependency 'io.grpc:protoc-gen-grpc-java:1.56.1'
             dependency 'org.projectlombok:lombok:1.18.28'
             dependency ("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
 
@@ -29,7 +32,7 @@ subprojects {
                 entry 'converter-jackson'
                 entry 'adapter-rxjava3'
             }
-            dependencySet(group: 'com.google.protobuf', version: '3.22.0') {
+            dependencySet(group: 'com.google.protobuf', version: '3.23.4') {
                 entry 'protobuf-java'
                 entry 'protoc'
             }
@@ -37,7 +40,7 @@ subprojects {
     }
 
     dependencies {
-        implementation platform('com.linecorp.armeria:armeria-bom:1.23.1')
+        implementation platform('com.linecorp.armeria:armeria-bom:1.24.2')
         implementation 'org.jetbrains:annotations:24.0.1'
     }
 

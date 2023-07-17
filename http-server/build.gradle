@@ -7,6 +7,7 @@ dependencies {
     implementation 'com.linecorp.armeria:armeria-logback'
     testImplementation 'com.linecorp.armeria:armeria-junit5'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation 'org.junit.platform:junit-platform-launcher'
 }
 
 application {

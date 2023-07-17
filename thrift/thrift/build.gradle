@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jruyi.thrift'
+    id 'com.linecorp.thrift-gradle-plugin'
 }
 
 dependencies {

@@ -1,4 +1,4 @@
-package com.example;
+package com.example
 
 import com.linecorp.armeria.server.logging.AccessLogWriter
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator

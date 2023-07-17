@@ -17,12 +17,16 @@ class HelloService {
 
     @Get("/hello2")
     suspend fun hello2(@Param("name") @Default("hirakida") name: String): Response {
-        delay(1000)
+        delay(TIMEOUT_MILLIS)
         return Response("Hello, $name!")
     }
 
     @Get("/hello3")
     fun hello3(@Param("name") @Default("hirakida") name: String): Flow<Response> {
         return flowOf(Response("Hello, $name!"))
+    }
+
+    companion object {
+        const val TIMEOUT_MILLIS: Long = 1000
     }
 }

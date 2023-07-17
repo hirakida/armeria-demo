@@ -6,7 +6,6 @@ import com.linecorp.armeria.server.graphql.GraphqlService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 
 public final class Main {
-
     public static void main(String[] args) {
         final GraphqlService service =
                 GraphqlService.builder()

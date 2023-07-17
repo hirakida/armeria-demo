@@ -24,5 +24,5 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    mainClass.set("com.example.Main")
+    mainClass.set("com.example.MainKt")
 }

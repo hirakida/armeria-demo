@@ -1,4 +1,4 @@
-package com.example;
+package com.example
 
 import com.linecorp.armeria.server.annotation.Default
 import com.linecorp.armeria.server.annotation.Get

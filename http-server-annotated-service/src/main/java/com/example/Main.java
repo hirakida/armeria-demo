@@ -15,12 +15,8 @@ import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
 
 public final class Main {
-
     public static void main(String[] args) {
         final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        final JacksonResponseConverterFunction responseConverter =
-                new JacksonResponseConverterFunction(objectMapper);
-
         final Server server = Server.builder()
                                     .http(8080)
                                     .decorator(LoggingService.newDecorator())
@@ -30,7 +26,8 @@ public final class Main {
                                     .annotatedService(new BlockingService())
                                     .annotatedService(new FutureService())
                                     .annotatedService(new TextService())
-                                    .annotatedService(new JsonService(), responseConverter)
+                                    .annotatedService(new JsonService(),
+                                                      new JacksonResponseConverterFunction(objectMapper))
                                     .build();
         server.start().join();
     }

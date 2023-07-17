@@ -25,7 +25,6 @@ subprojects {
         dependencies {
             dependency 'org.apache.thrift:libthrift:0.17.0'
             dependency 'io.grpc:protoc-gen-grpc-java:1.56.1'
-            dependency 'org.projectlombok:lombok:1.18.28'
             dependency ("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
 
             dependencySet(group: 'com.squareup.retrofit2', version: '2.9.0') {

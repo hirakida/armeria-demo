@@ -23,10 +23,6 @@ import com.linecorp.armeria.server.annotation.ProducesJson;
 import com.linecorp.armeria.server.annotation.ProducesJsonSequences;
 import com.linecorp.armeria.server.annotation.RequestObject;
 
-import lombok.Builder;
-import lombok.Value;
-import lombok.extern.jackson.Jacksonized;
-
 @ExceptionHandler(ExceptionHandlerImpl.class)
 public class JsonService {
     @Get("/date")
@@ -73,19 +69,10 @@ public class JsonService {
     @Post("/json_data")
     @ProducesJson
     public JsonResponse postJson(@RequestObject JsonRequest request) {
-        return new JsonResponse(request.getMessage(), LocalDateTime.now());
+        return new JsonResponse(request.message(), LocalDateTime.now());
     }
 
-    @Value
-    @Builder
-    @Jacksonized
-    public static class JsonRequest {
-        String message;
-    }
+    public record JsonRequest(String message) {}
 
-    @Value
-    public static class JsonResponse {
-        String message;
-        LocalDateTime dateTime;
-    }
+    public record JsonResponse(String message, LocalDateTime dateTime) {}
 }

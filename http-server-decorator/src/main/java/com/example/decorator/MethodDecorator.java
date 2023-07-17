@@ -1,19 +1,21 @@
 package com.example.decorator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.linecorp.armeria.common.HttpRequest;
 import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.server.DecoratingHttpServiceFunction;
 import com.linecorp.armeria.server.HttpService;
 import com.linecorp.armeria.server.ServiceRequestContext;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class MethodDecorator implements DecoratingHttpServiceFunction {
+    private static final Logger logger = LoggerFactory.getLogger(MethodDecorator.class);
+
     @Override
     public HttpResponse serve(HttpService delegate, ServiceRequestContext ctx, HttpRequest req)
             throws Exception {
-        log.info("Hello!");
+        logger.info("Hello!");
         return delegate.serve(ctx, req);
     }
 }

@@ -12,9 +12,9 @@ import com.linecorp.armeria.common.HttpResponse;
 import io.netty.util.AttributeKey;
 
 public class LoggingDecorator extends SimpleDecoratingHttpClient {
-    private static final Logger logger = LoggerFactory.getLogger(LoggingDecorator.class);
     public static final AttributeKey<String> USERNAME_ATTR =
             AttributeKey.valueOf(String.class, "USERNAME_ATTR");
+    private static final Logger logger = LoggerFactory.getLogger(LoggingDecorator.class);
 
     public LoggingDecorator(HttpClient delegate) {
         super(delegate);

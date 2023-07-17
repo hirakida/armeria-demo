@@ -3,8 +3,6 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor 'org.projectlombok:lombok'
-    compileOnly 'org.projectlombok:lombok'
     implementation 'com.linecorp.armeria:armeria'
     implementation 'com.linecorp.armeria:armeria-retrofit2'
     implementation 'com.linecorp.armeria:armeria-logback'

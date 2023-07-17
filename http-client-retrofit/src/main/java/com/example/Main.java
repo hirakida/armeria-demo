@@ -1,11 +1,12 @@
 package com.example;
 
-import static com.example.decorator.LoggingDecorator.USERNAME_ATTR;
+import static com.example.LoggingDecorator.USERNAME_ATTR;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
-import com.example.decorator.LoggingDecorator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -16,15 +17,14 @@ import com.linecorp.armeria.client.retrofit2.ArmeriaRetrofit;
 import com.linecorp.armeria.common.logging.LogLevel;
 import com.linecorp.armeria.common.util.SafeCloseable;
 
-import lombok.extern.slf4j.Slf4j;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-@Slf4j
 public final class Main {
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         final Retrofit retrofit =
                 ArmeriaRetrofit.builder("https://api.github.com")
@@ -44,12 +44,11 @@ public final class Main {
         try (SafeCloseable ignored =
                      Clients.withContextCustomizer(ctx -> ctx.setAttr(USERNAME_ATTR, "hirakida"))) {
             service.getUser("hirakida")
-                   .thenAccept(user -> log.info("{}", user))
+                   .thenAccept(user -> logger.info("{}", user))
                    .join();
             service.getKeys("hirakida")
-                   .subscribe(res -> log.info("{}", res));
+                   .doOnSuccess(response -> logger.info("{}", response))
+                   .blockingSubscribe();
         }
-
-        TimeUnit.SECONDS.sleep(3);
     }
 }

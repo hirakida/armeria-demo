@@ -1,19 +1,15 @@
 package com.example;
 
 import com.linecorp.armeria.server.Server;
-import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
 
-public class Main {
-
+public final class Main {
     public static void main(String[] args) {
-        Server server = Server.builder()
-                              .http(8080)
-                              .decorator(LoggingService.newDecorator())
-                              .accessLogWriter(AccessLogWriter.combined(), false)
-                              .annotatedService(new JsonService())
-                              .annotatedService(new EventStreamService())
-                              .build();
+        final Server server = Server.builder()
+                                    .http(8080)
+                                    .decorator(LoggingService.newDecorator())
+                                    .annotatedService(new RxJavaService())
+                                    .build();
         server.start().join();
     }
 }

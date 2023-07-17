@@ -15,32 +15,34 @@ import com.linecorp.armeria.server.metric.PrometheusExpositionService;
 
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 
-public class Main {
+public final class Main {
 
     public static void main(String[] args) {
-        PrometheusMeterRegistry meterRegistry = PrometheusMeterRegistries.defaultRegistry();
-        RestClient restClient = RestClient.builder("https://api.github.com")
-                                          .decorator(LoggingClient.newDecorator())
-                                          .decorator(MetricCollectingClient.newDecorator(
-                                                  MeterIdPrefixFunction.ofDefault("http.client")
-                                                                       .withTags("service", "githubClient")))
-                                          .factory(ClientFactory.builder()
-                                                                .meterRegistry(meterRegistry)
-                                                                .build())
-                                          .build();
-        Server server = Server.builder()
-                              .http(8080)
-                              .accessLogWriter(AccessLogWriter.combined(), false)
-                              .decorator(LoggingService.newDecorator())
-                              .decorator(MetricCollectingService.newDecorator(
-                                      MeterIdPrefixFunction.ofDefault("http.service")))
-                              .meterRegistry(meterRegistry)
-                              .serviceUnder("/docs", new DocService())
-                              .service("/metrics",
-                                       PrometheusExpositionService.of(meterRegistry.getPrometheusRegistry()))
-                              .annotatedService(new HelloService())
-                              .annotatedService(new GitHubService(restClient))
-                              .build();
+        final PrometheusMeterRegistry meterRegistry = PrometheusMeterRegistries.defaultRegistry();
+        final RestClient restClient =
+                RestClient.builder("https://api.github.com")
+                          .decorator(LoggingClient.newDecorator())
+                          .decorator(MetricCollectingClient.newDecorator(
+                                  MeterIdPrefixFunction.ofDefault("http.client")
+                                                       .withTags("service", "githubClient")))
+                          .factory(ClientFactory.builder()
+                                                .meterRegistry(meterRegistry)
+                                                .build())
+                          .build();
+        final Server server = Server.builder()
+                                    .http(8080)
+                                    .accessLogWriter(AccessLogWriter.combined(), false)
+                                    .decorator(LoggingService.newDecorator())
+                                    .decorator(MetricCollectingService.newDecorator(
+                                            MeterIdPrefixFunction.ofDefault("http.service")))
+                                    .meterRegistry(meterRegistry)
+                                    .serviceUnder("/docs", new DocService())
+                                    .service("/metrics",
+                                             PrometheusExpositionService.of(
+                                                     meterRegistry.getPrometheusRegistry()))
+                                    .annotatedService(new HelloService())
+                                    .annotatedService(new GitHubService(restClient))
+                                    .build();
         server.start().join();
     }
 }

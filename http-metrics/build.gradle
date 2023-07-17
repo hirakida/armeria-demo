@@ -4,8 +4,6 @@ plugins {
 
 dependencies {
     implementation platform('org.springframework.boot:spring-boot-dependencies')
-    annotationProcessor 'org.projectlombok:lombok'
-    compileOnly 'org.projectlombok:lombok'
     implementation 'com.linecorp.armeria:armeria'
     implementation 'com.linecorp.armeria:armeria-logback'
     implementation 'io.micrometer:micrometer-registry-prometheus'

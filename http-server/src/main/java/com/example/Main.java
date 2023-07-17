@@ -17,7 +17,7 @@ import com.linecorp.armeria.server.streaming.JsonLines;
 import com.linecorp.armeria.server.streaming.JsonTextSequences;
 import com.linecorp.armeria.server.streaming.ServerSentEvents;
 
-public class Main {
+public final class Main {
 
     public static void main(String[] args) {
         final ServerBuilder sb = Server.builder();

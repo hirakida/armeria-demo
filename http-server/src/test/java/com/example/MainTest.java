@@ -5,9 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
+import com.linecorp.armeria.client.RestClient;
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.common.AggregatedHttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
+import com.linecorp.armeria.common.ResponseEntity;
 import com.linecorp.armeria.server.ServerBuilder;
 import com.linecorp.armeria.testing.junit5.server.ServerExtension;
 
@@ -22,19 +26,21 @@ class MainTest {
 
     @Test
     void hello() {
-        final AggregatedHttpResponse res = client().get("/").aggregate().join();
-        assertEquals(HttpStatus.OK, res.status());
-        assertEquals("Hello, Armeria!", res.content().toStringUtf8());
+        final AggregatedHttpResponse response = WebClient.of(server.httpUri())
+                                                         .get("/")
+                                                         .aggregate()
+                                                         .join();
+        assertEquals(HttpStatus.OK, response.status());
+        assertEquals("Hello, Armeria!", response.content().toStringUtf8());
     }
 
     @Test
     void json() {
-        final AggregatedHttpResponse res = client().get("/json").aggregate().join();
-        assertEquals(HttpStatus.OK, res.status());
-        assertEquals("{\"message\":\"Hello!\"}", res.content().toStringUtf8());
-    }
-
-    private static WebClient client() {
-        return WebClient.of(server.httpUri());
+        final ResponseEntity<JsonNode> response = RestClient.of(server.httpUri())
+                                                            .get("/json")
+                                                            .execute(JsonNode.class)
+                                                            .join();
+        assertEquals(HttpStatus.OK, response.status());
+        assertEquals("{\"message\":\"Hello!\"}", response.content().toString());
     }
 }

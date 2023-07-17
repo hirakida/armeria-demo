@@ -7,16 +7,19 @@ import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.linecorp.armeria.common.ContextAwareEventLoop;
 import com.linecorp.armeria.common.sse.ServerSentEvent;
+import com.linecorp.armeria.server.ServiceRequestContext;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.ProducesEventStream;
 import com.linecorp.armeria.server.annotation.ProducesJson;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 public class ReactorService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ReactorService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ReactorService.class);
 
     @Get("/mono")
     @ProducesJson
@@ -27,15 +30,18 @@ public class ReactorService {
     @Get("/flux")
     @ProducesJson
     public Flux<LocalTime> flux() {
-        return Flux.just(LocalTime.now());
+        return Flux.range(1, 5)
+                   .map(i -> LocalTime.now());
     }
 
     @Get("/sse")
     @ProducesEventStream
-    public Publisher<ServerSentEvent> sse() {
+    public Publisher<ServerSentEvent> sse(ServiceRequestContext ctx) {
+        final ContextAwareEventLoop eventLoop = ctx.eventLoop();
         return Flux.interval(Duration.ofSeconds(1))
                    .take(5)
-                   .doOnNext(i -> LOGGER.info("{}", i))
+                   .publishOn(Schedulers.fromExecutor(eventLoop))
+                   .doOnNext(i -> logger.info("{}", i))
                    .scan(Long::sum)
                    .map(data -> ServerSentEvent.ofData(data.toString()));
     }

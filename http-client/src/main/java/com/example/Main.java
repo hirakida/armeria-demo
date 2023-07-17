@@ -25,17 +25,18 @@ public final class Main {
                                                    .idleTimeout(Duration.ofSeconds(10))
                                                    .connectionPoolListener(ConnectionPoolListener.logging())
                                                    .build();
-        RestClient restClient = RestClient.builder("https://api.github.com")
-                                          .decorator(LoggingDecorator::new)
-                                          .decorator(ContentPreviewingClient.newDecorator(1000))
-                                          .decorator(LoggingClient.builder()
-                                                                  .requestLogLevel(LogLevel.INFO)
-                                                                  .successfulResponseLogLevel(LogLevel.INFO)
-                                                                  .newDecorator())
-                                          .responseTimeout(Duration.ofSeconds(10))
-                                          .writeTimeout(Duration.ofSeconds(10))
-                                          .factory(factory)
-                                          .build();
+        final RestClient restClient =
+                RestClient.builder("https://api.github.com")
+                          .decorator(LoggingDecorator::new)
+                          .decorator(ContentPreviewingClient.newDecorator(1000))
+                          .decorator(LoggingClient.builder()
+                                                  .requestLogLevel(LogLevel.INFO)
+                                                  .successfulResponseLogLevel(LogLevel.INFO)
+                                                  .newDecorator())
+                          .responseTimeout(Duration.ofSeconds(10))
+                          .writeTimeout(Duration.ofSeconds(10))
+                          .factory(factory)
+                          .build();
         final GitHubClient client = new GitHubClient(restClient);
 
         User user = client.getUser("hirakida")

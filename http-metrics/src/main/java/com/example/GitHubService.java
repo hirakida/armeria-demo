@@ -5,11 +5,12 @@ import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.Param;
 import com.linecorp.armeria.server.annotation.ProducesJson;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 public class GitHubService {
     private final RestClient restClient;
+
+    public GitHubService(RestClient restClient) {
+        this.restClient = restClient;
+    }
 
     @Get("/github/{username}")
     @ProducesJson

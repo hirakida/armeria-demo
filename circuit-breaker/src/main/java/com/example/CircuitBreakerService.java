@@ -11,15 +11,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.linecorp.armeria.client.RestClient;
 import com.linecorp.armeria.server.annotation.Get;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 @Component
-@RequiredArgsConstructor
-@Slf4j
 public class CircuitBreakerService {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final RestClient restClient;
+
+    public CircuitBreakerService(RestClient restClient) {
+        this.restClient = restClient;
+    }
 
     @Get("/")
     public CompletableFuture<JsonNode> get() {
@@ -27,7 +26,6 @@ public class CircuitBreakerService {
                          .execute(JsonNode.class)
                          .handle((response, e) -> {
                              if (e != null) {
-                                 log.warn("{}", e.getMessage());
                                  return objectMapper.valueToTree(Map.of("message", e.getMessage()));
                              }
                              return response.content();

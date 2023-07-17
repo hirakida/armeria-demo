@@ -1,4 +1,7 @@
-package com.example.decorator;
+package com.example;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.linecorp.armeria.client.ClientRequestContext;
 import com.linecorp.armeria.client.HttpClient;
@@ -7,10 +10,9 @@ import com.linecorp.armeria.common.HttpRequest;
 import com.linecorp.armeria.common.HttpResponse;
 
 import io.netty.util.AttributeKey;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class LoggingDecorator extends SimpleDecoratingHttpClient {
+    private static final Logger logger = LoggerFactory.getLogger(LoggingDecorator.class);
     public static final AttributeKey<String> USERNAME_ATTR =
             AttributeKey.valueOf(String.class, "USERNAME_ATTR");
 
@@ -21,7 +23,7 @@ public class LoggingDecorator extends SimpleDecoratingHttpClient {
     @Override
     public HttpResponse execute(ClientRequestContext ctx, HttpRequest req) throws Exception {
         if (ctx.hasAttr(USERNAME_ATTR)) {
-            log.info("username={}", ctx.attr(USERNAME_ATTR));
+            logger.info("username={}", ctx.attr(USERNAME_ATTR));
         }
         return unwrap().execute(ctx, req);
     }

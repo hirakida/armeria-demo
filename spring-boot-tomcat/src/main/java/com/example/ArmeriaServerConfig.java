@@ -6,9 +6,6 @@ import org.springframework.boot.web.servlet.context.ServletWebServerApplicationC
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.linecorp.armeria.client.RestClient;
-import com.linecorp.armeria.client.logging.LoggingClient;
-import com.linecorp.armeria.common.logging.LogLevel;
 import com.linecorp.armeria.server.tomcat.TomcatService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 
@@ -16,24 +13,18 @@ import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 public class ArmeriaServerConfig {
     @Bean
     public TomcatService tomcatService(ServletWebServerApplicationContext applicationContext) {
-        final TomcatWebServer webServer = (TomcatWebServer) applicationContext.getWebServer();
-        webServer.start();
-        final Connector connector = webServer.getTomcat().getConnector();
+        final Connector connector = getConnector(applicationContext);
         return TomcatService.of(connector);
     }
 
     @Bean
     public ArmeriaServerConfigurator armeriaServerConfigurator(TomcatService tomcatService) {
-        return builder -> builder.service("prefix:/", tomcatService);
+        return sb -> sb.serviceUnder("/", tomcatService);
     }
 
-    @Bean
-    public RestClient restClient() {
-        return RestClient.builder("https://api.github.com")
-                         .decorator(LoggingClient.builder()
-                                                 .requestLogLevel(LogLevel.INFO)
-                                                 .successfulResponseLogLevel(LogLevel.INFO)
-                                                 .newDecorator())
-                         .build();
+    private static Connector getConnector(ServletWebServerApplicationContext applicationContext) {
+        final TomcatWebServer container = (TomcatWebServer) applicationContext.getWebServer();
+        container.start();
+        return container.getTomcat().getConnector();
     }
 }

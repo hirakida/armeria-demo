@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.example.hello.HelloRequest;
 import com.example.hello.HelloResponse;
 import com.example.hello.HelloService;
-import com.example.thrift.Calculator;
+import com.example.thrift.CalculatorService;
 import com.example.thrift.Operation;
 import com.example.thrift.Work;
 
@@ -26,12 +26,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class ThriftClientRunner implements CommandLineRunner {
-    private final Calculator.AsyncIface calculatorClient;
+    private final CalculatorService.AsyncIface calculatorClient;
 
     @Override
     public void run(String... args) throws Exception {
         final AsyncMethodCallback<Integer> resultHandler = new AsyncMethodCallbackImpl<>();
-        calculatorClient.add(1, 2, resultHandler);
         calculatorClient.calculate(1, new Work(5, 3, Operation.SUBTRACT), resultHandler);
         TimeUnit.SECONDS.sleep(1);
 

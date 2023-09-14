@@ -5,3 +5,10 @@ plugins {
 dependencies {
     implementation 'org.apache.thrift:libthrift'
 }
+
+compileThrift {
+    sourceDir "$projectDir/src/main/thrift"
+    outputDir "$buildDir/resources/main/META-INF/armeria/thrift"
+    debug true
+    generator 'json'
+}

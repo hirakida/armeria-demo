@@ -12,6 +12,9 @@ struct HelloResponse {
   5: i64 epochMilli,
 }
 
+/**
+ * Hello Service.
+ */
 service HelloService {
    string hello1(1:string name)
 

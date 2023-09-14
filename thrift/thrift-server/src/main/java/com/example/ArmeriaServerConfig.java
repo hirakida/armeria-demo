@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.example.hello.HelloRequest;
 import com.example.hello.HelloService;
-import com.example.thrift.Calculator;
+import com.example.thrift.CalculatorService;
 import com.example.thrift.Operation;
 import com.example.thrift.Work;
 
@@ -21,13 +21,13 @@ import com.linecorp.armeria.spring.DocServiceConfigurator;
 @Configuration
 public class ArmeriaServerConfig {
     @Bean
-    public ArmeriaServerConfigurator calculatorConfigurator(Calculator.AsyncIface calculator) {
+    public ArmeriaServerConfigurator calculatorConfigurator(CalculatorService.AsyncIface calculatorService) {
         return server -> server.route()
                                .path("/calculator")
                                .defaultServiceName("Calculator")
                                .decorator(LoggingService.newDecorator())
                                .accessLogWriter(AccessLogWriter.combined(), false)
-                               .build(THttpService.of(calculator));
+                               .build(THttpService.of(calculatorService));
     }
 
     @Bean
@@ -46,10 +46,10 @@ public class ArmeriaServerConfig {
 
     @Bean
     public DocServiceConfigurator docServiceConfigurator() {
-        final List<?> requests = List.of(new Calculator.add_args(1, 2),
-                                         new Calculator.calculate_args(1, new Work(5, 3, Operation.SUBTRACT)),
-                                         new HelloService.hello1_args("hirakida"),
-                                         new HelloService.hello2_args(new HelloRequest("hirakida")));
+        final List<?> requests = List.of(
+                new CalculatorService.calculate_args(1, new Work(5, 3, Operation.SUBTRACT)),
+                new HelloService.hello1_args("hirakida"),
+                new HelloService.hello2_args(new HelloRequest("hirakida")));
         return builder -> builder.exampleRequests(requests);
     }
 }

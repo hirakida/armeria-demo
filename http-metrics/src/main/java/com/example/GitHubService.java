@@ -1,5 +1,7 @@
 package com.example;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import com.linecorp.armeria.client.RestClient;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.Param;
@@ -14,10 +16,10 @@ public class GitHubService {
 
     @Get("/github/{username}")
     @ProducesJson
-    public User githubUser(@Param("username") String username) {
+    public JsonNode getGitHubUser(@Param("username") String username) {
         return restClient.get("/users/{username}")
                          .pathParam("username", username)
-                         .execute(User.class)
+                         .execute(JsonNode.class)
                          .join()
                          .content();
     }

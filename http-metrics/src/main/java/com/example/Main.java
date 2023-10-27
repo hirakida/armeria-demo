@@ -24,7 +24,7 @@ public final class Main {
                           .decorator(LoggingClient.newDecorator())
                           .decorator(MetricCollectingClient.newDecorator(
                                   MeterIdPrefixFunction.ofDefault("http.client")
-                                                       .withTags("service", "githubClient")))
+                                                       .withTags("service", "gitHubClient")))
                           .factory(ClientFactory.builder()
                                                 .meterRegistry(meterRegistry)
                                                 .build())

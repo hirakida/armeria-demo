@@ -20,6 +20,16 @@ public final class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
+        final GitHubClient client = createClient();
+
+        final User user = client.getUser("hirakida").join().content();
+        logger.info("{}", user);
+
+        final List<Repo> repos = client.getRepos("hirakida").join().content();
+        repos.forEach(repo -> logger.info("{}", repo));
+    }
+
+    private static GitHubClient createClient() {
         final ClientFactory factory = ClientFactory.builder()
                                                    .connectTimeout(Duration.ofSeconds(10))
                                                    .idleTimeout(Duration.ofSeconds(10))
@@ -27,7 +37,6 @@ public final class Main {
                                                    .build();
         final RestClient restClient =
                 RestClient.builder("https://api.github.com")
-                          .decorator(LoggingDecorator::new)
                           .decorator(ContentPreviewingClient.newDecorator(1000))
                           .decorator(LoggingClient.builder()
                                                   .requestLogLevel(LogLevel.INFO)
@@ -37,21 +46,6 @@ public final class Main {
                           .writeTimeout(Duration.ofSeconds(10))
                           .factory(factory)
                           .build();
-        final GitHubClient client = new GitHubClient(restClient);
-
-        User user = client.getUser("hirakida")
-                          .join()
-                          .content();
-        logger.info("{}", user);
-
-        user = client.getUserWithAttr("hirakida")
-                     .join()
-                     .content();
-        logger.info("{}", user);
-
-        final List<Repo> repos = client.getRepos("hirakida")
-                                       .join()
-                                       .content();
-        repos.forEach(repo -> logger.info("{}", repo));
+        return new GitHubClient(restClient);
     }
 }

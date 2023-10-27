@@ -1,6 +1,6 @@
 package com.example;
 
-import static com.example.LoggingDecorator.USERNAME_ATTR;
+import static com.example.HelloDecorator.USERNAME_ATTR;
 
 import java.time.Duration;
 
@@ -25,12 +25,27 @@ public final class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
+        final GitHubService service = createClient();
+
+        service.getUser("hirakida")
+               .thenAccept(user -> logger.info("{}", user))
+               .join();
+
+        try (SafeCloseable ignored =
+                     Clients.withContextCustomizer(ctx -> ctx.setAttr(USERNAME_ATTR, "hirakida"))) {
+            service.getKeys("hirakida")
+                   .doOnSuccess(response -> logger.info("{}", response))
+                   .blockingSubscribe();
+        }
+    }
+
+    private static GitHubService createClient() {
         final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         final Retrofit retrofit =
                 ArmeriaRetrofit.builder("https://api.github.com")
                                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                               .decorator(LoggingDecorator::new)
+                               .decorator(HelloDecorator::new)
                                .decorator(ContentPreviewingClient.newDecorator(1000))
                                .decorator(LoggingClient.builder()
                                                        .requestLogLevel(LogLevel.INFO)
@@ -39,16 +54,6 @@ public final class Main {
                                .responseTimeout(Duration.ofSeconds(10))
                                .writeTimeout(Duration.ofSeconds(10))
                                .build();
-        final GitHubService service = retrofit.create(GitHubService.class);
-
-        try (SafeCloseable ignored =
-                     Clients.withContextCustomizer(ctx -> ctx.setAttr(USERNAME_ATTR, "hirakida"))) {
-            service.getUser("hirakida")
-                   .thenAccept(user -> logger.info("{}", user))
-                   .join();
-            service.getKeys("hirakida")
-                   .doOnSuccess(response -> logger.info("{}", response))
-                   .blockingSubscribe();
-        }
+        return retrofit.create(GitHubService.class);
     }
 }

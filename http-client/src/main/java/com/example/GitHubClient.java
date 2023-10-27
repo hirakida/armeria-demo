@@ -1,7 +1,5 @@
 package com.example;
 
-import static com.example.LoggingDecorator.USERNAME_ATTR;
-
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -23,13 +21,6 @@ public class GitHubClient {
     public CompletableFuture<ResponseEntity<User>> getUser(String username) {
         return restClient.get("/users/{username}")
                          .pathParam("username", username)
-                         .execute(User.class);
-    }
-
-    public CompletableFuture<ResponseEntity<User>> getUserWithAttr(String username) {
-        return restClient.get("/users/{username}")
-                         .pathParam("username", username)
-                         .attr(USERNAME_ATTR, username)
                          .execute(User.class);
     }
 

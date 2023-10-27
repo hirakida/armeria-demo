@@ -17,6 +17,7 @@ public final class Main {
 
     public static void main(String[] args) {
         final RetryRule rule = RetryRule.builder()
+                                        .onUnprocessed()
                                         .onStatus(HttpStatus.UNAUTHORIZED)
                                         .thenBackoff(Backoff.ofDefault());
         final RestClient restClient =

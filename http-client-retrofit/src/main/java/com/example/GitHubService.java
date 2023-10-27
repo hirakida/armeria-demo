@@ -16,8 +16,4 @@ public interface GitHubService {
 
     @GET("/users/{username}/keys")
     Single<List<Key>> getKeys(@Path("username") String username);
-
-    default CompletableFuture<User> getUser() {
-        return getUser("hirakida");
-    }
 }

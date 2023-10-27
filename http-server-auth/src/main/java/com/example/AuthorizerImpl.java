@@ -1,4 +1,4 @@
-package com.example.decorator;
+package com.example;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -19,6 +19,6 @@ public class AuthorizerImpl implements Authorizer<HttpRequest> {
     public CompletionStage<Boolean> authorize(ServiceRequestContext ctx, HttpRequest req) {
         final OAuth2Token token = AuthTokenExtractors.oAuth2().apply(req.headers());
         logger.info("token: {}", token);
-        return CompletableFuture.completedFuture(true);
+        return CompletableFuture.completedFuture(token != null);
     }
 }

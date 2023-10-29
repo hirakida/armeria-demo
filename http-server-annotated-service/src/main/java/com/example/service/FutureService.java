@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.linecorp.armeria.common.ContextAwareEventLoop;
-import com.linecorp.armeria.common.HttpResponse;
-import com.linecorp.armeria.common.RequestContext;
 import com.linecorp.armeria.server.ServiceRequestContext;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.PathPrefix;
@@ -18,29 +16,27 @@ public class FutureService {
 
     @Get("/1")
     public CompletableFuture<String> future1(ServiceRequestContext ctx) {
-        logger.info("{}", ctx.eventLoop().inEventLoop());
+        logger.info("inEventLoop={}", ctx.eventLoop().inEventLoop());
         return CompletableFuture.supplyAsync(() -> {
-            logger.info("{}", ctx.eventLoop().inEventLoop());
+            logger.info("inEventLoop={}", ctx.eventLoop().inEventLoop());
             return "Hello!";
         });
     }
 
     @Get("/2")
-    public CompletableFuture<HttpResponse> future2(ServiceRequestContext ctx) {
-        logger.info("{}", ctx.eventLoop().inEventLoop());
-        return CompletableFuture.supplyAsync(() -> {
-            logger.info("{}", ctx.eventLoop().inEventLoop());
-            return HttpResponse.of("Hello!!");
+    public CompletableFuture<Void> future2(ServiceRequestContext ctx) {
+        logger.info("inEventLoop={}", ctx.eventLoop().inEventLoop());
+        return CompletableFuture.runAsync(() -> {
+            logger.info("inEventLoop={}", ctx.eventLoop().inEventLoop());
         });
     }
 
     @Get("/3")
-    public CompletableFuture<String> future3(ServiceRequestContext ctx) {
+    public CompletableFuture<Void> future3(ServiceRequestContext ctx) {
         final ContextAwareEventLoop eventLoop = ctx.eventLoop();
-        logger.info("{}", eventLoop.inEventLoop());
-        return CompletableFuture.supplyAsync(() -> {
-            logger.info("{} {}", eventLoop.inEventLoop(), RequestContext.current().log());
-            return "Hello!!!";
+        logger.info("inEventLoop={}", eventLoop.inEventLoop());
+        return CompletableFuture.runAsync(() -> {
+            logger.info("inEventLoop={}", eventLoop.inEventLoop());
         }, eventLoop);
     }
 }

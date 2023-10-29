@@ -16,11 +16,12 @@ public final class Main {
                       .accessLogWriter(AccessLogWriter.combined(), false)
                       .serviceUnder("/docs", new DocService())
                       .decorator(LoggingService.newDecorator())
-                      .decorator(delegate -> new HelloDecorator(delegate, "Hello0"))
+                      .decorator(delegate -> new HelloDecorator(delegate, "Global decorator"))
+                      .routeDecorator()
+                      .path("/hello")
+                      .build(delegate -> new HelloDecorator(delegate, "Route decorator2"))
                       .decorator("/hello",
-                                 delegate -> new HelloDecorator(delegate, "router decorator2"))
-                      .decorator("/hello",
-                                 delegate -> new HelloDecorator(delegate, "router decorator1"))
+                                 delegate -> new HelloDecorator(delegate, "Route decorator1"))
                       // HelloService
                       .annotatedService()
                       .decorator(DateTimeDecorator::new)

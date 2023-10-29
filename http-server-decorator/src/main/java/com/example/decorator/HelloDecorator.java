@@ -19,8 +19,7 @@ public class HelloDecorator extends SimpleDecoratingHttpService {
     }
 
     @Override
-    public HttpResponse serve(ServiceRequestContext ctx, HttpRequest req)
-            throws Exception {
+    public HttpResponse serve(ServiceRequestContext ctx, HttpRequest req) throws Exception {
         logger.info(message);
         return unwrap().serve(ctx, req);
     }

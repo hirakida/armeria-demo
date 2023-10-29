@@ -9,12 +9,12 @@ import com.linecorp.armeria.common.AggregatedHttpResponse;
 import com.linecorp.armeria.server.ServerBuilder;
 import com.linecorp.armeria.testing.junit5.server.ServerExtension;
 
-class TextServiceTest {
+class HelloServiceTest {
     @RegisterExtension
     static final ServerExtension server = new ServerExtension() {
         @Override
         protected void configure(ServerBuilder sb) throws Exception {
-            sb.annotatedService(new TextService());
+            sb.annotatedService(new HelloService());
         }
     };
 

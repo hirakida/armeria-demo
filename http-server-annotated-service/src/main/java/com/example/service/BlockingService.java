@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
+import com.linecorp.armeria.common.RequestContext;
 import com.linecorp.armeria.server.ServiceRequestContext;
 import com.linecorp.armeria.server.annotation.Blocking;
 import com.linecorp.armeria.server.annotation.Get;
@@ -44,8 +45,6 @@ public class BlockingService {
     public HttpResponse blocking3(ServiceRequestContext ctx) {
         logger.info("inEventLoop={}", ctx.eventLoop().inEventLoop());
 
-        ctx.makeContextAware(() -> logger.info("inEventLoop={}", ctx.eventLoop().inEventLoop()))
-           .run();
         ctx.makeContextAware(ctx.blockingTaskExecutor())
            .execute(() -> {
                sleep(1);

@@ -26,7 +26,11 @@ public class DateTimeDecorator extends SimpleDecoratingHttpService {
     public HttpResponse serve(ServiceRequestContext ctx, HttpRequest req) throws Exception {
         final LocalDateTime now = LocalDateTime.now();
         logger.info("{}", now);
-        ctx.setAttr(DATETIME_ATTR, now);
-        return unwrap().serve(ctx, req);
+        try {
+            ctx.setAttr(DATETIME_ATTR, now);
+            return unwrap().serve(ctx, req);
+        } catch (Exception e) {
+            return HttpResponse.ofFailure(e);
+        }
     }
 }

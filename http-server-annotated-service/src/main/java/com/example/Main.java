@@ -1,10 +1,10 @@
 package com.example;
 
-import com.example.service.BinaryService;
 import com.example.service.BlockingService;
 import com.example.service.FutureService;
+import com.example.service.HelloService;
 import com.example.service.JsonService;
-import com.example.service.TextService;
+import com.example.service.RequestContextService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -22,10 +22,10 @@ public final class Main {
                                     .decorator(LoggingService.newDecorator())
                                     .accessLogWriter(AccessLogWriter.combined(), false)
                                     .serviceUnder("/docs", new DocService())
-                                    .annotatedService(new BinaryService())
                                     .annotatedService(new BlockingService())
                                     .annotatedService(new FutureService())
-                                    .annotatedService(new TextService())
+                                    .annotatedService(new HelloService())
+                                    .annotatedService(new RequestContextService())
                                     .annotatedService(new JsonService(),
                                                       new JacksonResponseConverterFunction(objectMapper))
                                     .build();

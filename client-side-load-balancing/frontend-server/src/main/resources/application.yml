@@ -1,7 +1,0 @@
-spring:
-  output:
-    ansi:
-      enabled: always
-armeria:
-  ports:
-    - port: 8080

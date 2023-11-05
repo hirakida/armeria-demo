@@ -4,5 +4,4 @@ plugins {
 
 dependencies {
     implementation 'com.linecorp.armeria:armeria-spring-boot3-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

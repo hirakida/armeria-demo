@@ -17,7 +17,7 @@ public class BackendService {
 
     @Get
     public HttpResponse get() {
-        return HttpResponse.of(HttpStatus.valueOf(statusCode.get()));
+        return HttpResponse.of(statusCode.get());
     }
 
     @Put("/up")

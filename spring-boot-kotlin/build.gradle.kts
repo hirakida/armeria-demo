@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-    implementation("com.linecorp.armeria:armeria-spring-boot2-starter")
+    implementation("com.linecorp.armeria:armeria-spring-boot3-starter")
     implementation("com.linecorp.armeria:armeria-kotlin")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

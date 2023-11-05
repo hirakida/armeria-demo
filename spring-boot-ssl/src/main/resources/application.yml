@@ -7,9 +7,9 @@ spring:
 armeria:
   ports:
     - port: 8080
-      protocol: HTTP
+      protocols: HTTP
     - port: 8443
-      protocol: HTTPS
+      protocols: HTTPS
   ssl:
     key-store: keystore.p12
     key-store-password: hirakida

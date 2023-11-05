@@ -6,7 +6,7 @@ dependencies {
     implementation project(':thrift:thrift')
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
-    implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
+    implementation 'com.linecorp.armeria:armeria-spring-boot3-starter'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'com.linecorp.armeria:armeria-junit5'

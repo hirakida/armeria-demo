@@ -11,7 +11,7 @@ import com.linecorp.armeria.server.logging.LoggingService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 
 @Configuration
-public class ArmeriaServerConfig {
+public class ArmeriaConfig {
     @Bean
     public ArmeriaServerConfigurator armeriaServerConfigurator() {
         return builder -> {

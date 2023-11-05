@@ -19,7 +19,7 @@ import com.linecorp.armeria.server.thrift.THttpService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 import com.linecorp.armeria.spring.DocServiceConfigurator;
 
-import io.micrometer.prometheus.PrometheusMeterRegistry;
+import io.micrometer.core.instrument.MeterRegistry;
 
 @Configuration
 public class ArmeriaServerConfig {
@@ -31,7 +31,7 @@ public class ArmeriaServerConfig {
                                .decorator(LoggingService.newDecorator())
                                .accessLogWriter(AccessLogWriter.combined(), false)
                                .build(THttpService.of(calculatorService))
-                               .meterRegistry(prometheusMeterRegistry());
+                               .meterRegistry(meterRegistry());
     }
 
     @Bean
@@ -46,11 +46,11 @@ public class ArmeriaServerConfig {
                                                              ThriftSerializationFormats.COMPACT,
                                                              ThriftSerializationFormats.JSON,
                                                              ThriftSerializationFormats.TEXT))
-                               .meterRegistry(prometheusMeterRegistry());
+                               .meterRegistry(meterRegistry());
     }
 
     @Bean
-    public PrometheusMeterRegistry prometheusMeterRegistry() {
+    public MeterRegistry meterRegistry() {
         return PrometheusMeterRegistries.defaultRegistry();
     }
 

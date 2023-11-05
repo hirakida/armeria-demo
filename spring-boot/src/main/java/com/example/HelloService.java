@@ -2,9 +2,6 @@ package com.example;
 
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.Min;
-
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
@@ -14,8 +11,12 @@ import com.linecorp.armeria.server.annotation.Post;
 import com.linecorp.armeria.server.annotation.ProducesJson;
 import com.linecorp.armeria.server.annotation.RequestObject;
 
-import lombok.Data;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 @Component
 @Validated
@@ -34,19 +35,18 @@ public class HelloService {
 
     @Post("/")
     @ProducesJson
-    public HelloResponse hello(@RequestObject HelloRequest request) {
+    public HelloResponse hello(@RequestObject @Valid HelloRequest request) {
         return new HelloResponse(request.getMessage(), LocalDateTime.now());
     }
 
-    @Data
+    @Value
+    @Builder
+    @Jacksonized
     public static class HelloRequest {
         @NotNull
-        private String message;
+        String message;
     }
 
-    @Value
-    public static class HelloResponse {
-        String message;
-        LocalDateTime dateTime;
+    public record HelloResponse(String message, LocalDateTime dateTime) {
     }
 }

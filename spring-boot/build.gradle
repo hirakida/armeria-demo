@@ -5,7 +5,7 @@ plugins {
 dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
-    implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
+    implementation 'com.linecorp.armeria:armeria-spring-boot3-starter'
     implementation 'org.springframework.boot:spring-boot-starter-json'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'io.micrometer:micrometer-registry-prometheus'

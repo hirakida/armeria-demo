@@ -6,15 +6,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.databind.JsonNode;
+
+import com.linecorp.armeria.client.RestClient;
+import com.linecorp.armeria.common.HttpEntity;
 
 @RestController
-@RequiredArgsConstructor
 public class GitHubController {
-    private final GitHubClient client;
+    private final RestClient restClient;
+
+    public GitHubController(RestClient restClient) {
+        this.restClient = restClient;
+    }
 
     @GetMapping("/users/{username}")
-    public CompletableFuture<User> getUser(@PathVariable String username) {
-        return client.getUser(username);
+    public CompletableFuture<JsonNode> getUser(@PathVariable String username) {
+        return restClient.get("/users/{username}")
+                         .pathParam("username", username)
+                         .execute(JsonNode.class)
+                         .thenApply(HttpEntity::content);
     }
 }

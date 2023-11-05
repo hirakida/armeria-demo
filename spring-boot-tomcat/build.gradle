@@ -3,11 +3,8 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor 'org.projectlombok:lombok'
-    compileOnly 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
+    implementation 'com.linecorp.armeria:armeria-spring-boot3-starter'
     implementation 'com.linecorp.armeria:armeria-tomcat9'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.junit.platform:junit-platform-launcher'
 }

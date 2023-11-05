@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
-import com.linecorp.armeria.common.RequestContext;
 import com.linecorp.armeria.server.ServiceRequestContext;
 import com.linecorp.armeria.server.annotation.Blocking;
 import com.linecorp.armeria.server.annotation.Get;
@@ -38,7 +37,7 @@ public class BlockingService {
                logger.info("inEventLoop={}", ctx.eventLoop().inEventLoop());
                future.complete(HttpResponse.of("Hello!"));
            });
-        return HttpResponse.from(future);
+        return HttpResponse.of(future);
     }
 
     @Get("/3")

@@ -25,7 +25,7 @@ class HelloServiceImplTest {
         protected void configure(ServerBuilder sb) throws Exception {
             sb.route()
               .path("/hello")
-              .defaultServiceName("Hello")
+              .defaultServiceName("HelloService")
               .build(THttpService.of(new HelloServiceImpl()));
         }
     };

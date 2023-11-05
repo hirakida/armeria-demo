@@ -17,6 +17,10 @@ subprojects {
         sourceCompatibility = JavaVersion.VERSION_17
     }
 
+    compileJava {
+        options.deprecation = true
+    }
+
     repositories {
         mavenCentral()
     }
@@ -39,7 +43,8 @@ subprojects {
     }
 
     dependencies {
-        implementation platform('com.linecorp.armeria:armeria-bom:1.24.2')
+        implementation platform('com.linecorp.armeria:armeria-bom:1.26.1')
+        implementation platform('io.netty:netty-bom:4.1.100.Final')
         implementation 'org.jetbrains:annotations:24.0.1'
     }
 

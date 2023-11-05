@@ -8,14 +8,14 @@ pluginManagement {
 
 rootProject.name = 'armeria-demo'
 
-include ':circuit-breaker',
-        ':client-side-load-balancing:backend-server',
+include ':client-side-load-balancing:backend-server',
         ':client-side-load-balancing:frontend-server',
         ':graphql',
         ':grpc:grpc-client',
         ':grpc:grpc-server',
         ':grpc:protobuf',
         ':http-client',
+        ':http-client-circuit-breaker',
         ':http-client-decorator',
         ':http-client-retrofit',
         ':http-client-retry',

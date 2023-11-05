@@ -20,10 +20,8 @@ public class ArmeriaConfig {
     private static final String URL = "http://localhost:8080/";
 
     @Bean
-    public ArmeriaServerConfigurator armeriaServerConfigurator(CircuitBreakerService circuitBreakerService,
-                                                               BackendService backendService) {
+    public ArmeriaServerConfigurator armeriaServerConfigurator(BackendService backendService) {
         return builder -> builder.serviceUnder("/docs", new DocService())
-                                 .annotatedService(circuitBreakerService)
                                  .annotatedService(backendService);
     }
 

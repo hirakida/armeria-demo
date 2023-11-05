@@ -23,5 +23,5 @@ exception InvalidOperation {
  * Calculator Service.
  */
 service CalculatorService {
-    i32 calculate(1:i32 logid, 2:Work w) throws (1:InvalidOperation ouch)
+    i32 calculate(1:i32 logid, 2:Work work) throws (1:InvalidOperation invalidOperation)
 }

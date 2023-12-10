@@ -16,7 +16,7 @@ public class GitHubService {
 
     @Get("/github/{username}")
     @ProducesJson
-    public JsonNode getGitHubUser(@Param("username") String username) {
+    public JsonNode getUser(@Param String username) {
         return restClient.get("/users/{username}")
                          .pathParam("username", username)
                          .execute(JsonNode.class)

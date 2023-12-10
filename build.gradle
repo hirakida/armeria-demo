@@ -20,6 +20,7 @@ subprojects {
 
     compileJava {
         options.deprecation = true
+        options.compilerArgs += '-parameters'
     }
 
     repositories {

@@ -27,7 +27,7 @@ import com.linecorp.armeria.server.annotation.RequestObject;
 public class JsonService {
     @Get("/date")
     @ProducesJson
-    public LocalDate getDate(@Param("zoneId") Optional<String> zoneId) {
+    public LocalDate getDate(@Param Optional<String> zoneId) {
         return zoneId.map(ZoneId::of)
                      .map(LocalDate::now)
                      .orElse(LocalDate.now());
@@ -35,13 +35,13 @@ public class JsonService {
 
     @Get("/datetime")
     @ProducesJson
-    public LocalDateTime getDateTime(@Param("zoneId") @Default("Asia/Tokyo") String zoneId) {
+    public LocalDateTime getDateTime(@Param @Default("Asia/Tokyo") String zoneId) {
         return LocalDateTime.now(ZoneId.of(zoneId));
     }
 
     @Get("/datetimes")
     @ProducesJson
-    public Map<ZoneId, LocalDateTime> getDateTimes(@Param("zoneIds") @Default Set<String> zoneIds) {
+    public Map<ZoneId, LocalDateTime> getDateTimes(@Param Set<String> zoneIds) {
         return zoneIds.stream()
                       .map(ZoneId::of)
                       .map(zone -> Map.entry(zone, LocalDateTime.now(zone)))

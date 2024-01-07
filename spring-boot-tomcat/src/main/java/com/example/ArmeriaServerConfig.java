@@ -6,11 +6,18 @@ import org.springframework.boot.web.servlet.context.ServletWebServerApplicationC
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.linecorp.armeria.server.healthcheck.HealthChecker;
 import com.linecorp.armeria.server.tomcat.TomcatService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 
 @Configuration
 public class ArmeriaServerConfig {
+    @Bean
+    public HealthChecker tomcatConnectorHealthChecker(ServletWebServerApplicationContext applicationContext) {
+        final Connector connector = getConnector(applicationContext);
+        return () -> connector.getState().isAvailable();
+    }
+
     @Bean
     public TomcatService tomcatService(ServletWebServerApplicationContext applicationContext) {
         final Connector connector = getConnector(applicationContext);

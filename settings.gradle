@@ -27,4 +27,5 @@ include ':graphql',
         ':spring-boot-webflux',
         ':thrift:thrift',
         ':thrift:thrift-client',
-        ':thrift:thrift-server'
+        ':thrift:thrift-server',
+        ':websocket-server'

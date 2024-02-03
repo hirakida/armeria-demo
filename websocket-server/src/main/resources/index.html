@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket</title>
+</head>
+<body>
+<script>
+  let ws = new WebSocket('ws://localhost:8080/ws');
+  ws.onopen = () => {
+    console.log('open');
+    setInterval(() => ws.send(new Date()), 3000);
+  };
+  ws.onmessage = (message) => console.log('message: ' + message.data);
+  ws.onclose = () => console.log('close');
+  ws.onerror = event => console.log('error', event);
+</script>
+</body>
+</html>

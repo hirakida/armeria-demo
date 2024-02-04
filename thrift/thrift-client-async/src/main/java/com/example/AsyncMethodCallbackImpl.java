@@ -1,18 +1,19 @@
 package com.example;
 
 import org.apache.thrift.async.AsyncMethodCallback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class AsyncMethodCallbackImpl<T> implements AsyncMethodCallback<T> {
+    private static final Logger logger = LoggerFactory.getLogger(AsyncMethodCallbackImpl.class);
+
     @Override
     public void onComplete(T response) {
-        log.info("response: {}", response);
+        logger.info("response: {}", response);
     }
 
     @Override
     public void onError(Exception e) {
-        log.error("{}", e.getMessage(), e);
+        logger.error("{}", e.getMessage(), e);
     }
 }

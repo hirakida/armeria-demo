@@ -1,17 +1,11 @@
 package com.example;
 
-import java.util.concurrent.TimeUnit;
-
-import org.apache.thrift.async.AsyncMethodCallback;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.example.hello.HelloRequest;
 import com.example.hello.HelloResponse;
 import com.example.hello.HelloService;
-import com.example.thrift.CalculatorService;
-import com.example.thrift.Operation;
-import com.example.thrift.Work;
 
 import com.linecorp.armeria.client.logging.LoggingRpcClient;
 import com.linecorp.armeria.client.thrift.ThriftClients;
@@ -19,32 +13,24 @@ import com.linecorp.armeria.common.SerializationFormat;
 import com.linecorp.armeria.common.logging.LogLevel;
 import com.linecorp.armeria.common.thrift.ThriftSerializationFormats;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+public final class Main {
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-@Component
-@RequiredArgsConstructor
-@Slf4j
-public class ThriftClientRunner implements CommandLineRunner {
-    private final CalculatorService.AsyncIface calculatorClient;
-
-    @Override
-    public void run(String... args) throws Exception {
-        final AsyncMethodCallback<Integer> resultHandler = new AsyncMethodCallbackImpl<>();
-        calculatorClient.calculate(1, new Work(5, 3, Operation.SUBTRACT), resultHandler);
-        TimeUnit.SECONDS.sleep(1);
-
+    public static void main(String[] args) throws Exception {
         final HelloService.Iface client1 = buildClient(ThriftSerializationFormats.BINARY);
-        log.info("{}", client1.hello1("tbinary"));
+        logger.info("{}", client1.hello1("tbinary"));
+
         final HelloService.Iface client2 = buildClient(ThriftSerializationFormats.COMPACT);
-        log.info("{}", client2.hello1("tcompact"));
+        logger.info("{}", client2.hello1("tcompact"));
+
         final HelloService.Iface client3 = buildClient(ThriftSerializationFormats.JSON);
-        log.info("{}", client3.hello1("tjson"));
+        logger.info("{}", client3.hello1("tjson"));
+
         final HelloService.Iface client4 = buildClient(ThriftSerializationFormats.TEXT);
-        log.info("{}", client4.hello1("ttext"));
+        logger.info("{}", client4.hello1("ttext"));
 
         final HelloResponse response2 = client1.hello2(new HelloRequest("hirakida"));
-        log.info("{}", response2);
+        logger.info("{}", response2);
     }
 
     private static HelloService.Iface buildClient(SerializationFormat format) {

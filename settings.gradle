@@ -28,4 +28,5 @@ include ':graphql',
         ':thrift:thrift',
         ':thrift:thrift-client',
         ':thrift:thrift-server',
+        ':websocket-client',
         ':websocket-server'

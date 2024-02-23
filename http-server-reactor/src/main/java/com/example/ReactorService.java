@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.linecorp.armeria.common.ContextAwareEventLoop;
+import com.linecorp.armeria.common.RequestContext;
 import com.linecorp.armeria.common.sse.ServerSentEvent;
 import com.linecorp.armeria.server.ServiceRequestContext;
 import com.linecorp.armeria.server.annotation.Get;
@@ -31,6 +32,8 @@ public class ReactorService {
     @ProducesJson
     public Flux<LocalTime> flux() {
         return Flux.range(1, 5)
+                   .delayElements(Duration.ofMillis(500))
+                   .doOnNext(i -> logger.info("{} {}", i, RequestContext.currentOrNull()))
                    .map(i -> LocalTime.now());
     }
 
@@ -41,7 +44,7 @@ public class ReactorService {
         return Flux.interval(Duration.ofSeconds(1))
                    .take(5)
                    .publishOn(Schedulers.fromExecutor(eventLoop))
-                   .doOnNext(i -> logger.info("{}", i))
+                   .doOnNext(i -> logger.info("{} {}", i, RequestContext.currentOrNull()))
                    .scan(Long::sum)
                    .map(data -> ServerSentEvent.ofData(data.toString()));
     }

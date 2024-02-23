@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.linecorp.armeria.common.ContextAwareEventLoop;
+import com.linecorp.armeria.common.RequestContext;
 import com.linecorp.armeria.common.sse.ServerSentEvent;
 import com.linecorp.armeria.server.ServiceRequestContext;
 import com.linecorp.armeria.server.annotation.Get;
@@ -46,12 +47,15 @@ public class RxJavaService {
     @ProducesJson
     public Flowable<Integer> delay(ServiceRequestContext ctx) {
         final ContextAwareEventLoop eventLoop = ctx.eventLoop();
-        return Flowable.range(1, 5)
-                       .doOnNext(i -> logger.info("log1 inEventLoop={}", eventLoop.inEventLoop()))
+        return Flowable.range(1, 3)
+                       .doOnNext(i -> logger.info("log1 inEventLoop={} {}", eventLoop.inEventLoop(),
+                                                  RequestContext.currentOrNull()))
                        .delay(100, TimeUnit.MILLISECONDS)
-                       .doOnNext(i -> logger.info("log2 inEventLoop={}", eventLoop.inEventLoop()))
+                       .doOnNext(i -> logger.info("log2 inEventLoop={} {}", eventLoop.inEventLoop(),
+                                                  RequestContext.currentOrNull()))
                        .observeOn(Schedulers.from(eventLoop))
-                       .doOnNext(time -> logger.info("log3 inEventLoop={}", eventLoop.inEventLoop()));
+                       .doOnNext(time -> logger.info("log3 inEventLoop={} {}", eventLoop.inEventLoop(),
+                                                     RequestContext.currentOrNull()));
     }
 
     @Get("/sse")
@@ -60,8 +64,11 @@ public class RxJavaService {
         final ContextAwareEventLoop eventLoop = ctx.eventLoop();
         return Flowable.interval(100, TimeUnit.MILLISECONDS)
                        .take(5)
+                       .doOnNext(i -> logger.info("inEventLoop={} {}", eventLoop.inEventLoop(),
+                                                  RequestContext.currentOrNull()))
                        .observeOn(Schedulers.from(eventLoop))
-                       .doOnNext(i -> logger.info("{}", i))
+                       .doOnNext(i -> logger.info("inEventLoop={} {}", eventLoop.inEventLoop(),
+                                                  RequestContext.currentOrNull()))
                        .scan(Long::sum)
                        .map(data -> ServerSentEvent.ofData(data.toString()));
     }

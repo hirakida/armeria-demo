@@ -5,11 +5,11 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
+import com.linecorp.armeria.server.annotation.ExceptionHandler;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.Param;
 import com.linecorp.armeria.server.annotation.Post;
 import com.linecorp.armeria.server.annotation.ProducesJson;
-import com.linecorp.armeria.server.annotation.RequestObject;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -20,22 +20,21 @@ import lombok.extern.jackson.Jacksonized;
 
 @Component
 @Validated
+@ExceptionHandler(ExceptionHandlerImpl.class)
 public class HelloService {
     @Get("/hello1")
-    @ProducesJson
-    public HelloResponse hello(@Param String name) {
-        return new HelloResponse(String.format("Hello, %s!", name), LocalDateTime.now());
+    public String hello1(@Param String name) {
+        return "Hello, %s!".formatted(name);
     }
 
     @Get("/hello2")
-    @ProducesJson
-    public HelloResponse hello(@Param @Min(1) int size) {
-        return new HelloResponse(String.format("Hello, %d!", size), LocalDateTime.now());
+    public String hello2(@Param @Min(1) int number) {
+        return "Hello, %d!".formatted(number);
     }
 
-    @Post("/")
+    @Post("/hello3")
     @ProducesJson
-    public HelloResponse hello(@RequestObject @Valid HelloRequest request) {
+    public HelloResponse hello3(@Valid HelloRequest request) {
         return new HelloResponse(request.getMessage(), LocalDateTime.now());
     }
 

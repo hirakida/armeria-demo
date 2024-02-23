@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component
 @Component
 @ProducesJson
 class HelloService {
-    data class Response(val message: String)
+    data class HelloResponse(val message: String)
 
     @Get("/hello")
-    suspend fun hello(@Param @Default("hirakida") name: String): Response {
+    suspend fun hello(@Param @Default("Armeria") name: String): HelloResponse {
         delay(1000)
-        return Response("Hello, $name!")
+        return HelloResponse("Hello, $name!")
     }
 }

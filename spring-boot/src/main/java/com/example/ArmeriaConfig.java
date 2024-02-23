@@ -11,6 +11,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import com.linecorp.armeria.client.RestClient;
+import com.linecorp.armeria.client.logging.LoggingClient;
+import com.linecorp.armeria.common.logging.LogLevel;
 import com.linecorp.armeria.common.metric.PrometheusMeterRegistries;
 import com.linecorp.armeria.server.annotation.JacksonRequestConverterFunction;
 import com.linecorp.armeria.server.annotation.JacksonResponseConverterFunction;
@@ -22,26 +25,41 @@ import com.linecorp.armeria.spring.DocServiceConfigurator;
 import io.micrometer.core.instrument.MeterRegistry;
 
 @Configuration
-public class ArmeriaServerConfig {
+public class ArmeriaConfig {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .registerModule(new JavaTimeModule());
 
     @Bean
-    public ArmeriaServerConfigurator armeriaServerConfigurator(HelloService helloService) {
-        return builder -> builder.annotatedService(helloService,
-                                                   new JacksonRequestConverterFunction(OBJECT_MAPPER),
-                                                   new JacksonResponseConverterFunction(OBJECT_MAPPER))
+    public ArmeriaServerConfigurator armeriaServerConfigurator(HelloService helloService,
+                                                               GitHubService gitHubService) {
+        final JacksonRequestConverterFunction requestConverter =
+                new JacksonRequestConverterFunction(OBJECT_MAPPER);
+        final JacksonResponseConverterFunction responseConverter =
+                new JacksonResponseConverterFunction(OBJECT_MAPPER);
+        return builder -> builder.annotatedService(helloService, requestConverter, responseConverter)
+                                 .annotatedService(gitHubService, requestConverter, responseConverter)
                                  .decorator(LoggingService.newDecorator())
                                  .accessLogWriter(AccessLogWriter.combined(), false);
     }
 
     @Bean
     public DocServiceConfigurator docServiceConfigurator() {
-        return builder -> builder.exampleQueries(HelloService.class, "hello1", "name=hirakida")
+        return builder -> builder.exampleQueries(HelloService.class, "hello1", "name=Armeria")
                                  .exampleQueries(HelloService.class, "hello2", "number=1")
                                  .exampleRequests(HelloService.class, "hello3",
-                                                  toJsonString(new HelloRequest("Hello!")));
+                                                  toJsonString(new HelloRequest("Hello!")))
+                                 .examplePaths(GitHubService.class, "getUser", "/users/hirakida");
+    }
+
+    @Bean
+    public RestClient restClient() {
+        return RestClient.builder("https://api.github.com")
+                         .decorator(LoggingClient.builder()
+                                                 .requestLogLevel(LogLevel.INFO)
+                                                 .successfulResponseLogLevel(LogLevel.INFO)
+                                                 .newDecorator())
+                         .build();
     }
 
     @Bean

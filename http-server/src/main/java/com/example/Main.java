@@ -30,15 +30,16 @@ public final class Main {
 
     @VisibleForTesting
     static void configureServices(ServerBuilder sb) {
-        sb.serviceUnder("/docs", new DocService())
+        sb.http(8080)
           .decorator(LoggingService.newDecorator())
           .accessLogWriter(AccessLogWriter.combined(), false)
+          .serviceUnder("/docs", new DocService())
           .service("/",
                    (ctx, req) -> HttpResponse.of("Hello, Armeria!"))
-          .service("/json",
+          .service("/json/:name",
                    (ctx, req) -> HttpResponse.of(MediaType.JSON_UTF_8,
-                                                 "{\"message\":\"%s\"}",
-                                                 "Hello!"))
+                                                 "{\"message\":\"Hello, %s!\"}",
+                                                 ctx.pathParam("name")))
           .service("/delayed",
                    (ctx, req) -> HttpResponse.delayed(HttpResponse.of("Hello!"),
                                                       Duration.ofSeconds(3)))

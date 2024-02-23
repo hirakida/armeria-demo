@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,17 +12,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.example.ExceptionHandlerImpl;
-
 import com.linecorp.armeria.server.annotation.Default;
 import com.linecorp.armeria.server.annotation.ExceptionHandler;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.Param;
+import com.linecorp.armeria.server.annotation.PathPrefix;
 import com.linecorp.armeria.server.annotation.Post;
 import com.linecorp.armeria.server.annotation.ProducesJson;
 import com.linecorp.armeria.server.annotation.ProducesJsonSequences;
 import com.linecorp.armeria.server.annotation.RequestObject;
 
+@PathPrefix("/json")
 @ExceptionHandler(ExceptionHandlerImpl.class)
 public class JsonService {
     @Get("/date")

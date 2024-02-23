@@ -1,6 +1,6 @@
 package com.example;
 
-import org.apache.catalina.connector.Connector;
+import org.apache.catalina.startup.Tomcat;
 import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -13,15 +13,15 @@ import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 @Configuration
 public class ArmeriaServerConfig {
     @Bean
-    public HealthChecker tomcatConnectorHealthChecker(ServletWebServerApplicationContext applicationContext) {
-        final Connector connector = getConnector(applicationContext);
-        return () -> connector.getState().isAvailable();
+    public HealthChecker healthChecker(ServletWebServerApplicationContext applicationContext) {
+        final Tomcat tomcat = getTomcat(applicationContext);
+        return () -> tomcat.getConnector().getState().isAvailable();
     }
 
     @Bean
     public TomcatService tomcatService(ServletWebServerApplicationContext applicationContext) {
-        final Connector connector = getConnector(applicationContext);
-        return TomcatService.of(connector);
+        final Tomcat tomcat = getTomcat(applicationContext);
+        return TomcatService.of(tomcat);
     }
 
     @Bean
@@ -29,9 +29,9 @@ public class ArmeriaServerConfig {
         return sb -> sb.serviceUnder("/", tomcatService);
     }
 
-    private static Connector getConnector(ServletWebServerApplicationContext applicationContext) {
-        final TomcatWebServer container = (TomcatWebServer) applicationContext.getWebServer();
-        container.start();
-        return container.getTomcat().getConnector();
+    private static Tomcat getTomcat(ServletWebServerApplicationContext applicationContext) {
+        final TomcatWebServer webServer = (TomcatWebServer) applicationContext.getWebServer();
+        webServer.start();
+        return webServer.getTomcat();
     }
 }

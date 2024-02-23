@@ -6,7 +6,7 @@ import com.linecorp.armeria.server.annotation.Get;
 
 @Component
 public class HelloService {
-    @Get("/")
+    @Get("/hello")
     public String hello() {
         return "Hello, Armeria!";
     }

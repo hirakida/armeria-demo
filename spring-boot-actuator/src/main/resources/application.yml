@@ -1,9 +1,8 @@
 spring:
-  main:
-    web-application-type: none
   output:
     ansi:
       enabled: always
-management:
-  server:
+armeria:
+  internal-services:
+    include: actuator
     port: 8081

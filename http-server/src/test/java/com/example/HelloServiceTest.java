@@ -28,8 +28,8 @@ class HelloServiceTest {
     @Test
     void hello2() {
         final WebClient client = client();
-        final AggregatedHttpResponse response = client.get("/hello2").aggregate().join();
-        Assertions.assertEquals("Hello!!", response.contentUtf8());
+        final AggregatedHttpResponse response = client.get("/hello2/test").aggregate().join();
+        Assertions.assertEquals("Hello, test!", response.contentUtf8());
     }
 
     private static WebClient client() {

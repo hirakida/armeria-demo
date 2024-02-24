@@ -1,14 +1,17 @@
 package com.example;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 
 import com.linecorp.armeria.common.HttpData;
 import com.linecorp.armeria.common.HttpHeaderNames;
+import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.common.ResponseHeaders;
 import com.linecorp.armeria.server.annotation.Description;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.HttpResult;
+import com.linecorp.armeria.server.annotation.Param;
 import com.linecorp.armeria.server.annotation.ProducesBinary;
 
 @Description("Hello class")
@@ -19,19 +22,24 @@ public class HelloService {
         return "Hello!";
     }
 
-    @Get("/hello2")
-    @Description("Hello2 method")
-    public HttpResult<String> hello2() {
+    @Get("/hello2/{name}")
+    public HttpResult<String> hello2(@Param String name) {
         final ResponseHeaders headers = ResponseHeaders.builder()
                                                        .status(HttpStatus.OK)
                                                        .add(HttpHeaderNames.CACHE_CONTROL, "no-cache")
                                                        .build();
-        return HttpResult.of(headers, "Hello!!");
+        return HttpResult.of(headers, "Hello, %s!".formatted(name));
+    }
+
+    @Get("/delayed")
+    public HttpResponse delayed() {
+        return HttpResponse.delayed(HttpResponse.of("Hello!"),
+                                    Duration.ofSeconds(3));
     }
 
     @Get("/binary")
     @ProducesBinary
     public HttpData binary() {
-        return HttpData.of(StandardCharsets.UTF_8, "hello!");
+        return HttpData.of(StandardCharsets.UTF_8, "Hello!");
     }
 }

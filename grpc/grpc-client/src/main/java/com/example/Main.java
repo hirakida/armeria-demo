@@ -7,23 +7,14 @@ import com.example.HelloServiceGrpc.HelloServiceStub;
 
 import com.linecorp.armeria.client.grpc.GrpcClients;
 import com.linecorp.armeria.client.logging.LoggingClient;
-import com.linecorp.armeria.common.grpc.GrpcSerializationFormats;
 import com.linecorp.armeria.common.logging.LogLevel;
 
 import io.grpc.stub.StreamObserver;
 
 public final class Main {
     public static void main(String[] args) throws Exception {
-        final HelloServiceStub client1 =
+        final HelloServiceStub client =
                 GrpcClients.builder("http://127.0.0.1:8080")
-                           .decorator(LoggingClient.builder()
-                                                   .requestLogLevel(LogLevel.INFO)
-                                                   .successfulResponseLogLevel(LogLevel.INFO)
-                                                   .newDecorator())
-                           .build(HelloServiceStub.class);
-        final HelloServiceStub client2 =
-                GrpcClients.builder("http://127.0.0.1:8080")
-                           .serializationFormat(GrpcSerializationFormats.JSON)
                            .decorator(LoggingClient.builder()
                                                    .requestLogLevel(LogLevel.INFO)
                                                    .successfulResponseLogLevel(LogLevel.INFO)
@@ -32,18 +23,17 @@ public final class Main {
 
         // Unary
         final HelloRequest request1 = HelloRequest.newBuilder().setName("hirakida1").build();
-        client1.helloUnary(request1, new HelloStreamObserver());
-        client2.helloUnary(request1, new HelloStreamObserver());
+        client.helloUnary(request1, new HelloStreamObserver());
         TimeUnit.SECONDS.sleep(1);
 
         // Server Streaming
         final HelloRequest request2 = HelloRequest.newBuilder().setName("hirakida2").build();
-        client1.helloServerStreaming(request2, new HelloStreamObserver());
+        client.helloServerStreaming(request2, new HelloStreamObserver());
         TimeUnit.SECONDS.sleep(1);
 
         // Client Streaming
         final StreamObserver<HelloRequest> requestStream1 =
-                client1.helloClientStreaming(new HelloStreamObserver());
+                client.helloClientStreaming(new HelloStreamObserver());
         final HelloRequest request3_1 = HelloRequest.newBuilder().setName("hirakida3-1").build();
         final HelloRequest request3_2 = HelloRequest.newBuilder().setName("hirakida3-2").build();
         final HelloRequest request3_3 = HelloRequest.newBuilder().setName("hirakida3-3").build();
@@ -55,7 +45,7 @@ public final class Main {
 
         // Bidirectional Streaming
         final StreamObserver<HelloRequest> requestStream2 =
-                client1.helloBidirectionalStreaming(new HelloStreamObserver());
+                client.helloBidirectionalStreaming(new HelloStreamObserver());
         final HelloRequest request4_1 = HelloRequest.newBuilder().setName("hirakida4-1").build();
         final HelloRequest request4_2 = HelloRequest.newBuilder().setName("hirakida4-2").build();
         final HelloRequest request4_3 = HelloRequest.newBuilder().setName("hirakida4-3").build();

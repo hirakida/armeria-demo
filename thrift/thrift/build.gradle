@@ -1,9 +1,20 @@
 plugins {
-    id 'com.linecorp.thrift-gradle-plugin'
+    id 'java-library'
+    alias(libs.plugins.thrift.plugin)
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
-    implementation 'org.apache.thrift:libthrift'
+    implementation(libs.libthrift)
+    implementation(libs.javax.annotatoin.api)
+    implementation(libs.slf4j.api)
 }
 
 compileThrift {

@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.deprecation = true
+    options.compilerArgs.add('-parameters')
+}
+
+dependencies {
+    implementation(platform(libs.armeria))
+    implementation(platform(libs.netty))
+    implementation(libs.jetbrains.annotations)
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

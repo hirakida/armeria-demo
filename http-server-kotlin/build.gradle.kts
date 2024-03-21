@@ -1,26 +1,16 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    kotlin("jvm")
+    id("armeria-demo.kotlin-conventions")
     application
 }
 
 dependencies {
-    implementation(platform("org.springframework.boot:spring-boot-dependencies"))
     implementation("com.linecorp.armeria:armeria-kotlin")
     implementation("com.linecorp.armeria:armeria-logback")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    implementation(libs.coroutines.core)
     testImplementation("com.linecorp.armeria:armeria-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("org.junit.platform:junit-platform-launcher")
-//    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "17"
-    }
+    testImplementation(libs.coroutines.test)
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 application {

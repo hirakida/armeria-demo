@@ -1,12 +1,12 @@
 plugins {
+    id 'armeria-demo.java-conventions'
     id 'application'
 }
 
 dependencies {
-    implementation platform('org.springframework.boot:spring-boot-dependencies')
     implementation 'com.linecorp.armeria:armeria'
     implementation 'com.linecorp.armeria:armeria-logback'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation libs.micrometer.registry.prometheus
 }
 
 application {

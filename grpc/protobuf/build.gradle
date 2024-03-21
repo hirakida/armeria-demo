@@ -1,21 +1,30 @@
 plugins {
-    id 'org.springframework.boot'
-    id 'com.google.protobuf'
+    id 'java-library'
+    alias(libs.plugins.protobuf.plugin)
 }
 
-bootJar.enabled = false
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
 
 dependencies {
-    implementation 'javax.annotation:javax.annotation-api'
+    implementation(libs.grpc.protobuf)
+    implementation(libs.grpc.stub)
+    implementation(libs.protobuf.java)
+    implementation(libs.javax.annotatoin.api)
 }
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc'
+        artifact = libs.protobuf.protoc.get()
     }
     plugins {
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java'
+            artifact = libs.protoc.gen.grpc.java.get()
         }
     }
     generateProtoTasks {

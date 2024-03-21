@@ -1,4 +1,5 @@
 plugins {
+    id 'armeria-demo.java-conventions'
     id 'application'
 }
 
@@ -8,7 +9,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     testImplementation 'com.linecorp.armeria:armeria-junit5'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine'
-    testImplementation 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 application {

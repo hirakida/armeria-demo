@@ -1,9 +1,8 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    kotlin("jvm")
+    id("armeria-demo.kotlin-conventions")
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
     kotlin("plugin.spring")
-    id("org.springframework.boot")
 }
 
 dependencies {
@@ -11,11 +10,4 @@ dependencies {
     implementation("com.linecorp.armeria:armeria-kotlin")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "17"
-    }
 }

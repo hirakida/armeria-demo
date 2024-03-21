@@ -1,0 +1,40 @@
+[versions]
+armeria = "1.27.2"
+netty = "4.1.106.Final"
+spring-boot = "3.2.4"
+spring-dependency-management = "1.1.4"
+kotlin = "1.9.22"
+coroutines = "1.8.0"
+grpc-java = "1.61.0"
+protobuf = "3.25.1"
+protobuf-plugin = "0.9.4"
+thrift = "0.17.0"
+thrift-plugin = "0.6.1"
+retrofit2 = "2.10.0"
+slf4j = "1.7.36"
+
+[libraries]
+armeria = { module = "com.linecorp.armeria:armeria-bom", version.ref = "armeria" }
+netty = { module = "io.netty:netty-bom", version.ref = "netty" }
+kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-spring = { module = "org.jetbrains.kotlin.plugin.spring:org.jetbrains.kotlin.plugin.spring.gradle.plugin", version.ref = "kotlin" }
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc-java" }
+grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
+protoc-gen-grpc-java = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc-java" }
+protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
+protobuf-protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
+libthrift = { module = "org.apache.thrift:libthrift", version.ref = "thrift" }
+retrofit2-adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit2" }
+retrofit2-converter-jackson = { module = "com.squareup.retrofit2:converter-jackson", version.ref = "retrofit2" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+jetbrains-annotations = { module = "org.jetbrains:annotations", version = "24.1.0" }
+javax-annotatoin-api = { module = "javax.annotation:javax.annotation-api", version = "1.3.2" }
+micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version = "1.12.0" }
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
+protobuf-plugin = { id = "com.google.protobuf", version.ref = "protobuf-plugin" }
+thrift-plugin = { id = "com.linecorp.thrift-gradle-plugin", version.ref = "thrift-plugin" }

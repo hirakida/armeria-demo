@@ -12,7 +12,7 @@ import com.linecorp.armeria.server.annotation.Put;
 public class HealthCheckService {
     private final AtomicInteger statusCode = new AtomicInteger(HttpStatus.OK.code());
 
-    @Head("/")
+    @Head
     public HttpResponse healthCheck() {
         return HttpResponse.of(statusCode.get());
     }

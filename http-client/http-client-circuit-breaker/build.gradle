@@ -1,9 +1,13 @@
 plugins {
     id 'armeria-demo.java-conventions'
-    alias(libs.plugins.spring.boot)
-    alias(libs.plugins.spring.dependency.management)
+    id 'application'
 }
 
 dependencies {
-    implementation 'com.linecorp.armeria:armeria-spring-boot3-starter'
+    implementation 'com.linecorp.armeria:armeria'
+    implementation 'com.linecorp.armeria:armeria-logback'
+}
+
+application {
+    mainClass = 'com.example.Main'
 }

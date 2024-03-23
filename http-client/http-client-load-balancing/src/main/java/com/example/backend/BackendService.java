@@ -1,21 +1,22 @@
 package com.example.backend;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.linecorp.armeria.server.annotation.Get;
+import com.linecorp.armeria.server.annotation.PathPrefix;
+import com.linecorp.armeria.server.annotation.ProducesJson;
 
+@PathPrefix("/backend")
 public class BackendService {
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private final int port;
 
     public BackendService(int port) {
         this.port = port;
     }
 
-    @Get("/")
-    public JsonNode get() {
-        return objectMapper.createObjectNode()
-                           .put("message", "localhost:" + port);
+    @Get
+    @ProducesJson
+    public Response get() {
+        return new Response("localhost:" + port);
     }
+
+    public record Response(String message) {}
 }

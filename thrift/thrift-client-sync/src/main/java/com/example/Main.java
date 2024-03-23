@@ -17,23 +17,23 @@ public final class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws Exception {
-        final HelloService.Iface client1 = buildClient(ThriftSerializationFormats.BINARY);
+        final HelloService.Iface client1 = createClient(ThriftSerializationFormats.BINARY);
         logger.info("{}", client1.hello1("tbinary"));
 
-        final HelloService.Iface client2 = buildClient(ThriftSerializationFormats.COMPACT);
+        final HelloService.Iface client2 = createClient(ThriftSerializationFormats.COMPACT);
         logger.info("{}", client2.hello1("tcompact"));
 
-        final HelloService.Iface client3 = buildClient(ThriftSerializationFormats.JSON);
+        final HelloService.Iface client3 = createClient(ThriftSerializationFormats.JSON);
         logger.info("{}", client3.hello1("tjson"));
 
-        final HelloService.Iface client4 = buildClient(ThriftSerializationFormats.TEXT);
+        final HelloService.Iface client4 = createClient(ThriftSerializationFormats.TEXT);
         logger.info("{}", client4.hello1("ttext"));
 
         final HelloResponse response2 = client1.hello2(new HelloRequest("hirakida"));
         logger.info("{}", response2);
     }
 
-    private static HelloService.Iface buildClient(SerializationFormat format) {
+    private static HelloService.Iface createClient(SerializationFormat format) {
         return ThriftClients.builder("http://localhost:8080")
                             .path("/hello")
                             .serializationFormat(format)

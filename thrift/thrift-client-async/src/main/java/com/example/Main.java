@@ -19,16 +19,7 @@ public final class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws Exception {
-        final CalculatorService.AsyncIface calculatorService =
-                ThriftClients.builder("http://127.0.0.1:8080")
-                             .path("/calculator")
-                             .responseTimeout(Duration.ofSeconds(10))
-                             .rpcDecorator(LoggingRpcClient.builder()
-                                                           .requestLogLevel(LogLevel.INFO)
-                                                           .successfulResponseLogLevel(LogLevel.INFO)
-                                                           .newDecorator())
-                             .build(CalculatorService.AsyncIface.class);
-
+        final CalculatorService.AsyncIface calculatorService = createClient();
         final ThriftFuture<Integer> future1 = new ThriftFuture<>();
         final ThriftFuture<Integer> future2 = new ThriftFuture<>();
         calculatorService.calculate(1, new Work(1, 2, Operation.ADD), future1);
@@ -37,5 +28,16 @@ public final class Main {
         future2.thenAccept(response -> logger.info("{}", response));
 
         TimeUnit.SECONDS.sleep(1);
+    }
+
+    private static CalculatorService.AsyncIface createClient() {
+        return ThriftClients.builder("http://127.0.0.1:8080")
+                            .path("/calculator")
+                            .responseTimeout(Duration.ofSeconds(10))
+                            .rpcDecorator(LoggingRpcClient.builder()
+                                                          .requestLogLevel(LogLevel.INFO)
+                                                          .successfulResponseLogLevel(LogLevel.INFO)
+                                                          .newDecorator())
+                            .build(CalculatorService.AsyncIface.class);
     }
 }

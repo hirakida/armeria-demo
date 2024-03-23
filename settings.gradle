@@ -1,7 +1,7 @@
 rootProject.name = 'armeria-demo'
 
 include ':graphql',
-        ':grpc:grpc-client',
+        ':grpc:grpc-client-async',
         ':grpc:grpc-client-blocking',
         ':grpc:grpc-client-future',
         ':grpc:grpc-server',
@@ -31,8 +31,8 @@ include ':graphql',
         ':spring-boot:spring-boot-tomcat',
         ':spring-boot:spring-boot-webflux',
         ':thrift:thrift',
-        ':thrift:thrift-client',
         ':thrift:thrift-client-async',
+        ':thrift:thrift-client-sync',
         ':thrift:thrift-server',
         ':websocket:websocket-client',
         ':websocket:websocket-server'

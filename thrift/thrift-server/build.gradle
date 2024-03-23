@@ -6,11 +6,11 @@ plugins {
 
 dependencies {
     implementation project(':thrift:thrift')
-    annotationProcessor 'org.projectlombok:lombok'
-    compileOnly 'org.projectlombok:lombok'
     implementation 'com.linecorp.armeria:armeria-thrift0.17'
     implementation 'com.linecorp.armeria:armeria-spring-boot3-starter'
     implementation 'io.micrometer:micrometer-registry-prometheus'
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'com.linecorp.armeria:armeria-junit5'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

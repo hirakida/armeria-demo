@@ -6,6 +6,7 @@ plugins {
 dependencies {
     implementation 'com.linecorp.armeria:armeria'
     implementation 'com.linecorp.armeria:armeria-logback'
+    implementation libs.findbugs.jsr305
 }
 
 application {

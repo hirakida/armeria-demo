@@ -1,5 +1,7 @@
 package com.example;
 
+import static com.example.AuthorizerWithHandlers.TEST_HEADER;
+
 import com.linecorp.armeria.common.HttpHeaderNames;
 import com.linecorp.armeria.common.HttpHeaders;
 import com.linecorp.armeria.server.Server;
@@ -14,16 +16,21 @@ public final class Main {
                 Server.builder()
                       .http(8080)
                       .accessLogWriter(AccessLogWriter.combined(), false)
+                      .decorator(LoggingService.newDecorator())
                       .serviceUnder("/docs",
                                     DocService.builder()
-                                              .exampleHeaders(HelloService.class,
+                                              .exampleHeaders(Auth1Service.class,
                                                               HttpHeaders.of(HttpHeaderNames.AUTHORIZATION,
                                                                              "Bearer TOKEN"))
+                                              .exampleHeaders(Auth2Service.class,
+                                                              HttpHeaders.of(TEST_HEADER,
+                                                                             "test"))
                                               .build())
-                      .decorator(LoggingService.newDecorator())
+                      .annotatedService(new Auth1Service(),
+                                        AuthService.newDecorator(new AuthorizerImpl()))
                       .annotatedService()
-                      .decorator(AuthService.newDecorator(new AuthorizerImpl()))
-                      .build(new HelloService())
+                      .decorator(AuthService.newDecorator(new AuthorizerWithHandlers()))
+                      .build(new Auth2Service())
                       .build();
         server.start().join();
     }

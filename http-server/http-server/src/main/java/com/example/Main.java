@@ -33,6 +33,9 @@ public final class Main {
           .serviceUnder("/docs", new DocService())
           .service("/", (ctx, req) -> HttpResponse.of("Hello, Armeria!"))
           .annotatedService(new HelloService())
+          .annotatedService(new FutureService())
+          .annotatedService(new BlockingService())
+          .annotatedService(new StreamingService())
           .annotatedService(new JsonService(),
                             new JacksonResponseConverterFunction(objectMapper));
     }

@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.linecorp.armeria.common.ContextAwareEventLoop;
 import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.common.RequestContext;
@@ -17,35 +18,39 @@ public class BlockingService {
     private static final Logger logger = LoggerFactory.getLogger(BlockingService.class);
 
     @Blocking
-    @Get("/1")
+    @Get("/blocking1")
     public String blocking1(ServiceRequestContext ctx) {
-        logger.info("inEventLoop={} {}", ctx.eventLoop().inEventLoop(), RequestContext.currentOrNull());
+        final ContextAwareEventLoop eventLoop = ctx.eventLoop();
+        // false, non-null
+        logger.info("inEventLoop={} {}", eventLoop.inEventLoop(), RequestContext.currentOrNull());
         sleep(1);
-        logger.info("inEventLoop={} {}", ctx.eventLoop().inEventLoop(), RequestContext.currentOrNull());
+        logger.info("inEventLoop={} {}", eventLoop.inEventLoop(), RequestContext.currentOrNull());
         return "Hello!";
     }
 
-    @Get("/2")
+    @Get("/blocking2")
     public HttpResponse blocking2(ServiceRequestContext ctx) {
-        logger.info("inEventLoop={} {}", ctx.eventLoop().inEventLoop(), RequestContext.currentOrNull());
+        final ContextAwareEventLoop eventLoop = ctx.eventLoop();
+        // true, non-null
+        logger.info("inEventLoop={} {}", eventLoop.inEventLoop(), RequestContext.currentOrNull());
 
         final CompletableFuture<HttpResponse> future = new CompletableFuture<>();
         ctx.blockingTaskExecutor()
            .execute(() -> {
                sleep(1);
-               logger.info("inEventLoop={} {}", ctx.eventLoop().inEventLoop(), RequestContext.currentOrNull());
+               // false, non-null
+               logger.info("inEventLoop={} {}", eventLoop.inEventLoop(), RequestContext.currentOrNull());
                future.complete(HttpResponse.of("Hello!"));
            });
         return HttpResponse.of(future);
     }
 
-    @Get("/3")
+    @Get("/blocking3")
     public HttpResponse blocking3(ServiceRequestContext ctx) {
-        logger.info("inEventLoop={} {}", ctx.eventLoop().inEventLoop(), RequestContext.currentOrNull());
-
         ctx.makeContextAware(ctx.blockingTaskExecutor())
            .execute(() -> {
                sleep(1);
+               // false, non-null
                logger.info("inEventLoop={} {}", ctx.eventLoop().inEventLoop(), RequestContext.currentOrNull());
            });
         return HttpResponse.of(HttpStatus.OK);

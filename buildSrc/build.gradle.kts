@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.kotlin)
-    implementation(libs.kotlin.spring)
+    implementation(libs.org.jetbrains.kotlin.kotlin.gradle.plugin)
+    implementation(libs.org.jetbrains.kotlin.plugin.spring.org.jetbrains.kotlin.plugin.spring.gradle.plugin)
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }

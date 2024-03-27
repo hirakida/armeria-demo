@@ -6,7 +6,7 @@ plugins {
 dependencies {
     implementation 'com.linecorp.armeria:armeria'
     implementation 'com.linecorp.armeria:armeria-logback'
-    implementation libs.micrometer.registry.prometheus
+    implementation libs.io.micrometer.micrometer.registry.prometheus
 }
 
 application {

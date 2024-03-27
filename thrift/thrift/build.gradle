@@ -1,6 +1,6 @@
 plugins {
     id 'java-library'
-    alias(libs.plugins.thrift.plugin)
+    alias(libs.plugins.com.linecorp.thrift.gradle.plugin)
 }
 
 java {
@@ -12,9 +12,9 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.libthrift)
-    implementation(libs.javax.annotatoin.api)
-    implementation(libs.slf4j.api)
+    implementation(libs.org.apache.thrift.libthrift)
+    implementation(libs.javax.annotatoin.javax.annotatoin.api)
+    implementation(libs.org.slf4j.slf4j.api)
 }
 
 compileThrift {

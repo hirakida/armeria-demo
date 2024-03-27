@@ -1,7 +1,7 @@
 plugins {
     id("armeria-demo.kotlin-conventions")
-    alias(libs.plugins.spring.boot)
-    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.org.springframework.boot)
+    alias(libs.plugins.io.spring.dependency.management)
     kotlin("plugin.spring")
 }
 

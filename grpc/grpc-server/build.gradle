@@ -7,6 +7,7 @@ plugins {
 dependencies {
     implementation project(':grpc:protobuf')
     implementation 'com.linecorp.armeria:armeria-grpc'
+    implementation 'com.linecorp.armeria:armeria-grpc-protocol'
     implementation 'com.linecorp.armeria:armeria-spring-boot3-starter'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     annotationProcessor 'org.projectlombok:lombok'

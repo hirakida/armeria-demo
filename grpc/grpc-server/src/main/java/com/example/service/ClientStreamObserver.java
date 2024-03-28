@@ -30,7 +30,7 @@ public class ClientStreamObserver implements StreamObserver<HelloRequest> {
     @Override
     public void onCompleted() {
         HelloResponse response = HelloResponse.newBuilder()
-                                              .setMessage("Hello " + names)
+                                              .setMessage("Hello, %s!".formatted(names))
                                               .build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();

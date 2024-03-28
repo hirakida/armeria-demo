@@ -16,7 +16,7 @@ public class BidirectionalStreamObserver implements StreamObserver<HelloRequest>
     public void onNext(HelloRequest request) {
         log.info("onNext: {}", request.getName());
         HelloResponse response = HelloResponse.newBuilder()
-                                              .setMessage("Hello " + request.getName())
+                                              .setMessage("Hello, %s!".formatted(request.getName()))
                                               .build();
         responseObserver.onNext(response);
     }

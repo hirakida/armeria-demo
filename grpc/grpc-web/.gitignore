@@ -1,0 +1,4 @@
+node_modules
+dist
+*_pb.js
+main.js

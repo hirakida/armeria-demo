@@ -1,0 +1,18 @@
+<configuration>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{36}) - [%X{req.headers.host}][%X{attrs.uuid}] %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="REQUEST_CONTEXT_EXPORTING" class="com.linecorp.armeria.common.logback.RequestContextExportingAppender">
+    <appender-ref ref="CONSOLE" />
+    <export>remote.ip</export>
+    <export>req.headers.host</export>
+    <export>attrs.uuid:com.example.HelloService#TIME_ATTR</export>
+  </appender>
+
+  <root level="info">
+    <appender-ref ref="REQUEST_CONTEXT_EXPORTING" />
+  </root>
+</configuration>

@@ -8,7 +8,7 @@ dependencies {
     implementation project(':thrift:thrift')
     implementation 'com.linecorp.armeria:armeria-thrift0.17'
     implementation 'com.linecorp.armeria:armeria-spring-boot3-starter'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation 'com.linecorp.armeria:armeria-prometheus1'
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

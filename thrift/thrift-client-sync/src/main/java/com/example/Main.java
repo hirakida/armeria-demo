@@ -11,6 +11,7 @@ import com.linecorp.armeria.client.logging.LoggingRpcClient;
 import com.linecorp.armeria.client.thrift.ThriftClients;
 import com.linecorp.armeria.common.SerializationFormat;
 import com.linecorp.armeria.common.logging.LogLevel;
+import com.linecorp.armeria.common.logging.LogWriter;
 import com.linecorp.armeria.common.thrift.ThriftSerializationFormats;
 
 public final class Main {
@@ -37,10 +38,13 @@ public final class Main {
         return ThriftClients.builder("http://localhost:8080")
                             .path("/hello")
                             .serializationFormat(format)
-                            .rpcDecorator(LoggingRpcClient.builder()
-                                                          .requestLogLevel(LogLevel.INFO)
-                                                          .successfulResponseLogLevel(LogLevel.INFO)
-                                                          .newDecorator())
+                            .rpcDecorator(LoggingRpcClient
+                                                  .builder()
+                                                  .logWriter(LogWriter.builder()
+                                                                      .requestLogLevel(LogLevel.INFO)
+                                                                      .successfulResponseLogLevel(LogLevel.INFO)
+                                                                      .build())
+                                                  .newDecorator())
                             .build(HelloService.Iface.class);
     }
 }

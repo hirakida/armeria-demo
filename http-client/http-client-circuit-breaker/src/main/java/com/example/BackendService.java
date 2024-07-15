@@ -3,8 +3,9 @@ package com.example;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.linecorp.armeria.common.HttpStatus;
+import com.linecorp.armeria.common.ResponseEntity;
+import com.linecorp.armeria.common.ResponseHeaders;
 import com.linecorp.armeria.server.annotation.Get;
-import com.linecorp.armeria.server.annotation.HttpResult;
 import com.linecorp.armeria.server.annotation.PathPrefix;
 import com.linecorp.armeria.server.annotation.ProducesJson;
 import com.linecorp.armeria.server.annotation.Put;
@@ -16,9 +17,9 @@ public class BackendService {
 
     @Get
     @ProducesJson
-    public HttpResult<Response> get() {
+    public ResponseEntity<Response> get() {
         final HttpStatus httpStatus = HttpStatus.valueOf(statusCode.get());
-        return HttpResult.of(httpStatus, new Response(httpStatus));
+        return ResponseEntity.of(ResponseHeaders.of(httpStatus), new Response(httpStatus));
     }
 
     @Put("/up")

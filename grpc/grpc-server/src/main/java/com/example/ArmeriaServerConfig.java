@@ -15,7 +15,7 @@ import com.linecorp.armeria.common.HttpMethod;
 import com.linecorp.armeria.common.grpc.GrpcMeterIdPrefixFunction;
 import com.linecorp.armeria.common.grpc.protocol.GrpcHeaderNames;
 import com.linecorp.armeria.common.metric.MeterIdPrefixFunction;
-import com.linecorp.armeria.common.metric.PrometheusMeterRegistries;
+import com.linecorp.armeria.common.prometheus.PrometheusMeterRegistries;
 import com.linecorp.armeria.server.cors.CorsService;
 import com.linecorp.armeria.server.cors.CorsServiceBuilder;
 import com.linecorp.armeria.server.docs.DocServiceFilter;
@@ -29,7 +29,7 @@ import io.grpc.ServerInterceptors;
 import io.grpc.protobuf.services.ProtoReflectionService;
 import io.grpc.reflection.v1alpha.ServerReflectionGrpc;
 import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.prometheus.PrometheusMeterRegistry;
+import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
 
 @Configuration
 public class ArmeriaServerConfig {

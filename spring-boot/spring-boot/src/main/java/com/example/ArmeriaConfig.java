@@ -14,7 +14,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.linecorp.armeria.client.RestClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.common.logging.LogLevel;
-import com.linecorp.armeria.common.metric.PrometheusMeterRegistries;
+import com.linecorp.armeria.common.logging.LogWriter;
+import com.linecorp.armeria.common.prometheus.PrometheusMeterRegistries;
 import com.linecorp.armeria.server.annotation.JacksonRequestConverterFunction;
 import com.linecorp.armeria.server.annotation.JacksonResponseConverterFunction;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
@@ -22,7 +23,7 @@ import com.linecorp.armeria.server.logging.LoggingService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 import com.linecorp.armeria.spring.DocServiceConfigurator;
 
-import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
 
 @Configuration
 public class ArmeriaConfig {
@@ -56,14 +57,16 @@ public class ArmeriaConfig {
     public RestClient restClient() {
         return RestClient.builder("https://api.github.com")
                          .decorator(LoggingClient.builder()
-                                                 .requestLogLevel(LogLevel.INFO)
-                                                 .successfulResponseLogLevel(LogLevel.INFO)
+                                                 .logWriter(LogWriter.builder()
+                                                                     .requestLogLevel(LogLevel.INFO)
+                                                                     .successfulResponseLogLevel(LogLevel.INFO)
+                                                                     .build())
                                                  .newDecorator())
                          .build();
     }
 
     @Bean
-    public MeterRegistry meterRegistry() {
+    public PrometheusMeterRegistry meterRegistry() {
         return PrometheusMeterRegistries.defaultRegistry();
     }
 

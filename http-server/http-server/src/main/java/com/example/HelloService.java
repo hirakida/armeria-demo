@@ -7,10 +7,10 @@ import com.linecorp.armeria.common.HttpData;
 import com.linecorp.armeria.common.HttpHeaderNames;
 import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
+import com.linecorp.armeria.common.ResponseEntity;
 import com.linecorp.armeria.common.ResponseHeaders;
 import com.linecorp.armeria.server.annotation.Description;
 import com.linecorp.armeria.server.annotation.Get;
-import com.linecorp.armeria.server.annotation.HttpResult;
 import com.linecorp.armeria.server.annotation.Param;
 import com.linecorp.armeria.server.annotation.ProducesBinary;
 
@@ -23,12 +23,12 @@ public class HelloService {
     }
 
     @Get("/hello2/{name}")
-    public HttpResult<String> hello2(@Param String name) {
+    public ResponseEntity<String> hello2(@Param String name) {
         final ResponseHeaders headers = ResponseHeaders.builder()
                                                        .status(HttpStatus.OK)
                                                        .add(HttpHeaderNames.CACHE_CONTROL, "no-cache")
                                                        .build();
-        return HttpResult.of(headers, "Hello, %s!".formatted(name));
+        return ResponseEntity.of(headers, "Hello, %s!".formatted(name));
     }
 
     @Get("/delayed")

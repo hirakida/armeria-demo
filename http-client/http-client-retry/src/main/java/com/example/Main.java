@@ -12,6 +12,7 @@ import com.linecorp.armeria.client.retry.RetryRule;
 import com.linecorp.armeria.client.retry.RetryingClient;
 import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.common.logging.LogLevel;
+import com.linecorp.armeria.common.logging.LogWriter;
 
 public final class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
@@ -32,8 +33,10 @@ public final class Main {
                                         .thenBackoff(Backoff.ofDefault());
         return RestClient.builder("https://api.github.com")
                          .decorator(LoggingClient.builder()
-                                                 .requestLogLevel(LogLevel.INFO)
-                                                 .successfulResponseLogLevel(LogLevel.INFO)
+                                                 .logWriter(LogWriter.builder()
+                                                                     .requestLogLevel(LogLevel.INFO)
+                                                                     .successfulResponseLogLevel(LogLevel.INFO)
+                                                                     .build())
                                                  .newDecorator())
                          .decorator(RetryingClient.builder(rule)
                                                   .maxTotalAttempts(4)

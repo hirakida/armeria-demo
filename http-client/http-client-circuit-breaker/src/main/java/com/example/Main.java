@@ -7,6 +7,7 @@ import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerListener;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerRule;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.common.logging.LogLevel;
+import com.linecorp.armeria.common.logging.LogWriter;
 import com.linecorp.armeria.server.Server;
 import com.linecorp.armeria.server.docs.DocService;
 import com.linecorp.armeria.server.logging.LoggingService;
@@ -37,9 +38,11 @@ public final class Main {
                                                           .thenFailure();
         return RestClient.builder("http://localhost:8080/")
                          .decorator(LoggingClient.builder()
-                                                 .requestLogLevel(LogLevel.INFO)
-                                                 .successfulResponseLogLevel(LogLevel.INFO)
-                                                 .failureResponseLogLevel(LogLevel.WARN)
+                                                 .logWriter(LogWriter.builder()
+                                                                     .requestLogLevel(LogLevel.INFO)
+                                                                     .successfulResponseLogLevel(LogLevel.INFO)
+                                                                     .failureResponseLogLevel(LogLevel.WARN)
+                                                                     .build())
                                                  .newDecorator())
                          .decorator(CircuitBreakerClient.newDecorator(circuitBreaker, rule))
                          .build();

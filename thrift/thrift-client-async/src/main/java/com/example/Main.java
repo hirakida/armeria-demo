@@ -13,6 +13,7 @@ import com.example.thrift.Work;
 import com.linecorp.armeria.client.logging.LoggingRpcClient;
 import com.linecorp.armeria.client.thrift.ThriftClients;
 import com.linecorp.armeria.common.logging.LogLevel;
+import com.linecorp.armeria.common.logging.LogWriter;
 import com.linecorp.armeria.common.thrift.ThriftFuture;
 
 public final class Main {
@@ -34,10 +35,13 @@ public final class Main {
         return ThriftClients.builder("http://127.0.0.1:8080")
                             .path("/calculator")
                             .responseTimeout(Duration.ofSeconds(10))
-                            .rpcDecorator(LoggingRpcClient.builder()
-                                                          .requestLogLevel(LogLevel.INFO)
-                                                          .successfulResponseLogLevel(LogLevel.INFO)
-                                                          .newDecorator())
+                            .rpcDecorator(LoggingRpcClient
+                                                  .builder()
+                                                  .logWriter(LogWriter.builder()
+                                                                      .requestLogLevel(LogLevel.INFO)
+                                                                      .successfulResponseLogLevel(LogLevel.INFO)
+                                                                      .build())
+                                                  .newDecorator())
                             .build(CalculatorService.AsyncIface.class);
     }
 }

@@ -8,7 +8,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
     implementation 'com.linecorp.armeria:armeria-spring-boot3-starter'
+    implementation 'com.linecorp.armeria:armeria-prometheus1'
     implementation 'org.hibernate.validator:hibernate-validator'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

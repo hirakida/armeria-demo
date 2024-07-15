@@ -16,6 +16,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.linecorp.armeria.client.grpc.GrpcClients;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.common.logging.LogLevel;
+import com.linecorp.armeria.common.logging.LogWriter;
 
 public final class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
@@ -23,10 +24,13 @@ public final class Main {
     public static void main(String[] args) throws Exception {
         final HelloServiceFutureStub client =
                 GrpcClients.builder("http://127.0.0.1:8080")
-                           .decorator(LoggingClient.builder()
-                                                   .requestLogLevel(LogLevel.INFO)
-                                                   .successfulResponseLogLevel(LogLevel.INFO)
-                                                   .newDecorator())
+                           .decorator(LoggingClient
+                                              .builder()
+                                              .logWriter(LogWriter.builder()
+                                                                  .requestLogLevel(LogLevel.INFO)
+                                                                  .successfulResponseLogLevel(LogLevel.INFO)
+                                                                  .build())
+                                              .newDecorator())
                            .build(HelloServiceFutureStub.class);
 
         final HelloRequest request = HelloRequest.newBuilder().setName("hirakida").build();

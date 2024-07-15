@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.linecorp.armeria.client.RestClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.common.logging.LogLevel;
+import com.linecorp.armeria.common.logging.LogWriter;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
@@ -24,8 +25,10 @@ public class ArmeriaConfig {
     public RestClient restClient() {
         return RestClient.builder("https://api.github.com")
                          .decorator(LoggingClient.builder()
-                                                 .requestLogLevel(LogLevel.INFO)
-                                                 .successfulResponseLogLevel(LogLevel.INFO)
+                                                 .logWriter(LogWriter.builder()
+                                                                     .requestLogLevel(LogLevel.INFO)
+                                                                     .successfulResponseLogLevel(LogLevel.INFO)
+                                                                     .build())
                                                  .newDecorator())
                          .build();
     }

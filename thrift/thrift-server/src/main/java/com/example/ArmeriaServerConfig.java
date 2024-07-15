@@ -11,7 +11,7 @@ import com.example.thrift.CalculatorService;
 import com.example.thrift.Operation;
 import com.example.thrift.Work;
 
-import com.linecorp.armeria.common.metric.PrometheusMeterRegistries;
+import com.linecorp.armeria.common.prometheus.PrometheusMeterRegistries;
 import com.linecorp.armeria.common.thrift.ThriftSerializationFormats;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
@@ -19,7 +19,7 @@ import com.linecorp.armeria.server.thrift.THttpService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 import com.linecorp.armeria.spring.DocServiceConfigurator;
 
-import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
 
 @Configuration
 public class ArmeriaServerConfig {
@@ -50,7 +50,7 @@ public class ArmeriaServerConfig {
     }
 
     @Bean
-    public MeterRegistry meterRegistry() {
+    public PrometheusMeterRegistry meterRegistry() {
         return PrometheusMeterRegistries.defaultRegistry();
     }
 

@@ -15,6 +15,7 @@ import com.linecorp.armeria.client.logging.ContentPreviewingClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.client.retrofit2.ArmeriaRetrofit;
 import com.linecorp.armeria.common.logging.LogLevel;
+import com.linecorp.armeria.common.logging.LogWriter;
 import com.linecorp.armeria.common.util.SafeCloseable;
 
 import retrofit2.Retrofit;
@@ -47,10 +48,13 @@ public final class Main {
                                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                                .decorator(HelloDecorator::new)
                                .decorator(ContentPreviewingClient.newDecorator(1000))
-                               .decorator(LoggingClient.builder()
-                                                       .requestLogLevel(LogLevel.INFO)
-                                                       .successfulResponseLogLevel(LogLevel.INFO)
-                                                       .newDecorator())
+                               .decorator(LoggingClient
+                                                  .builder()
+                                                  .logWriter(LogWriter.builder()
+                                                                      .requestLogLevel(LogLevel.INFO)
+                                                                      .successfulResponseLogLevel(LogLevel.INFO)
+                                                                      .build())
+                                                  .newDecorator())
                                .responseTimeout(Duration.ofSeconds(10))
                                .writeTimeout(Duration.ofSeconds(10))
                                .build();

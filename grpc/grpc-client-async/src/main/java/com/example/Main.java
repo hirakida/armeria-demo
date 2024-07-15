@@ -8,6 +8,7 @@ import com.example.HelloServiceGrpc.HelloServiceStub;
 import com.linecorp.armeria.client.grpc.GrpcClients;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.common.logging.LogLevel;
+import com.linecorp.armeria.common.logging.LogWriter;
 
 import io.grpc.stub.StreamObserver;
 
@@ -15,10 +16,13 @@ public final class Main {
     public static void main(String[] args) throws Exception {
         final HelloServiceStub client =
                 GrpcClients.builder("http://127.0.0.1:8080")
-                           .decorator(LoggingClient.builder()
-                                                   .requestLogLevel(LogLevel.INFO)
-                                                   .successfulResponseLogLevel(LogLevel.INFO)
-                                                   .newDecorator())
+                           .decorator(LoggingClient
+                                              .builder()
+                                              .logWriter(LogWriter.builder()
+                                                                  .requestLogLevel(LogLevel.INFO)
+                                                                  .successfulResponseLogLevel(LogLevel.INFO)
+                                                                  .build())
+                                              .newDecorator())
                            .build(HelloServiceStub.class);
 
         // Unary

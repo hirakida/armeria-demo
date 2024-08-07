@@ -1,9 +1,11 @@
-package com.example;
+package com.example.controller;
 
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
+
+import com.example.ExceptionHandlerImpl;
 
 import com.linecorp.armeria.server.annotation.ExceptionHandler;
 import com.linecorp.armeria.server.annotation.Get;
@@ -14,9 +16,6 @@ import com.linecorp.armeria.server.annotation.ProducesJson;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.Value;
-import lombok.extern.jackson.Jacksonized;
 
 @Component
 @Validated
@@ -35,17 +34,10 @@ public class HelloService {
     @Post("/hello3")
     @ProducesJson
     public HelloResponse hello3(@Valid HelloRequest request) {
-        return new HelloResponse(request.getMessage(), LocalDateTime.now());
+        return new HelloResponse(request.message, LocalDateTime.now());
     }
 
-    @Value
-    @Builder
-    @Jacksonized
-    public static class HelloRequest {
-        @NotNull
-        String message;
-    }
+    public record HelloRequest(@NotNull String message) {}
 
-    public record HelloResponse(String message, LocalDateTime dateTime) {
-    }
+    public record HelloResponse(String message, LocalDateTime dateTime) {}
 }

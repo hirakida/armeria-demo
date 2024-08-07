@@ -5,7 +5,9 @@ import java.io.UncheckedIOException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.HelloService.HelloRequest;
+import com.example.controller.GitHubService;
+import com.example.controller.HelloService;
+import com.example.controller.HelloService.HelloRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,5 +1,5 @@
 [versions]
-armeria = "1.29.4"
+armeria = "1.30.0"
 netty = "4.1.112.Final"
 spring-boot = "3.3.2"
 spring-dependency-management = "1.1.6"

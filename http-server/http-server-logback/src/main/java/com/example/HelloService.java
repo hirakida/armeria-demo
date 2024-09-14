@@ -18,7 +18,12 @@ public class HelloService {
     @Get("/hello")
     public String hello(ServiceRequestContext ctx) {
         ctx.setAttr(TIME_ATTR, LocalTime.now());
-        logger.info("{}", ctx.attr(TIME_ATTR));
+        logger.info("TIME_ATTR={}", ctx.attr(TIME_ATTR));
         return "Hello!";
+    }
+
+    @Get("/error")
+    public String error() {
+        throw new RuntimeException("error");
     }
 }

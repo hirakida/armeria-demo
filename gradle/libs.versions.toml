@@ -8,7 +8,7 @@ coroutines = "1.9.0"
 grpc-java = "1.65.1"
 protobuf = "3.25.3"
 protobuf-plugin = "0.9.4"
-thrift = "0.17.0"
+thrift = "0.20.0"
 thrift-plugin = "0.6.1"
 retrofit2 = "2.11.0"
 

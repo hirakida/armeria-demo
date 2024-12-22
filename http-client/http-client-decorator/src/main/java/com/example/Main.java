@@ -11,24 +11,22 @@ import com.linecorp.armeria.common.logging.LogWriter;
 
 public final class Main {
     public static void main(String[] args) {
-        final RestClient restClient = createRestClient();
-        final JsonNode response = restClient.get("/users/hirakida")
-                                            .attr(USERNAME_ATTR, "hirakida")
-                                            .execute(JsonNode.class)
-                                            .join()
-                                            .content();
-        System.out.println(response);
-    }
+        final RestClient client =
+                RestClient.builder("https://api.github.com")
+                          .decorator(HelloDecorator::new)
+                          .decorator(LoggingClient.builder()
+                                                  .logWriter(LogWriter.builder()
+                                                                      .requestLogLevel(LogLevel.INFO)
+                                                                      .successfulResponseLogLevel(LogLevel.INFO)
+                                                                      .build())
+                                                  .newDecorator())
+                          .build();
 
-    private static RestClient createRestClient() {
-        return RestClient.builder("https://api.github.com")
-                         .decorator(HelloDecorator::new)
-                         .decorator(LoggingClient.builder()
-                                                 .logWriter(LogWriter.builder()
-                                                                     .requestLogLevel(LogLevel.INFO)
-                                                                     .successfulResponseLogLevel(LogLevel.INFO)
-                                                                     .build())
-                                                 .newDecorator())
-                         .build();
+        final JsonNode response = client.get("/users/hirakida")
+                                        .attr(USERNAME_ATTR, "hirakida")
+                                        .execute(JsonNode.class)
+                                        .join()
+                                        .content();
+        System.out.println(response);
     }
 }

@@ -17,7 +17,7 @@ public class AuthFailureHandlerImpl implements AuthFailureHandler {
     @Override
     public HttpResponse authFailed(HttpService delegate, ServiceRequestContext ctx, HttpRequest req,
                                    @Nullable Throwable cause) throws Exception {
-        logger.warn("authFailed: ", cause);
+        logger.warn("authFailed", cause);
         return HttpResponse.of(HttpStatus.UNAUTHORIZED);
     }
 }

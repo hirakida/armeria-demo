@@ -26,7 +26,7 @@ import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 import com.linecorp.armeria.spring.DocServiceConfigurator;
 
 import io.grpc.ServerInterceptors;
-import io.grpc.protobuf.services.ProtoReflectionService;
+import io.grpc.protobuf.services.ProtoReflectionServiceV1;
 import io.grpc.reflection.v1alpha.ServerReflectionGrpc;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
@@ -42,7 +42,7 @@ public class ArmeriaServerConfig {
                            .addService(calculatorService)
                            .addService(ServerInterceptors.intercept(helloService,
                                                                     new ServerInterceptorImpl()))
-                           .addService(ProtoReflectionService.newInstance())
+                           .addService(ProtoReflectionServiceV1.newInstance())
                            .enableUnframedRequests(true)
                            .build();
         // For gRPC-Web

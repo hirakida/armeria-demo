@@ -12,19 +12,19 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.io.grpc.grpc.protobuf)
-    implementation(libs.io.grpc.grpc.stub)
-    implementation(libs.com.google.protobuf.protobuf.java)
-    implementation(libs.javax.annotatoin.javax.annotatoin.api)
+    implementation(libs.grpc.protobuf)
+    implementation(libs.grpc.stub)
+    implementation(libs.protobuf.java)
+    implementation(libs.javax.annotatoin.api)
 }
 
 protobuf {
     protoc {
-        artifact = libs.com.google.protobuf.protoc.get()
+        artifact = libs.protobuf.protoc.get()
     }
     plugins {
         grpc {
-            artifact = libs.io.grpc.protoc.gen.grpc.java.get()
+            artifact = libs.protoc.gen.grpc.java.get()
         }
     }
     generateProtoTasks {

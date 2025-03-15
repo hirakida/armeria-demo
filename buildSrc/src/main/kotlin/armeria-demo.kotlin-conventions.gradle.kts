@@ -29,9 +29,9 @@ tasks.withType<KotlinCompile>().configureEach {
 val libs = the<LibrariesForLibs>()
 
 dependencies {
-    implementation(platform(libs.com.linecorp.armeria.armeria.bom))
-    implementation(platform(libs.io.netty.netty.bom))
-    implementation(libs.org.jetbrains.annotations)
+    implementation(platform(libs.armeria.bom))
+    implementation(platform(libs.netty.bom))
+    implementation(libs.jetbrains.annotations)
 }
 
 tasks.withType<Test> {

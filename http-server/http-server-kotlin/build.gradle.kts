@@ -6,10 +6,10 @@ plugins {
 dependencies {
     implementation("com.linecorp.armeria:armeria-kotlin")
     implementation("com.linecorp.armeria:armeria-logback")
-    implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.core)
     testImplementation("com.linecorp.armeria:armeria-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.test)
+    testImplementation(libs.kotlinx.coroutines.test)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

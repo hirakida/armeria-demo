@@ -1,39 +1,41 @@
 [versions]
 armeria = "1.32.0"
-netty = "4.1.118.Final"
-spring-boot = "3.4.3"
-kotlin = "2.1.0"
 coroutines = "1.10.1"
 grpc-java = "1.71.0"
+kotlin = "2.1.0"
+netty = "4.1.118.Final"
 protobuf = "4.30.0"
-thrift = "0.20.0"
 retrofit2 = "2.11.0"
+spring-boot = "3.4.3"
+thrift = "0.20.0"
 
 [libraries]
-com-linecorp-armeria-armeria-bom = { module = "com.linecorp.armeria:armeria-bom", version.ref = "armeria" }
-io-netty-netty-bom = { module = "io.netty:netty-bom", version.ref = "netty" }
+# plugins
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-spring-gradle-plugin = { module = "org.jetbrains.kotlin.plugin.spring:org.jetbrains.kotlin.plugin.spring.gradle.plugin", version.ref = "kotlin" }
 
-org-jetbrains-kotlin-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-org-jetbrains-kotlin-plugin-spring-org-jetbrains-kotlin-plugin-spring-gradle-plugin = { module = "org.jetbrains.kotlin.plugin.spring:org.jetbrains.kotlin.plugin.spring.gradle.plugin", version.ref = "kotlin" }
-org-jetbrains-kotlinx-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-org-jetbrains-kotlinx-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+# bom
+armeria-bom = { module = "com.linecorp.armeria:armeria-bom", version.ref = "armeria" }
+netty-bom = { module = "io.netty:netty-bom", version.ref = "netty" }
 
-com-google-protobuf-protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
-com-google-protobuf-protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
-io-grpc-grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc-java" }
-io-grpc-grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
-io-grpc-protoc-gen-grpc-java = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc-java" }
-org-apache-thrift-libthrift = { module = "org.apache.thrift:libthrift", version.ref = "thrift" }
-
-com-google-code-findbugs-jsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2" }
-com-squareup-retrofit2-adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit2" }
-com-squareup-retrofit2-converter-jackson = { module = "com.squareup.retrofit2:converter-jackson", version.ref = "retrofit2" }
-javax-annotatoin-javax-annotatoin-api = { module = "javax.annotation:javax.annotation-api", version = "1.3.2" }
-org-jetbrains-annotations = { module = "org.jetbrains:annotations", version = "24.1.0" }
-org-slf4j-slf4j-api = { module = "org.slf4j:slf4j-api", version = "1.7.36" }
+# libraries
+findbugs-jsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2" }
+grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc-java" }
+grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
+javax-annotatoin-api = { module = "javax.annotation:javax.annotation-api", version = "1.3.2" }
+jetbrains-annotations = { module = "org.jetbrains:annotations", version = "24.1.0" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+libthrift = { module = "org.apache.thrift:libthrift", version.ref = "thrift" }
+protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
+protobuf-protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
+protoc-gen-grpc-java = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc-java" }
+retrofit2-adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit2" }
+retrofit2-converter-jackson = { module = "com.squareup.retrofit2:converter-jackson", version.ref = "retrofit2" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version = "1.7.36" }
 
 [plugins]
-org-springframework-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
-io-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
 com-google-protobuf = { id = "com.google.protobuf", version = "0.9.4" }
 com-linecorp-thrift-gradle-plugin = { id = "com.linecorp.thrift-gradle-plugin", version = "0.6.1" }
+io-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
+org-springframework-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

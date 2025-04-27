@@ -18,7 +18,7 @@ dependencies {
 }
 
 compileThrift {
-    sourceDir "$projectDir/src/main/thrift"
-    outputDir layout.buildDirectory.dir('resources/main/META-INF/armeria/thrift')
-    generator 'json'
+    outputDir = layout.buildDirectory.dir('resources/main/META-INF/armeria/thrift')
+    generator('json')
+    verbose = true
 }

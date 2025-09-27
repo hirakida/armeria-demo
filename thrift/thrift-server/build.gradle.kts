@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation(project(":thrift:thrift"))
-    implementation("com.linecorp.armeria:armeria-thrift0.20")
+    implementation("com.linecorp.armeria:armeria-thrift0.22")
     implementation("com.linecorp.armeria:armeria-spring-boot3-starter")
     implementation("com.linecorp.armeria:armeria-prometheus1")
     annotationProcessor("org.projectlombok:lombok")

@@ -1,18 +1,20 @@
 [versions]
-armeria = "1.32.5"
-grpc-java = "1.71.0"
-kotlin = "2.1.0"
+armeria = "1.33.4"
+grpc-java = "1.74.0"
+kotlin = "2.1.10"
 kotlinx-coroutines = "1.10.1"
-netty = "4.1.118.Final"
+netty = "4.2.6.Final"
 protobuf = "4.30.0"
-retrofit2 = "2.11.0"
-spring-boot = "3.4.3"
+retrofit2 = "2.12.0"
+spring-boot = "3.5.4"
 thrift = "0.20.0"
 
 [libraries]
 # plugins
+dependency-management-plugin = { module = "io.spring.gradle:dependency-management-plugin", version = "1.1.7" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-spring-gradle-plugin = { module = "org.jetbrains.kotlin.plugin.spring:org.jetbrains.kotlin.plugin.spring.gradle.plugin", version.ref = "kotlin" }
+spring-boot-gradle-plugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "spring-boot" }
 
 # bom
 armeria-bom = { module = "com.linecorp.armeria:armeria-bom", version.ref = "armeria" }
@@ -37,5 +39,3 @@ slf4j-api = { module = "org.slf4j:slf4j-api", version = "1.7.36" }
 [plugins]
 com-google-protobuf = { id = "com.google.protobuf", version = "0.9.5" }
 com-linecorp-thrift-gradle-plugin = { id = "com.linecorp.thrift-gradle-plugin", version = "0.6.1" }
-io-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
-org-springframework-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

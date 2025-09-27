@@ -1,7 +1,5 @@
 plugins {
-    id("armeria-demo.java-conventions")
-    alias(libs.plugins.org.springframework.boot)
-    alias(libs.plugins.io.spring.dependency.management)
+    id("armeria-demo.spring-boot-conventions")
 }
 
 dependencies {

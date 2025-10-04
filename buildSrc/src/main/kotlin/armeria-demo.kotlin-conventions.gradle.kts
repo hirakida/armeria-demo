@@ -1,3 +1,4 @@
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -13,4 +14,10 @@ kotlin {
             "-Xjavac-arguments='-Xlint:deprecation'"
         )
     }
+}
+
+val libs = the<LibrariesForLibs>()
+
+dependencies {
+    implementation(platform(libs.kotlinx.coroutines.bom))
 }

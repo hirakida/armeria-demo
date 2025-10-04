@@ -18,20 +18,18 @@ spring-boot-gradle-plugin = { module = "org.springframework.boot:spring-boot-gra
 
 # bom
 armeria-bom = { module = "com.linecorp.armeria:armeria-bom", version.ref = "armeria" }
+grpc-bom = { module = "io.grpc:grpc-bom", version.ref = "grpc-java" }
 kotlinx-coroutines-bom = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-bom", version.ref = "kotlinx-coroutines" }
 netty-bom = { module = "io.netty:netty-bom", version.ref = "netty" }
 retrofit-bom = { module = "com.squareup.retrofit2:retrofit-bom", version.ref = "retrofit2" }
 
 # libraries
 findbugs-jsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2" }
-grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc-java" }
-grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
 javax-annotatoin-api = { module = "javax.annotation:javax.annotation-api", version = "1.3.2" }
 jetbrains-annotations = { module = "org.jetbrains:annotations", version = "24.1.0" }
 libthrift = { module = "org.apache.thrift:libthrift", version.ref = "thrift" }
 protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
 protobuf-protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
-protoc-gen-grpc-java = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc-java" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version = "1.7.36" }
 
 [plugins]

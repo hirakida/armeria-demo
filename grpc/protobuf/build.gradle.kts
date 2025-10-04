@@ -10,8 +10,9 @@ java {
 }
 
 dependencies {
-    implementation(libs.grpc.protobuf)
-    implementation(libs.grpc.stub)
+    implementation(platform(libs.grpc.bom))
+    implementation("io.grpc:grpc-protobuf")
+    implementation("io.grpc:grpc-stub")
     implementation(libs.protobuf.java)
     implementation(libs.javax.annotatoin.api)
 }
@@ -22,7 +23,7 @@ protobuf {
     }
     plugins {
         id("grpc") {
-            artifact = libs.protoc.gen.grpc.java.get().toString()
+            artifact = "io.grpc:protoc-gen-grpc-java:${libs.versions.grpc.java.get()}"
         }
     }
     generateProtoTasks {

@@ -13,6 +13,10 @@ dependencies {
     implementation(libs.slf4j.api)
 }
 
+tasks.compileJava {
+    dependsOn(tasks.processResources)
+}
+
 compileThrift {
     outputDir = layout.buildDirectory.dir("resources/main/META-INF/armeria/thrift")
     generator("json")

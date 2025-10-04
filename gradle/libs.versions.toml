@@ -19,6 +19,7 @@ spring-boot-gradle-plugin = { module = "org.springframework.boot:spring-boot-gra
 # bom
 armeria-bom = { module = "com.linecorp.armeria:armeria-bom", version.ref = "armeria" }
 netty-bom = { module = "io.netty:netty-bom", version.ref = "netty" }
+retrofit-bom = { module = "com.squareup.retrofit2:retrofit-bom", version.ref = "retrofit2" }
 
 # libraries
 findbugs-jsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2" }
@@ -32,8 +33,6 @@ libthrift = { module = "org.apache.thrift:libthrift", version.ref = "thrift" }
 protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
 protobuf-protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
 protoc-gen-grpc-java = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc-java" }
-retrofit2-adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit2" }
-retrofit2-converter-jackson = { module = "com.squareup.retrofit2:converter-jackson", version.ref = "retrofit2" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version = "1.7.36" }
 
 [plugins]

@@ -24,6 +24,7 @@ val libs = the<LibrariesForLibs>()
 dependencies {
     implementation(platform(libs.armeria.bom))
     implementation(platform(libs.netty.bom))
+    implementation(platform(libs.retrofit.bom))
     implementation(libs.jetbrains.annotations)
 }
 

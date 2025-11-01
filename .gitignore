@@ -3,4 +3,5 @@
 .gradle
 build
 out
+**/.kotlin/sessions/
 keystore.p12

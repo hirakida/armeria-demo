@@ -4,7 +4,7 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
 }
 
 dependencies {
@@ -18,6 +18,7 @@ tasks.compileJava {
 }
 
 compileThrift {
+    thriftExecutable = "/opt/homebrew/bin/thrift"
     outputDir = layout.buildDirectory.dir("resources/main/META-INF/armeria/thrift")
     generator("json")
     verbose = true

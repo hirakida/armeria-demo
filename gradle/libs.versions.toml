@@ -1,13 +1,13 @@
 [versions]
-armeria = "1.36.0"
-grpc-java = "1.79.0"
-kotlin = "2.3.10"
+armeria = "1.38.0"
+grpc-java = "1.80.0"
+kotlin = "2.3.20"
 kotlinx-coroutines = "1.10.2"
-netty = "4.2.7.Final"
-protobuf = "4.33.5"
+netty = "4.2.12.Final"
+protobuf = "4.34.1"
 retrofit2 = "2.12.0"
 slf4j = "2.0.17"
-spring-boot = "3.5.10"
+spring-boot = "3.5.14"
 thrift = "0.22.0"
 
 [libraries]
